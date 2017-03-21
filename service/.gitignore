@@ -4,5 +4,5 @@ target/
 .classpath
 .project
 .settings/
-flowchat.iml
+simplevote.iml
 
