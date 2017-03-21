@@ -2,23 +2,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.tchoulihan</groupId>
-	<artifactId>flowchat</artifactId>
+	<artifactId>simplevote</artifactId>
 	<version>0.3.1</version>
 	<properties>
 		<!--The Database location and login, here's a sample-->
-		<jdbc.url>jdbc:postgresql://127.0.0.1/flowchat</jdbc.url>
-		<jdbc.username>postgres</jdbc.username>
-		<jdbc.password></jdbc.password>
-
-		<!--The sorting for discussions, comments, and tags are:
- 			Sorting score =
-				created_weight/(now_seconds - comment_seconds) +
-				number_of_votes*number_of_votes_weight +
-				avg_rank*avg_rank_weight-->
-		<sorting_created_weight>3600</sorting_created_weight>
-		<sorting_number_of_votes_weight>0.001</sorting_number_of_votes_weight>
-		<sorting_avg_rank_weight>0.01</sorting_avg_rank_weight>
-
+		<jdbc.url>jdbc:postgresql://127.0.0.1/simplevote</jdbc.url>
+		<jdbc.username>simplevote</jdbc.username>
+		<jdbc.password>changeit</jdbc.password>
 		<main.class>com.chat.webservice.ChatService</main.class>
 		<activejdbc.version>1.4.11</activejdbc.version>
 		<version>${project.version}</version>
