@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.tchoulihan</groupId>
 	<artifactId>simplevote</artifactId>
-	<version>0.3.1</version>
+	<version>0.0.1</version>
 	<properties>
 		<!--The Database location and login, here's a sample-->
 		<jdbc.url>jdbc:postgresql://127.0.0.1/simplevote</jdbc.url>
 		<jdbc.username>simplevote</jdbc.username>
-		<jdbc.password>changeit</jdbc.password>
+		<jdbc.password>asdf</jdbc.password>
 		<main.class>com.chat.webservice.ChatService</main.class>
 		<activejdbc.version>1.4.11</activejdbc.version>
 		<version>${project.version}</version>

@@ -9,5 +9,6 @@
 - You can clear your vote.
 - You can set a threshold, but the default is 30%. 
 - Rewrite backend, use postgres
+- Use hashid
 - Rewrite front end in angular2. 
 
