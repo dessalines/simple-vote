@@ -42,6 +42,7 @@ create table question (
     question_set_id bigint not null,
     expire_time timestamp default null,
     threshold smallint not null default 30,
+    users_can_add_candidates boolean not null default true,
     created timestamp default current_timestamp,
     constraint fk1_question_user foreign key (user_id)
         references user_ (id)
@@ -100,6 +101,3 @@ create table comment (
 );
 
 --rollback drop table comment cascade;
-
-select * from candidate;
-
