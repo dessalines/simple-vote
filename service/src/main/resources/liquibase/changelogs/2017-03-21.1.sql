@@ -65,7 +65,8 @@ create table candidate (
         on update cascade on delete cascade,
     constraint fk2_candidate_question foreign key (question_id)
         references question_set (id)
-        on update cascade on delete cascade
+        on update cascade on delete cascade,
+    constraint fk3_candidate_title_unique unique (question_id, title) -- TODO make sure this is enforced
 );
 
 --rollback drop table candidate cascade;
@@ -81,7 +82,8 @@ create table vote (
         on update cascade on delete cascade,
     constraint fk2_vote_candidate foreign key (candidate_id)
         references question (id)
-        on update cascade on delete cascade
+        on update cascade on delete cascade,
+    constraint fk3_vote_unique unique (user_id, candidate_id) -- TODO make sure this is enforced
 );
 
 --rollback drop table vote cascade;

@@ -9,8 +9,8 @@
 		<jdbc.url>jdbc:postgresql://127.0.0.1/simplevote</jdbc.url>
 		<jdbc.username>simplevote</jdbc.username>
 		<jdbc.password>asdf</jdbc.password>
-		<main.class>com.chat.webservice.ChatService</main.class>
-		<activejdbc.version>1.4.11</activejdbc.version>
+		<main.class>com.simplevote.webservice.WebService</main.class>
+		<activejdbc.version>1.4.13</activejdbc.version>
 		<version>${project.version}</version>
 	</properties>
 
@@ -122,6 +122,13 @@
 
 
 	<dependencies>
+
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
 		<dependency>
 			<groupId>org.liquibase</groupId>
@@ -205,7 +212,7 @@
 		<dependency>
 			<groupId>com.sparkjava</groupId>
 			<artifactId>spark-core</artifactId>
-			<version>2.5</version>
+			<version>2.5.5</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>slf4j-simple</artifactId>
