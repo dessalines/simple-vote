@@ -11,11 +11,28 @@ public class Actions {
 
     public static User createNewUser(String name) {
         Tables.User user = Tables.User.createIt("name", name);
+        return createUserObj(user);
+    }
+
+    public static User updateUser(Long userId, String name) {
+        Tables.User user = Tables.User.findFirst("id = ?", userId);
+        user.setString("name", name)
+                .saveIt();
+
+        return createUserObj(user);
+    }
+
+    public static void deleteUser(Long userId) {
+        Tables.User.findFirst("id = ?", userId).delete();
+    }
+
+    private static User createUserObj(Tables.User user) {
         User userObj = User.create(user);
 
         String jwt = JWT.create()
                 .withIssuer("simplevote")
-                .withClaim("name", name)
+                .withClaim("user_name", userObj.getName())
+                .withClaim("user_id", userObj.getId().toString())
                 .sign(Tools.getJWTAlgorithm());
 
         userObj.setJwt(jwt);
@@ -25,16 +42,6 @@ public class Actions {
                 "jwt", jwt);
 
         return userObj;
-    }
-
-    public static void deleteUser(Long userId) {
-        Tables.User.findFirst("id = ?", userId).delete();
-    }
-
-    public static void updateUser(Long userId, String name) {
-        Tables.User.findFirst("id = ?", userId)
-                .setString("name", name)
-                .saveIt();
     }
 
 

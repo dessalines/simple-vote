@@ -39,6 +39,7 @@ public class WebService {
         log.setLevel(Level.toLevel(loglevel));
         log.getLoggerContext().getLogger("org.eclipse.jetty").setLevel(Level.OFF);
         log.getLoggerContext().getLogger("spark.webserver").setLevel(Level.OFF);
+//        log.getLoggerContext().getLogger("org.javalite.activejdbc").setLevel(Level.OFF);
 
         if (jks != null) {
             Spark.secure(jks.getAbsolutePath(), "changeit", null,null);

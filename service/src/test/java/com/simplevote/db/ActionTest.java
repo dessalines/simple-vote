@@ -4,16 +4,11 @@ import ch.qos.logback.classic.Logger;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.simplevote.tools.Tools;
 import com.simplevote.types.User;
-import org.javalite.activejdbc.LazyList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.omg.SendingContext.RunTime;
 import org.slf4j.LoggerFactory;
 
-import java.util.NoSuchElementException;
-
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -35,21 +30,24 @@ public class ActionTest {
     }
 
     @Test
-    public void testCreateNewUser() {
+    public void testUser() {
 
+        // Test create a new user
         User user = Actions.createNewUser("jimmy");
-
-
         assertTrue(user.getName().equals("jimmy"));
 
         // Make sure it persisted the login
         assertTrue(Tables.Login.findFirst("user_id = ?", user.getId()).exists());
 
-        assertTrue(user.getName().equals("jimmy"));
+        // Test update user
+        user = Actions.updateUser(user.getId(), "jammie");
+        assertTrue(Tables.User.findFirst("id = ?", user.getId()).getString("name").equals("jammie"));
 
         // verify decoded JWT token
         DecodedJWT dJWT = Tools.decodeJWTToken(user.getJwt());
-        assertTrue(dJWT.getClaim("name").asString().equals(user.getName()));
+        assertTrue(dJWT.getClaim("user_name").asString().equals(user.getName()));
+        assertTrue(dJWT.getIssuer().equals("simplevote"));
+        assertTrue(user.getId().toString().equals(dJWT.getClaim("user_id").asString()));
 
         // Now remove the user
         Actions.deleteUser(user.getId());
@@ -59,7 +57,6 @@ public class ActionTest {
             assertTrue(Tables.User.findFirst("id = ?", user.getId()).exists());
             fail();
         } catch(NullPointerException e) {}
-
 
     }
 }
