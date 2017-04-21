@@ -53,9 +53,8 @@ public class WebService {
         staticFiles.location("/public");
         staticFiles.expireTime(600);
 
-
         // Set up websocket
-        webSocket("/main", WebSocket.class);
+        webSocket("/poll", PollWebSocket.class);
 
         // Set up endpoints
         Endpoints.status();

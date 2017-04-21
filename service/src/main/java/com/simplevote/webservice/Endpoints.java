@@ -53,6 +53,16 @@ public class Endpoints {
 
         });
 
+        put("update_user", (req, res) -> {
+            Map<String, String> vars = Tools.createMapFromReqBody(req.body());
+
+            String name = vars.get("name");
+            Long userId = Long.valueOf(vars.get("user_id"));
+            User user = Actions.updateUser(userId, name);
+
+            return user.getJwt();
+        });
+
     }
 
     public static void exceptions() {

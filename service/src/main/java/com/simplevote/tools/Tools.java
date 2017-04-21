@@ -25,13 +25,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpCookie;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by tyler on 4/20/17.
@@ -117,6 +116,11 @@ public class Tools {
         }
         return prop;
 
+    }
+
+    public static Map<String, String> cookieListToMap(List<HttpCookie> list) {
+        return list.stream().collect(Collectors.toMap(
+                HttpCookie::getName, HttpCookie::getValue));
     }
 
     public static void runLiquibase() {
