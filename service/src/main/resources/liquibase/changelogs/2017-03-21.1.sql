@@ -23,23 +23,23 @@ CREATE TABLE login (
 
 --rollback drop table login cascade;
 
-create table question_set (
+create table poll (
     id bigserial primary key,
     user_id bigint not null,
     title varchar(255),
     created timestamp default current_timestamp,
-    constraint fk1_question_set_user foreign key (user_id)
+    constraint fk1_poll_user foreign key (user_id)
         references user_ (id)
         on update cascade on delete cascade
 );
 
---rollback drop table question_set cascade;
+--rollback drop table poll cascade;
 
 create table question (
     id bigserial primary key,
     user_id bigint not null,
-    title varchar(255) not null,
-    question_set_id bigint not null,
+    poll_id bigint not null,
+    title varchar(255),
     expire_time timestamp default null,
     threshold smallint not null default 30,
     users_can_add_candidates boolean not null default true,
@@ -47,10 +47,12 @@ create table question (
     constraint fk1_question_user foreign key (user_id)
         references user_ (id)
         on update cascade on delete cascade,
-    constraint fk2_question_question_set foreign key (question_set_id)
-        references question_set (id)
+    constraint fk2_question_poll foreign key (poll_id)
+        references poll (id)
         on update cascade on delete cascade
 );
+
+create index idx_question_poll_create on question (poll_id, created);
 
 --rollback drop table question cascade;
 
@@ -58,13 +60,13 @@ create table candidate (
     id bigserial primary key,
     user_id bigint not null,
     question_id bigint not null,
-    title varchar(255) not null,
+    title varchar(255),
     created timestamp default current_timestamp,
     constraint fk1_candidate_user foreign key (user_id)
         references user_ (id)
         on update cascade on delete cascade,
     constraint fk2_candidate_question foreign key (question_id)
-        references question_set (id)
+        references question (id)
         on update cascade on delete cascade,
     constraint fk3_candidate_title_unique unique (question_id, title) -- TODO make sure this is enforced
 );
@@ -81,25 +83,28 @@ create table vote (
         references user_ (id)
         on update cascade on delete cascade,
     constraint fk2_vote_candidate foreign key (candidate_id)
-        references question (id)
-        on update cascade on delete cascade,
-    constraint fk3_vote_unique unique (user_id, candidate_id) -- TODO make sure this is enforced
+        references candidate (id)
+        on update cascade on delete cascade
 );
+
+create unique index idx_vote_user_candidate on vote (user_id, candidate_id);
 
 --rollback drop table vote cascade;
 
 create table comment (
     id bigserial primary key,
     user_id bigint not null,
-    question_set_id bigint not null,
+    poll_id bigint not null,
     comment text not null,
     created timestamp default current_timestamp,
     constraint fk1_question_user foreign key (user_id)
         references user_ (id)
         on update cascade on delete cascade,
-    constraint fk2_question_question_set foreign key (question_set_id)
-        references question_set (id)
+    constraint fk2_question_poll foreign key (poll_id)
+        references poll (id)
         on update cascade on delete cascade
 );
+
+create index idx_comment_poll_created on comment (poll_id, created);
 
 --rollback drop table comment cascade;

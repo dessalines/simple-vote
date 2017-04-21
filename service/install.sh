@@ -1,3 +1,3 @@
 mvn clean install
-pkill -9 -f target/flowchat.jar
-nohup java -jar target/flowchat.jar $@ >> log.out &
+pkill -9 -f target/simplevote.jar
+nohup java -jar target/simplevote.jar $@ >> log.out &

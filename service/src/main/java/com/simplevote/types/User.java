@@ -13,16 +13,22 @@ public class User implements JSONWriter {
     private Long id;
     private String name, jwt;
 
-    private User(Long id, String name) {
+    private User(Long id, String name, String jwt) {
         this.id = id;
         this.name = name;
+        this.jwt = jwt;
     }
 
     public User() {}
 
     public static User create(com.simplevote.db.Tables.User user) {
         return new User(user.getLongId(),
-                user.getString("name"));
+                user.getString("name"),
+                null);
+    }
+
+    public static User create(Long id, String name, String jwt) {
+        return new User(id, name, jwt);
     }
 
 

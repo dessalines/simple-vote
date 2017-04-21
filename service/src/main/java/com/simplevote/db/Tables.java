@@ -14,8 +14,8 @@ public class Tables {
     @Table("login")
     public static class Login extends Model {}
 
-    @Table("question_set")
-    public static class QuestionSet extends Model {}
+    @Table("poll")
+    public static class Poll extends Model {}
 
     @Table("question")
     public static class Question extends Model {}
