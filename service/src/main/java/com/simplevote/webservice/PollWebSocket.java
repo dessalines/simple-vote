@@ -20,10 +20,7 @@ import org.javalite.activejdbc.LazyList;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @WebSocket
@@ -32,13 +29,14 @@ public class PollWebSocket {
 
     public static Logger log = (Logger) LoggerFactory.getLogger(PollWebSocket.class);
 
-    // A map containing the session to its correct room
+    // A map with the session to its correct room
     private static Map<Session, Long> sessionPollMap = new HashMap<>();
 
+    // A map with the user to their poll id
     private static Map<User, Long> userPollMap = new HashMap<>();
 
     enum MessageType {
-        poll, pollComments, pollUsers, pollQuestions, pollCandidates, pollVotes,
+        poll, pollComments, pollUsers, pollActiveUsers, pollQuestions, pollCandidates, pollVotes,
         createComment, deleteComment;// TODO case on these?
     }
 
@@ -54,9 +52,13 @@ public class PollWebSocket {
         sendMessage(session, messageWrapper(MessageType.poll,
                 Actions.getPoll(pollId).toJson(false)));
 
+        // Send them all the users
+        sendMessage(session, messageWrapper(MessageType.pollUsers,
+                Actions.getPollUsers(pollId).toJson(false)));
+
         // Add, and send them the active users
         userPollMap.put(getUserFromSession(session), pollId);
-        sendMessage(session, messageWrapper(MessageType.pollUsers,
+        sendMessage(session, messageWrapper(MessageType.pollActiveUsers,
                 Tools.JACKSON.writeValueAsString(getUsersFromPoll(pollId))));
 
         // Send comments
@@ -105,7 +107,8 @@ public class PollWebSocket {
 
     @OnWebSocketClose
     public void onClose(Session session, int statusCode, String reason) {
-
+        userPollMap.remove(getUserFromSession(session));
+        sessionPollMap.remove(session);
     }
 
 

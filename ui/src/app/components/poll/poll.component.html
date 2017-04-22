@@ -1,5 +1,5 @@
 <div *ngIf="poll" class="row">
-  <div class="col-sm-9">
+  <div class="col-sm-8">
     <h1>{{poll.title}}</h1>
     <div *ngFor="let question of poll.questions">
       <h2>{{question.title}}</h2>
@@ -11,7 +11,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-4">
     <h1>Chat</h1>
     <h2>Users</h2>
     <div *ngFor="let user of poll.users">
@@ -20,7 +20,7 @@
     <hr>
     <h2>Comments</h2>
     <div *ngFor="let comment of poll.comments">
-      {{comment.comment}}
+      {{comment.created}} <b>{{comment.user_id}}</b> {{comment.comment}}
     </div>
   </div>
 </div>
