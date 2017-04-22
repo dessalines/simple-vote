@@ -1,4 +1,27 @@
-<p>
-  poll works!
-</p>
-<p>{{pollId}}</p>
+<div *ngIf="poll" class="row">
+  <div class="col-sm-9">
+    <h1>{{poll.title}}</h1>
+    <div *ngFor="let question of poll.questions">
+      <h2>{{question.title}}</h2>
+      <div *ngFor="let candidate of question.candidates">
+        <h3>{{candidate.title}}</h3>
+        <div *ngFor="let vote of candidate.votes">
+          <h4>{{vote.vote}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <h1>Chat</h1>
+    <h2>Users</h2>
+    <div *ngFor="let user of poll.users">
+      {{user.name}}
+    </div>
+    <hr>
+    <h2>Comments</h2>
+    <div *ngFor="let comment of poll.comments">
+      {{comment.comment}}
+    </div>
+  </div>
+</div>
+<app-new-user-modal (userCreated)="userCreated()"></app-new-user-modal>

@@ -123,6 +123,10 @@ public class Tools {
                 HttpCookie::getName, HttpCookie::getValue));
     }
 
+    public static String convertListToInQuery(Collection<?> col){
+        return Arrays.toString(col.toArray()).replaceAll("\\[","(").replaceAll("\\]", ")");
+    }
+
     public static void runLiquibase() {
 
         Liquibase liquibase = null;
