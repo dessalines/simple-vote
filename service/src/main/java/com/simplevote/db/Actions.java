@@ -6,6 +6,7 @@ import com.simplevote.types.User;
 import org.javalite.activejdbc.LazyList;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -45,6 +46,10 @@ public class Actions {
                 "jwt", jwt);
 
         return userObj;
+    }
+
+    public static Tables.Poll getPoll(Long pollId) {
+        return Tables.Poll.findById(pollId);
     }
 
     public static Tables.Poll createPoll(Long userId) {
@@ -133,8 +138,20 @@ public class Actions {
     }
 
     public static LazyList<Tables.Comment> getPollComments(Long pollId) {
-        return Tables.Comment.find("poll_id = ?", pollId);
+        return Tables.Comment.find("poll_id = ?", pollId).orderBy("created");
     }
 
+    public static LazyList<Tables.Question> getPollQuestions(Long pollId) {
+        return Tables.Question.find("poll_id = ?", pollId).orderBy("id");
+    }
 
+    public static LazyList<Tables.Candidate> getPollCandidates(List<Long> questionIds) {
+        return Tables.Candidate.find("question_id in " + Tools.convertListToInQuery(questionIds))
+                .orderBy("question_id");
+    }
+
+    public static LazyList<Tables.Vote> getPollVotes(List<Long> candidateIds) {
+        return Tables.Vote.find("candidate_id in " + Tools.convertListToInQuery(candidateIds))
+                .orderBy("candidate_id");
+    }
 }

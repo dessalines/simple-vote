@@ -190,7 +190,7 @@ public class ActionTest {
         // Make sure it was deleted
         Actions.deleteComment(c.getLongId());
         try {
-            assertTrue(Tables.Vote.findById(c.getLongId()).exists());
+            assertTrue(Tables.Comment.findById(c.getLongId()).exists());
             fail();
         } catch(NullPointerException e) {}
 
