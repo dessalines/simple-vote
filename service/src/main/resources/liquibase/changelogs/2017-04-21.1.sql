@@ -2,6 +2,14 @@
 
 --changeset tyler:2
 
+create view poll_user_view as
+select distinct user_.id, user_.name, user_.created, poll.id as poll_id from user_
+left join poll on poll.user_id = user_.id
+left join question on question.poll_id = poll.id
+left join candidate on candidate.question_id = question.id
+left join vote on vote.candidate_id = candidate.id
+left join comment on comment.user_id = user_.id;
+-- rollback drop view poll_user_view cascade;
 
 insert into user_ (name) values ('jim');
 --rollback truncate table user_ restart identity cascade;

@@ -141,6 +141,10 @@ public class Actions {
         return Tables.Comment.find("poll_id = ?", pollId).orderBy("created");
     }
 
+    public static LazyList<Tables.User> getPollUsers(Long pollId) {
+        return Tables.PollUserView.find("poll_id = ?", pollId);
+    }
+
     public static LazyList<Tables.Question> getPollQuestions(Long pollId) {
         return Tables.Question.find("poll_id = ?", pollId).orderBy("id");
     }

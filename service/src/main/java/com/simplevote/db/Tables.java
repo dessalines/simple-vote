@@ -17,6 +17,9 @@ public class Tables {
     @Table("poll")
     public static class Poll extends Model {}
 
+    @Table("poll_user_view")
+    public static class PollUserView extends Model  {}
+
     @Table("question")
     public static class Question extends Model {}
 

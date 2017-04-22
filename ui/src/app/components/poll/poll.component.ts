@@ -76,56 +76,97 @@ export class PollComponent implements OnInit {
 		console.log(msg);
 		switch (msg.message_type) {
 			case 'poll':
-				this.getPoll(msg.data);
+				this.setPoll(msg.data);
 				break;
 			case 'pollUsers':
-				this.getPollUsers(msg.data);
+				this.setPollUsers(msg.data);
+				break;
+			case 'pollActiveUsers':
+				this.setPollActiveUsers(msg.data);
 				break;
 			case 'pollComments':
-				this.getPollComments(msg.data);
+				this.setPollComments(msg.data);
 				break;
 			case 'pollQuestions':
-				this.getPollQuestions(msg.data);
+				this.setPollQuestions(msg.data);
 				break;
 			case 'pollCandidates':
-				this.getPollCandidates(msg.data);
+				this.setPollCandidates(msg.data);
 				break;
 			case 'pollVotes':
-				this.getPollVotes(msg.data);
+				this.setPollVotes(msg.data);
 				break;
 			default:
 				alert('wrong message: ' + dataStr);
 		}
 	}
 
-	getPoll(data: Poll) {
+	setPoll(data: Poll) {
 		this.poll = data;
 	}
 
-	getPollUsers(data: Array<User>) {
+	setPollUsers(data: Array<User>) {
 		this.poll.users = data;
 	}
 
-	getPollComments(data: Array<Comment>) {
+	setPollActiveUsers(data: Array<User>) {
+		for (let activeUser of data) {
+
+			// Search existing users
+			if (this.poll.users) {
+				let foundUser = this.poll.users.find(c => c.id === activeUser.id);
+				console.log(foundUser);
+				// if user already there, set to active
+				if (foundUser) {
+					foundUser.active = true;
+				} 
+				// otherwise add to 
+				else {
+					activeUser.active = true;
+					this.poll.users.push(activeUser);
+				}
+			} else {
+				this.poll.users = [activeUser];
+			}
+
+
+		}
+		console.log(this.poll.users);
+	}
+
+	setPollComments(data: Array<Comment>) {
 		this.poll.comments = data;
+
+		this.setUsersForList(this.poll.comments);
 	}
 
-	getPollQuestions(data: Array<Question>) {
+	setPollQuestions(data: Array<Question>) {
 		this.poll.questions = data;
+
+		this.setUsersForList(this.poll.questions);
 	}
 
-	getPollCandidates(data: Array<Candidate>) {
+	setPollCandidates(data: Array<Candidate>) {
 		for (let question of this.poll.questions) {
 			question.candidates = data.filter(c => c.question_id === question.id);
+
+			this.setUsersForList(question.candidates);
 		}
 	}
 
-	getPollVotes(data: Array<Vote>) {
+	setPollVotes(data: Array<Vote>) {
 		for (let question of this.poll.questions) {
 			for (let candidate of question.candidates) {
 				candidate.votes = data.filter(c => c.candidate_id === candidate.id);
+
+				this.setUsersForList(candidate.votes);
 			}
 		}
+		console.log(this.poll);
+	}
+
+	setUsersForList(arr: Array<any>) {
+		arr.forEach(k => k.user = this.poll.users.find(u => u.id === k.user_id));
 	}
 
 }
