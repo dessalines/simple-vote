@@ -61,6 +61,7 @@ public class WebService {
         // Set up endpoints
         Endpoints.status();
         Endpoints.user();
+        Endpoints.poll();
         Endpoints.exceptions();
 
         init();

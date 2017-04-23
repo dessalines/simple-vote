@@ -1,19 +1,37 @@
 import { Injectable } from '@angular/core';
 import { WebSocketConfig } from '../shared';
 import { NG2WebSocket } from './';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
+
+import { Poll } from '../shared';
+import { UserService } from './';
 
 @Injectable()
 export class PollService {
 
-	public ws: NG2WebSocket;
+	private createPollUrl: string = environment.endpoint + 'create_poll';
 
+	getOptions(): RequestOptions {
+		let headers = new Headers({
+			// 'Content-Type': 'application/json',
+			'token': this.userService.getUser().jwt
+		});
+		return new RequestOptions({ headers: headers });
+	}
+
+	public ws: NG2WebSocket;
 	public config: WebSocketConfig;
 
 	private pollId: number;
 	private topParentId: number;
 
-	constructor() {
+	constructor(private http: Http,
+		private userService: UserService) {
 	}
 
 	connect(pollId: number) {
@@ -39,5 +57,16 @@ export class PollService {
 		return this.connect(this.pollId);
 	}
 
+	createPoll(): Observable<Poll> {
+		return this.http.post(this.createPollUrl, null, this.getOptions())
+			.map(r => r.json())
+			.catch(this.handleError);
+	}
+
+	private handleError(error: any) {
+		// We'd also dig deeper into the error to get a better message
+		let errMsg = error._body;
+		return Observable.throw(errMsg);
+	}
 
 }

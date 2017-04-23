@@ -90,13 +90,21 @@ public class PollWebSocket {
     @OnWebSocketMessage
     public void onMessage(Session session, String dataStr) {
         Tools.dbInit();
+        JsonNode node = null;
+        try {
+            node = Tools.JACKSON.readTree(dataStr);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        switch(getMessageType(dataStr)) {
+        JsonNode data = node.get("data");
+
+        switch(getMessageType(node)) {
             case createComment:
-                createComment(session, dataStr);
+                createComment(session, data);
                 break;
             case deleteComment:
-                deleteComment(session, dataStr);
+                deleteComment(session, data);
                 break;
         }
 
@@ -112,29 +120,27 @@ public class PollWebSocket {
     }
 
 
-    public MessageType getMessageType(String someData) {
-
-        MessageType messageType = null;
-        try {
-            JsonNode rootNode = Tools.JACKSON.readTree(someData);
-            messageType = MessageType.valueOf(rootNode.get("message_type").asText());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return messageType;
+    public MessageType getMessageType(JsonNode node) {
+        return MessageType.values()[node.get("message_type").asInt()];
     }
 
-    public void createComment(Session session, String dataStr) {
+    public void createComment(Session session, JsonNode data) {
+        Long pollId = getPollIdFromSession(session);
+        Long userId = getUserFromSession(session).getId();
+
+        Tables.Comment c = Actions.createComment(userId, pollId, data.get("comment").asText());
+
+        broadcastMessage(getSessionsFromPoll(pollId),
+                messageWrapper(MessageType.createComment, c.toJson(false)));
 
     }
 
-    public void deleteComment(Session session, String dataStr) {
+    public void deleteComment(Session session, JsonNode data) {
 
     }
 
     private static String messageWrapper(MessageType type, String data) {
-        return "{\"message_type\":\"" + type.toString() + "\",\"data\":" + data + "}";
+        return "{\"message_type\":" + type.ordinal() + ",\"data\":" + data + "}";
     }
 
 

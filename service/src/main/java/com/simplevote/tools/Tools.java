@@ -124,7 +124,11 @@ public class Tools {
     }
 
     public static String convertListToInQuery(Collection<?> col){
-        return Arrays.toString(col.toArray()).replaceAll("\\[","(").replaceAll("\\]", ")");
+        if (col.size() > 0) {
+            return Arrays.toString(col.toArray()).replaceAll("\\[", "(").replaceAll("\\]", ")");
+        } else {
+            return "(null)";
+        }
     }
 
     public static void runLiquibase() {
