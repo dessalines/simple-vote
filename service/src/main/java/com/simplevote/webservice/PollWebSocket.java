@@ -37,6 +37,7 @@ public class PollWebSocket {
 
     enum MessageType {
         poll, pollComments, pollUsers, pollActiveUsers, pollQuestions, pollCandidates, pollVotes,
+        updatePoll,
         createComment, deleteComment;// TODO case on these?
     }
 
@@ -106,6 +107,8 @@ public class PollWebSocket {
             case deleteComment:
                 deleteComment(session, data);
                 break;
+            case updatePoll:
+                updatePoll(session, data);
         }
 
         Tools.dbClose();
@@ -137,6 +140,14 @@ public class PollWebSocket {
 
     public void deleteComment(Session session, JsonNode data) {
 
+    }
+
+    public void updatePoll(Session session, JsonNode data) {
+        Long pollId = getPollIdFromSession(session);
+        Tables.Poll p = Actions.updatePoll(pollId, data.get("title").asText());
+
+        broadcastMessage(getSessionsFromPoll(pollId),
+                messageWrapper(MessageType.updatePoll, p.toJson(false)));
     }
 
     private static String messageWrapper(MessageType type, String data) {

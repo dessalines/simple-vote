@@ -5,3 +5,5 @@ export { Comment } from './comment.interface';
 export { Question } from './question.interface';
 export { Candidate } from './candidate.interface';
 export { Vote } from './vote.interface';
+export { MessageType } from './message-type.enum';
+export { Tools } from './tools.class';

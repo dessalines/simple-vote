@@ -8,4 +8,5 @@ export interface Poll {
 	questions?: Array<Question>;
 	comments?: Array<Comment>;
 	users?: Array<User>;
+	editable?: boolean;
 }
