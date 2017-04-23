@@ -1,6 +1,7 @@
 package com.simplevote.webservice;
 
 import ch.qos.logback.classic.Logger;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.simplevote.DataSources;
 import com.simplevote.db.Actions;
 import com.simplevote.tools.Tools;
@@ -28,7 +29,7 @@ public class Endpoints {
         before((req, res) -> {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Credentials", "true");
-            res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, user, X-Requested-With");
+            res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, token, X-Requested-With");
             res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
             Tools.dbInit();
         });
@@ -63,6 +64,15 @@ public class Endpoints {
             return user.getJwt();
         });
 
+    }
+
+    public static void poll() {
+        post("/create_poll", (req, res) -> {
+            DecodedJWT dJWT = Tools.decodeJWTToken(req.headers("token"));
+            Long userId = Long.valueOf(dJWT.getClaim("user_id").asString());
+
+            return Actions.createPoll(userId).toJson(false);
+        });
     }
 
     public static void exceptions() {

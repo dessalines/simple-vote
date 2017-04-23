@@ -1,0 +1,22 @@
+<nav class="navbar navbar-light bg-primary navbar-toggleable-md">
+  <button (click)="toggleCollapseNavbar()" class="navbar-toggler navbar-toggler-right" type="button">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" [routerLink]="['/']"><i class="fa fa-fw fa-pencil-square-o"></i>&nbsp;SimpleVote</a>
+  <div [class.collapse]="collapseNavbar" class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link active" [routerLink]="['/']">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/dessalines/simple-vote" target="_blank">About</a>
+      </li>
+      <li class="nav-item">
+        <a role="button" class="nav-link" (click)="createPoll()">Create a poll</a>
+      </li>
+      <li class="nav-item">
+        <a role="button" class="nav-link link-unstyled" placement="bottom" tooltip="Donate to the developer" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2XTHDEBUNQ47U&lc=US&item_name=FlowChat&item_number=flowchat_02&amount=5%2e00&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted" target="_blank"><small><i class="fa fa-fw fa-beer"></i></small></a>
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -3,12 +3,15 @@ package com.simplevote.db;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.simplevote.tools.Tools;
 import com.simplevote.types.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -195,6 +198,18 @@ public class ActionTest {
         } catch(NullPointerException e) {}
 
         Actions.deleteUser(user.getId());
+    }
+
+    @Test
+    public void testJacksonConvert() {
+        String test = "{\"message_type\":7,\"data\":{\"comment\":\"asdfsadf\"}}";
+
+        try {
+            JsonNode node = Tools.JACKSON.readTree(test);
+            assertTrue(node.get("message_type").asInt() == 7);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

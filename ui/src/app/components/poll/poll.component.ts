@@ -16,6 +16,11 @@ import {
 	Comment,
 } from '../../shared';
 
+enum MessageType {
+	poll, pollComments, pollUsers, pollActiveUsers, pollQuestions, pollCandidates, pollVotes,
+	createComment, deleteComment
+}
+
 @Component({
 	selector: 'app-poll',
 	templateUrl: './poll.component.html',
@@ -29,6 +34,10 @@ export class PollComponent implements OnInit {
 	private pollId: number = null;
 
 	private poll: Poll;
+
+	private comment: string;
+
+
 
 	constructor(private pollService: PollService,
 		private userService: UserService,
@@ -75,26 +84,29 @@ export class PollComponent implements OnInit {
 		let msg = JSON.parse(dataStr);
 		console.log(msg);
 		switch (msg.message_type) {
-			case 'poll':
+			case MessageType.poll:
 				this.setPoll(msg.data);
 				break;
-			case 'pollUsers':
+			case MessageType.pollUsers:
 				this.setPollUsers(msg.data);
 				break;
-			case 'pollActiveUsers':
+			case MessageType.pollActiveUsers:
 				this.setPollActiveUsers(msg.data);
 				break;
-			case 'pollComments':
+			case MessageType.pollComments:
 				this.setPollComments(msg.data);
 				break;
-			case 'pollQuestions':
+			case MessageType.pollQuestions:
 				this.setPollQuestions(msg.data);
 				break;
-			case 'pollCandidates':
+			case MessageType.pollCandidates:
 				this.setPollCandidates(msg.data);
 				break;
-			case 'pollVotes':
+			case MessageType.pollVotes:
 				this.setPollVotes(msg.data);
+				break;
+			case MessageType.createComment:
+				this.receiveComment(msg.data);
 				break;
 			default:
 				alert('wrong message: ' + dataStr);
@@ -119,7 +131,7 @@ export class PollComponent implements OnInit {
 				// if user already there, set to active
 				if (foundUser) {
 					foundUser.active = true;
-				} 
+				}
 				// otherwise add to 
 				else {
 					activeUser.active = true;
@@ -136,6 +148,8 @@ export class PollComponent implements OnInit {
 
 	setPollComments(data: Array<Comment>) {
 		this.poll.comments = data;
+		this.scrollToBottomOfTable();
+
 
 		this.setUsersForList(this.poll.comments);
 	}
@@ -166,7 +180,39 @@ export class PollComponent implements OnInit {
 	}
 
 	setUsersForList(arr: Array<any>) {
-		arr.forEach(k => k.user = this.poll.users.find(u => u.id === k.user_id));
+		arr.forEach(k => this.setUserForObj(k));
 	}
+
+	setUserForObj(obj: any) {
+		obj.user = this.poll.users.find(u => u.id === obj.user_id);
+	}
+
+	messageWrapper(type: MessageType, data: any): string {
+		return "{\"message_type\":" + type + ",\"data\":" + JSON.stringify(data) + "}";
+	}
+
+	createComment() {
+		this.pollService.send(this.messageWrapper(MessageType.createComment,
+			{ comment: this.comment }));
+		this.comment = undefined;
+	}
+
+	receiveComment(comment: Comment) {
+		this.setUserForObj(comment);
+		this.poll.comments.push(comment);
+		this.scrollToBottomOfTable();
+	}
+
+	scrollToBottomOfTable() {
+		setTimeout(() => {
+			let objDiv = document.getElementById("table");
+			objDiv.scrollTop = objDiv.scrollHeight;
+		}, 50);
+
+	}
+
+
+
+
 
 }

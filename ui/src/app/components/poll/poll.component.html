@@ -1,26 +1,45 @@
 <div *ngIf="poll" class="row">
-  <div class="col-sm-8">
+  <div class="col-lg-8">
     <h1>{{poll.title}}</h1>
-    <div *ngFor="let question of poll.questions">
-      <h2>{{question.title}}</h2>
-      <div *ngFor="let candidate of question.candidates">
-        <h3>{{candidate.title}}</h3>
-        <div *ngFor="let vote of candidate.votes">
-          <h4>{{vote.vote}}</h4>
+    <div class="card mb-3" *ngFor="let question of poll.questions">
+      <div class="card-block">
+        <h2 class="card-title">{{question.title}}</h2>
+        <div *ngFor="let candidate of question.candidates">
+          <h3>{{candidate.title}}</h3>
+          <div *ngFor="let vote of candidate.votes">
+            <h4>{{vote.vote}}</h4>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-sm-4">
-    <h1>Chat</h1>
-    <h2>Users</h2>
-    <div *ngFor="let user of poll.users">
-      {{user.name}}
-    </div>
-    <hr>
-    <h2>Comments</h2>
-    <div *ngFor="let comment of poll.comments">
-      {{comment.created}} <b>{{comment.user_id}}</b> {{comment.comment}}
+  <div class="col-lg-4 comment">
+    <div class="card">
+      <div class="card-block">
+        <h5 class="card-title">Chat</h5>
+        <div *ngFor="let user of poll.users">
+          <i class="fa fa-fw fa-circle" [class.text-success]="user.active" [class.text-muted]="!user.active"></i>{{user.name}}
+        </div>
+        <hr>
+        <table class="table-hover table-responsive" id="table">
+          <tr *ngFor="let comment of poll.comments">
+            <td class="nowrap text-muted"><small>{{comment.created | moment}}</small></td>
+            <td><b>{{comment.user.name}}</b> - 
+              <span [innerHtml]="comment.comment | markdown"></span>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <form>
+        <div class="row">
+          <div class="col-lg-12 input-group">
+            <input type="text" class="form-control square-input" [(ngModel)]="comment" name="comment">
+            <span class="input-group-btn">
+            <button class="btn btn-secondary square-btn" type="submit" (click)="createComment()"><i class="fa fa-fw fa-arrow-circle-right"></i></button>
+          </span>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

@@ -3,20 +3,25 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+// 3rd party
+import { CookieModule } from 'ngx-cookie';
+import { ModalModule, TooltipModule } from 'ngx-bootstrap';
+
+// Project libs
+import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 import {
   HomeComponent,
   PollComponent,
-  NewUserModalComponent
+  NewUserModalComponent,
+  NavbarComponent,
+  FooterComponent
 } from './components';
 
-import { AppRoutingModule } from './app.routing';
-
-import { CookieModule } from 'ngx-cookie';
-
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { ComponentLoader } from 'ngx-bootstrap';
-
+import {
+  MarkdownPipe,
+  MomentPipe
+} from './pipes';
 
 
 @NgModule({
@@ -24,7 +29,11 @@ import { ComponentLoader } from 'ngx-bootstrap';
     AppComponent,
     HomeComponent,
     PollComponent,
-    NewUserModalComponent
+    NewUserModalComponent,
+    NavbarComponent,
+    FooterComponent,
+    MarkdownPipe,
+    MomentPipe
   ],
   imports: [
     BrowserModule,
@@ -35,7 +44,8 @@ import { ComponentLoader } from 'ngx-bootstrap';
 
     // 3rd party libs
     CookieModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
