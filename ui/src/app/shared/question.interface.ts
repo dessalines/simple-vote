@@ -11,4 +11,5 @@ export interface Question {
 	users_can_add_candidates: boolean;
 	created: number;
 	candidates?: Array<Candidate>;
+	editable?: boolean;
 }

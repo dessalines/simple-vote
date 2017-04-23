@@ -15,14 +15,15 @@ import {
   PollComponent,
   NewUserModalComponent,
   NavbarComponent,
-  FooterComponent
+  FooterComponent,
+  ChatComponent,
+  QuestionComponent
 } from './components';
 
 import {
   MarkdownPipe,
   MomentPipe
 } from './pipes';
-
 
 @NgModule({
   declarations: [
@@ -33,7 +34,9 @@ import {
     NavbarComponent,
     FooterComponent,
     MarkdownPipe,
-    MomentPipe
+    MomentPipe,
+    ChatComponent,
+    QuestionComponent
   ],
   imports: [
     BrowserModule,

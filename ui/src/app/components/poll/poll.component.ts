@@ -14,12 +14,9 @@ import {
 	Vote,
 	User,
 	Comment,
+	MessageType,
+	Tools
 } from '../../shared';
-
-enum MessageType {
-	poll, pollComments, pollUsers, pollActiveUsers, pollQuestions, pollCandidates, pollVotes,
-	createComment, deleteComment
-}
 
 @Component({
 	selector: 'app-poll',
@@ -35,9 +32,7 @@ export class PollComponent implements OnInit {
 
 	private poll: Poll;
 
-	private comment: string;
-
-
+	private editing: boolean = false;
 
 	constructor(private pollService: PollService,
 		private userService: UserService,
@@ -56,7 +51,6 @@ export class PollComponent implements OnInit {
 	init() {
 		this.paramsSub = this.route.params.subscribe(params => {
 			this.pollId = +params["pollId"];
-			console.log(this.pollId);
 			this.pollService.connect(this.pollId);
 
 			this.subscribeToPoll();
@@ -108,6 +102,9 @@ export class PollComponent implements OnInit {
 			case MessageType.createComment:
 				this.receiveComment(msg.data);
 				break;
+			case MessageType.updatePoll:
+				this.receivePollTitle(msg.data);
+				break;
 			default:
 				alert('wrong message: ' + dataStr);
 		}
@@ -115,6 +112,8 @@ export class PollComponent implements OnInit {
 
 	setPoll(data: Poll) {
 		this.poll = data;
+
+		this.setEditable(this.poll);
 	}
 
 	setPollUsers(data: Array<User>) {
@@ -127,7 +126,6 @@ export class PollComponent implements OnInit {
 			// Search existing users
 			if (this.poll.users) {
 				let foundUser = this.poll.users.find(c => c.id === activeUser.id);
-				console.log(foundUser);
 				// if user already there, set to active
 				if (foundUser) {
 					foundUser.active = true;
@@ -143,7 +141,6 @@ export class PollComponent implements OnInit {
 
 
 		}
-		console.log(this.poll.users);
 	}
 
 	setPollComments(data: Array<Comment>) {
@@ -151,20 +148,21 @@ export class PollComponent implements OnInit {
 		this.scrollToBottomOfTable();
 
 
-		this.setUsersForList(this.poll.comments);
+		Tools.setUsersForList(this.poll.comments, this.poll.users);
 	}
 
 	setPollQuestions(data: Array<Question>) {
 		this.poll.questions = data;
 
-		this.setUsersForList(this.poll.questions);
+		this.setEditableForList(this.poll.questions);
+		Tools.setUsersForList(this.poll.questions, this.poll.users);
 	}
 
 	setPollCandidates(data: Array<Candidate>) {
 		for (let question of this.poll.questions) {
 			question.candidates = data.filter(c => c.question_id === question.id);
 
-			this.setUsersForList(question.candidates);
+			Tools.setUsersForList(question.candidates, this.poll.users);
 		}
 	}
 
@@ -173,32 +171,23 @@ export class PollComponent implements OnInit {
 			for (let candidate of question.candidates) {
 				candidate.votes = data.filter(c => c.candidate_id === candidate.id);
 
-				this.setUsersForList(candidate.votes);
+				Tools.setUsersForList(candidate.votes, this.poll.users);
 			}
 		}
-		console.log(this.poll);
 	}
 
-	setUsersForList(arr: Array<any>) {
-		arr.forEach(k => this.setUserForObj(k));
+	updatePollTitle() {
+		this.pollService.send(Tools.messageWrapper(MessageType.updatePoll,
+			{ title: this.poll.title }));
+		this.editing = false;
 	}
 
-	setUserForObj(obj: any) {
-		obj.user = this.poll.users.find(u => u.id === obj.user_id);
-	}
-
-	messageWrapper(type: MessageType, data: any): string {
-		return "{\"message_type\":" + type + ",\"data\":" + JSON.stringify(data) + "}";
-	}
-
-	createComment() {
-		this.pollService.send(this.messageWrapper(MessageType.createComment,
-			{ comment: this.comment }));
-		this.comment = undefined;
+	receivePollTitle(poll: Poll) {
+		this.poll.title = poll.title;
 	}
 
 	receiveComment(comment: Comment) {
-		this.setUserForObj(comment);
+		Tools.setUserForObj(comment, this.poll.users);
 		this.poll.comments.push(comment);
 		this.scrollToBottomOfTable();
 	}
@@ -211,8 +200,14 @@ export class PollComponent implements OnInit {
 
 	}
 
+	setEditable(data: any) {
+		if (data.user_id == this.userService.getUser().id) {
+			data.editable = true;
+		}
+	}
 
-
-
+	setEditableForList(data: Array<any>) {
+		data.forEach(k => this.setEditable(k));
+	}
 
 }

@@ -1,0 +1,22 @@
+<div class="card mb-3">
+  <div class="card-block">
+    <h2 class="card-title">
+    	<span *ngIf="question.title">{{question.title}}</span>
+    	<span *ngIf="!question.title">Untitled question</span>
+    	<small role="button" (click)="editing=!editing" *ngIf="question.editable"><i class="fa fa-fw fa-pencil-square-o"></i></small>
+    	<small role="button" (click)="toggleDetails()">{{detailsExpander()}}</small>
+    </h2>
+    <div *ngIf="showDetails">
+    	<div>expire time: {{question.expire_time}}</div>
+    	<div>threshold: {{question.threshold}}</div>
+    	<div>users can add candidates: {{question.users_can_add_candidates}}</div> 
+    </div>
+    <div *ngFor="let candidate of question.candidates">
+      <h3>{{candidate.title}}</h3>
+
+      <div *ngFor="let vote of candidate.votes">
+        <h4>{{vote.vote}}</h4>
+      </div>
+    </div>
+  </div>
+</div>
