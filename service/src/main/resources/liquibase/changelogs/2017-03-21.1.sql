@@ -27,6 +27,7 @@ create table poll (
     id bigserial primary key,
     user_id bigint not null,
     title varchar(255),
+    users_can_add_questions boolean not null default true,
     created timestamp default current_timestamp,
     constraint fk1_poll_user foreign key (user_id)
         references user_ (id)

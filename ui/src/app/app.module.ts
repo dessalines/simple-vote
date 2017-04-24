@@ -17,7 +17,8 @@ import {
   NavbarComponent,
   FooterComponent,
   ChatComponent,
-  QuestionComponent
+  QuestionComponent,
+  CandidateComponent
 } from './components';
 
 import {
@@ -36,7 +37,8 @@ import {
     MarkdownPipe,
     MomentPipe,
     ChatComponent,
-    QuestionComponent
+    QuestionComponent,
+    CandidateComponent
   ],
   imports: [
     BrowserModule,

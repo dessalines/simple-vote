@@ -1,22 +1,44 @@
 <div *ngIf="poll" class="row">
   <div class="col-lg-8">
-    <h1 *ngIf="!editing">
-      <span *ngIf="poll.title">{{poll.title}}</span>
-      <span *ngIf="!poll.title">Untitled poll</span>
-      <small role="button" (click)="editing=!editing" *ngIf="poll.editable"><i class="fa fa-fw fa-pencil-square-o"></i></small>
-    </h1>
-    <form *ngIf="editing" (ngSubmit)="updatePollTitle()">
-      <div class="input-group">
-        <input type="text" class="form-control" [(ngModel)]="poll.title" name="poll_title" placeholder="Enter your poll name...">
-        <span class="input-group-btn">
-            <button class="btn btn-primary" type="submit">Save</button>
-          </span>
+    <div class="card mb-3">
+      <div class="card-block">
+        <h2 class="card-title" *ngIf="!this.poll.editing">
+          <span *ngIf="poll.title">{{poll.title}}</span>
+          <span *ngIf="!poll.title">Untitled poll</span>
+          <small role="button" (click)="toggleEditing()" *ngIf="poll.editable"><i class="fa fa-fw fa-pencil-square-o"></i></small>
+          <small role="button" (click)="deletePoll()" *ngIf="poll.editable"><i class="fa fa-fw fa-trash"></i></small>
+          <small role="button" (click)="toggleDetails()">{{detailsExpander()}}</small>
+        </h2>
+        <div *ngIf="showDetails">
+          <h4>Details</h4>
+          <label class="form-check-label">
+            <input disabled type="checkbox" class="form-check-input"
+              name="users_can_add_questions" [(ngModel)]="poll.users_can_add_questions"> Users can add questions
+          </label>
+        </div>
+        <form *ngIf="this.poll.editing" (ngSubmit)="updatePoll()">
+          <h2>Edit Poll</h2>
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label">Title</label>
+            <div class="col-md-10">
+              <input type="text" class="form-control" [(ngModel)]="poll.title"
+                name="poll_title" placeholder="Enter your poll name...">
+            </div>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" name="users_can_add_questions"
+                [(ngModel)]="poll.users_can_add_questions"> Users can add questions
+            </label>
+          </div>
+          <button class="btn btn-primary" type="submit" role="button">Save</button>
+        </form>
       </div>
-    </form>
-    <br>
+    </div>
     <div *ngFor="let question of poll.questions">
       <app-question [question]="question"></app-question>
     </div>
+    <button *ngIf="canCreateQuestion()" class="btn btn-primary btn-block" (click)="createQuestion()" role="button"><i class="fa fa-fw fa-plus"></i>Create new question</button>
   </div>
   <div class="col-lg-4">
     <app-chat [poll]="poll"></app-chat>

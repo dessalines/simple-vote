@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Question } from '../../shared';
+import { Question, Tools, MessageType } from '../../shared';
+
+import { PollService, UserService } from '../../services';
 
 @Component({
 	selector: 'app-question',
@@ -11,20 +13,45 @@ export class QuestionComponent implements OnInit {
 
 	@Input() question: Question;
 
-	private editing: boolean = false;
 	private showDetails: boolean = false;
 
-	constructor() { }
+	constructor(private pollService: PollService,
+		private userService: UserService) { }
 
 	ngOnInit() {
 	}
 
 	toggleDetails() {
-		this.showDetails=!this.showDetails;
+		this.showDetails = !this.showDetails;
+	}
+
+	toggleEditing() {
+		this.question.editing = !this.question.editing;
 	}
 
 	detailsExpander() {
 		return (this.showDetails) ? '[-]' : '[+]';
+	}
+
+	deleteQuestion() {
+		this.pollService.send(Tools.messageWrapper(MessageType.deleteQuestion,
+			{ question_id: this.question.id }));
+	}
+
+	updateQuestion() {
+		this.pollService.send(Tools.messageWrapper(MessageType.updateQuestion,
+			this.question));
+		this.question.editing = false;
+	}
+
+	canCreateCandidate(): boolean {
+		return (this.question.users_can_add_candidates) ||
+			(this.question.user_id == this.userService.getUser().id);
+	}
+
+	createCandidate() {
+		this.pollService.send(Tools.messageWrapper(MessageType.createCandidate,
+			{}));
 	}
 
 }

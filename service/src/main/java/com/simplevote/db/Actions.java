@@ -56,9 +56,12 @@ public class Actions {
         return Tables.Poll.createIt("user_id", userId);
     }
 
-    public static Tables.Poll updatePoll(Long pollId, String title) {
+    public static Tables.Poll updatePoll(Long pollId, String title, Boolean usersCanAddQuestions) {
         Tables.Poll p = Tables.Poll.findFirst("id = ?", pollId);
-        if (title != null) p.set("title", title).saveIt();
+        if (title != null) p.set("title", title);
+        if (usersCanAddQuestions != null) p.set("users_can_add_questions", usersCanAddQuestions);
+        p.saveIt();
+
         return p;
     }
 
@@ -69,7 +72,8 @@ public class Actions {
     public static Tables.Question createQuestion(Long userId, Long pollId) {
         return Tables.Question.createIt(
                 "user_id", userId,
-                "poll_id", pollId);
+                "poll_id", pollId,
+                "threshold", 30);
     }
 
     public static Tables.Question updateQuestion(Long questionId,
@@ -81,7 +85,7 @@ public class Actions {
 
         // TODO do userCanAddCandidates validation on front end
 
-        if (title != null) q.set("title", title);
+        if (title != null && !title.equals("null")) q.set("title", title);
         if (expireTime != null) q.set("expire_time", new Timestamp(expireTime));
         if (threshold != null) q.set("threshold", threshold);
         if (usersCanAddCandidates != null) q.set("users_can_add_candidates", usersCanAddCandidates);

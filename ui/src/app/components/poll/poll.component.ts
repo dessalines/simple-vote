@@ -32,7 +32,7 @@ export class PollComponent implements OnInit {
 
 	private poll: Poll;
 
-	private editing: boolean = false;
+	private showDetails: boolean = false;
 
 	constructor(private pollService: PollService,
 		private userService: UserService,
@@ -42,6 +42,19 @@ export class PollComponent implements OnInit {
 	ngOnInit() {
 
 	}
+
+	toggleDetails() {
+		this.showDetails = !this.showDetails;
+	}
+
+	toggleEditing() {
+		this.poll.editing = !this.poll.editing;
+	}
+
+	detailsExpander() {
+		return (this.showDetails) ? '[-]' : '[+]';
+	}
+
 
 	// Only initialize after the user has been created
 	userCreated() {
@@ -60,7 +73,7 @@ export class PollComponent implements OnInit {
 	subscribeToPoll() {
 		this.pollSub = this.pollService.ws.getDataStream().
 			subscribe(res => {
-				this.updatePoll(res.data);
+				this.update(res.data);
 			});
 	}
 
@@ -74,7 +87,7 @@ export class PollComponent implements OnInit {
 		console.log('Destroying poll sub');
 	}
 
-	updatePoll(dataStr: string) {
+	update(dataStr: string) {
 		let msg = JSON.parse(dataStr);
 		console.log(msg);
 		switch (msg.message_type) {
@@ -103,7 +116,19 @@ export class PollComponent implements OnInit {
 				this.receiveComment(msg.data);
 				break;
 			case MessageType.updatePoll:
-				this.receivePollTitle(msg.data);
+				this.receivePoll(msg.data);
+				break;
+			case MessageType.deletePoll:
+				this.receiveDeletePoll();
+				break;
+			case MessageType.createQuestion:
+				this.receiveQuestion(msg.data);
+				break;
+			case MessageType.deleteQuestion:
+				this.receiveDeleteQuestion(msg.data);
+				break;
+			case MessageType.updateQuestion:
+				this.receiveUpdateQuestion(msg.data);
 				break;
 			default:
 				alert('wrong message: ' + dataStr);
@@ -162,6 +187,7 @@ export class PollComponent implements OnInit {
 		for (let question of this.poll.questions) {
 			question.candidates = data.filter(c => c.question_id === question.id);
 
+			this.setEditableForList(question.candidates);
 			Tools.setUsersForList(question.candidates, this.poll.users);
 		}
 	}
@@ -176,14 +202,24 @@ export class PollComponent implements OnInit {
 		}
 	}
 
-	updatePollTitle() {
+	updatePoll() {
 		this.pollService.send(Tools.messageWrapper(MessageType.updatePoll,
-			{ title: this.poll.title }));
-		this.editing = false;
+			this.poll));
+		this.poll.editing = false;
 	}
 
-	receivePollTitle(poll: Poll) {
+	deletePoll() {
+		this.pollService.send(Tools.messageWrapper(MessageType.deletePoll,
+			{}));
+	}
+
+	receivePoll(poll: Poll) {
 		this.poll.title = poll.title;
+	}
+
+	receiveDeletePoll() {
+		// TODO send a toast for poll deleted
+		this.router.navigate(['/']);
 	}
 
 	receiveComment(comment: Comment) {
@@ -200,14 +236,46 @@ export class PollComponent implements OnInit {
 
 	}
 
-	setEditable(data: any) {
+	setEditable(data: any, editing: boolean = false) {
 		if (data.user_id == this.userService.getUser().id) {
 			data.editable = true;
+			if (editing) {
+				data.editing = true;
+			}
 		}
 	}
 
 	setEditableForList(data: Array<any>) {
-		data.forEach(k => this.setEditable(k));
+		data.forEach(k => this.setEditable(k, false));
+	}
+
+	canCreateQuestion(): boolean {
+		return (this.poll.users_can_add_questions) ||
+			(this.poll.user_id == this.userService.getUser().id);
+	}
+
+	createQuestion() {
+		this.pollService.send(Tools.messageWrapper(MessageType.createQuestion,
+			{}));
+	}
+
+	receiveQuestion(question: Question) {
+		Tools.setUserForObj(question, this.poll.users);
+		this.setEditable(question, true);
+		this.poll.questions.push(question);
+	}
+
+	receiveDeleteQuestion(data: any) {
+		this.poll.questions = this.poll.questions.filter(q => q.id !== data.question_id);
+	}
+
+	receiveUpdateQuestion(question: Question) {
+		Tools.setUserForObj(question, this.poll.users);
+		this.setEditable(question);
+
+		// Find the index with the matching id
+		let index = this.poll.questions.findIndex(q => q.id == question.id);
+		this.poll.questions[index] = question;
 	}
 
 }

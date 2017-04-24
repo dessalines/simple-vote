@@ -8,4 +8,6 @@ export interface Candidate {
 	title?: string;
 	created: number;
 	votes?: Array<Vote>;
+	editable?: boolean;
+	editing?: boolean;
 }
