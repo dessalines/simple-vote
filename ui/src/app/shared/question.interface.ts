@@ -12,4 +12,5 @@ export interface Question {
 	created: number;
 	candidates?: Array<Candidate>;
 	editable?: boolean;
+	editing?: boolean;
 }

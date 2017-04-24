@@ -37,8 +37,11 @@ public class PollWebSocket {
 
     enum MessageType {
         poll, pollComments, pollUsers, pollActiveUsers, pollQuestions, pollCandidates, pollVotes,
-        updatePoll,
-        createComment, deleteComment;// TODO case on these?
+        updatePoll, deletePoll,
+        createComment, deleteComment,
+        createQuestion, deleteQuestion, updateQuestion,
+        createCandidate, deleteCandidate, updateCandidate
+        ;
     }
 
     @OnWebSocketConnect
@@ -109,6 +112,29 @@ public class PollWebSocket {
                 break;
             case updatePoll:
                 updatePoll(session, data);
+                break;
+            case deletePoll:
+                deletePoll(session);
+                break;
+            case createQuestion:
+                createQuestion(session);
+                break;
+            case deleteQuestion:
+                deleteQuestion(session, data);
+                break;
+            case updateQuestion:
+                updateQuestion(session, data);
+                break;
+            case createCandidate:
+                createCandidate(session);
+                break;
+            case deleteCandidate:
+                deleteCandidate(session, data);
+                break;
+            case updateCandidate:
+                updateCandidate(session, data);
+                break;
+
         }
 
         Tools.dbClose();
@@ -144,10 +170,68 @@ public class PollWebSocket {
 
     public void updatePoll(Session session, JsonNode data) {
         Long pollId = getPollIdFromSession(session);
-        Tables.Poll p = Actions.updatePoll(pollId, data.get("title").asText());
+        Tables.Poll p = Actions.updatePoll(pollId, data.get("title").asText(), data.get("users_can_add_questions").asBoolean());
 
         broadcastMessage(getSessionsFromPoll(pollId),
                 messageWrapper(MessageType.updatePoll, p.toJson(false)));
+    }
+
+    public void deletePoll(Session session) {
+        Long pollId = getPollIdFromSession(session);
+        Actions.deletePoll(pollId);
+
+        broadcastMessage(getSessionsFromPoll(pollId),
+                messageWrapper(MessageType.deletePoll, null));
+    }
+
+    public void createQuestion(Session session) {
+        Long pollId = getPollIdFromSession(session);
+        Long userId = getUserFromSession(session).getId();
+
+        Tables.Question q = Actions.createQuestion(userId, pollId);
+
+        broadcastMessage(getSessionsFromPoll(pollId),
+                messageWrapper(MessageType.createQuestion, q.toJson(false)));
+
+    }
+
+    public void deleteQuestion(Session session, JsonNode data) {
+        Long pollId = getPollIdFromSession(session);
+        Long questionId = data.get("question_id").asLong();
+        Actions.deleteQuestion(questionId);
+
+        broadcastMessage(getSessionsFromPoll(pollId),
+                messageWrapper(MessageType.deleteQuestion, data.toString()));
+
+    }
+
+    public void updateQuestion(Session session, JsonNode data) {
+        Long pollId = getPollIdFromSession(session);
+
+        String title = (data.get("title") != null) ? data.get("title").asText() : null;
+        Long expireTime = (data.get("expire_time") != null) ? data.get("expire_time").asLong() : null;
+        Integer threshold = (data.get("threshold") != null) ? data.get("threshold").asInt() : null;
+        Boolean usersCanAddCandidates = (data.get("user_can_add_candidates") != null) ? data.get("user_can_add_candidates").asBoolean() : null;
+
+        Tables.Question q = Actions.updateQuestion(data.get("id").asLong(),
+                title,
+                expireTime,
+                threshold,
+                usersCanAddCandidates);
+
+        broadcastMessage(getSessionsFromPoll(pollId),
+                messageWrapper(MessageType.updateQuestion, q.toJson(false)));
+    }
+
+    public void createCandidate(Session session) {
+        Long pollId = getPollIdFromSession(session);
+        Long userId = getUserFromSession(session).getId();
+
+        Tables.Candidate c = Actions.createCandidate(userId, pollId);
+
+        broadcastMessage(getSessionsFromPoll(pollId),
+                messageWrapper(MessageType.createCandidate, c.toJson(false)));
+
     }
 
     private static String messageWrapper(MessageType type, String data) {

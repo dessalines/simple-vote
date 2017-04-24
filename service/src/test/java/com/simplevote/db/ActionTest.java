@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -74,8 +75,9 @@ public class ActionTest {
         assertTrue(p.exists());
 
         // Update it
-        p = Actions.updatePoll(p.getLongId(), "garpfish");
+        p = Actions.updatePoll(p.getLongId(), "garpfish", false);
         assertTrue(p.getString("title").equals("garpfish"));
+        assertFalse(p.getBoolean("users_can_add_questions"));
 
         // Make sure it was deleted
         Actions.deletePoll(p.getLongId());
