@@ -38,7 +38,7 @@
     <div *ngFor="let question of poll.questions">
       <app-question [question]="question"></app-question>
     </div>
-    <button *ngIf="canCreateQuestion()" class="btn btn-primary btn-block" (click)="createQuestion()" role="button"><i class="fa fa-fw fa-plus"></i>Create new question</button>
+    <button *ngIf="canCreateQuestion()" class="btn btn-primary btn-block mb-3" (click)="createQuestion()" role="button"><i class="fa fa-fw fa-plus"></i>Create new question</button>
   </div>
   <div class="col-lg-4">
     <app-chat [poll]="poll"></app-chat>

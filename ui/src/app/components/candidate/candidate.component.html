@@ -1,4 +1,24 @@
-<h3>{{candidate.title}}</h3>
-<div *ngFor="let vote of candidate.votes">
-  <h4>{{vote.vote}}</h4>
+<div class="card mb-3">
+  <div class="card-block">
+    <h5 class="card-title" *ngIf="!this.candidate.editing">
+      <span *ngIf="candidate.title">{{candidate.title}}</span>
+      <span *ngIf="!candidate.title">Untitled candidate</span>
+      <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable"><i class="fa fa-fw fa-pencil-square-o"></i></small>
+      <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable"><i class="fa fa-fw fa-trash"></i></small>
+    </h5>
+    <form *ngIf="this.candidate.editing" (ngSubmit)="updateCandidate()">
+      <div class="form-group">
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="candidate.title"
+            name="candidate_title" placeholder="Enter your candidate name...">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="submit" role="button">Save</button>
+            </span>
+        </div>
+      </div>
+    </form>
+    <div *ngFor="let vote of candidate.votes">
+      <h4>{{vote.vote}}</h4>
+    </div>
+  </div>
 </div>

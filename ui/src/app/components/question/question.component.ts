@@ -51,7 +51,7 @@ export class QuestionComponent implements OnInit {
 
 	createCandidate() {
 		this.pollService.send(Tools.messageWrapper(MessageType.createCandidate,
-			{}));
+			{question_id: this.question.id}));
 	}
 
 }

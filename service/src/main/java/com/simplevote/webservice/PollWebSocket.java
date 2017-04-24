@@ -126,7 +126,7 @@ public class PollWebSocket {
                 updateQuestion(session, data);
                 break;
             case createCandidate:
-                createCandidate(session);
+                createCandidate(session, data);
                 break;
             case deleteCandidate:
                 deleteCandidate(session, data);
@@ -208,12 +208,13 @@ public class PollWebSocket {
     public void updateQuestion(Session session, JsonNode data) {
         Long pollId = getPollIdFromSession(session);
 
+        Long questionId = data.get("id").asLong();
         String title = (data.get("title") != null) ? data.get("title").asText() : null;
         Long expireTime = (data.get("expire_time") != null) ? data.get("expire_time").asLong() : null;
         Integer threshold = (data.get("threshold") != null) ? data.get("threshold").asInt() : null;
         Boolean usersCanAddCandidates = (data.get("user_can_add_candidates") != null) ? data.get("user_can_add_candidates").asBoolean() : null;
 
-        Tables.Question q = Actions.updateQuestion(data.get("id").asLong(),
+        Tables.Question q = Actions.updateQuestion(questionId,
                 title,
                 expireTime,
                 threshold,
@@ -223,15 +224,37 @@ public class PollWebSocket {
                 messageWrapper(MessageType.updateQuestion, q.toJson(false)));
     }
 
-    public void createCandidate(Session session) {
+    public void createCandidate(Session session, JsonNode data) {
         Long pollId = getPollIdFromSession(session);
         Long userId = getUserFromSession(session).getId();
+        Long questionId = data.get("question_id").asLong();
 
-        Tables.Candidate c = Actions.createCandidate(userId, pollId);
+        Tables.Candidate c = Actions.createCandidate(userId, questionId);
 
         broadcastMessage(getSessionsFromPoll(pollId),
                 messageWrapper(MessageType.createCandidate, c.toJson(false)));
+    }
 
+    public void deleteCandidate(Session session, JsonNode data) {
+        Long pollId = getPollIdFromSession(session);
+        Long candidateId = data.get("candidate_id").asLong();
+        Actions.deleteCandidate(candidateId);
+
+        broadcastMessage(getSessionsFromPoll(pollId),
+                messageWrapper(MessageType.deleteCandidate, data.toString()));
+
+    }
+
+    public void updateCandidate(Session session, JsonNode data) {
+        Long pollId = getPollIdFromSession(session);
+
+        Long candidateId = data.get("id").asLong();
+        String title = (data.get("title") != null) ? data.get("title").asText() : null;
+
+        Tables.Candidate c = Actions.updateCandidate(candidateId, title);
+
+        broadcastMessage(getSessionsFromPoll(pollId),
+                messageWrapper(MessageType.updateCandidate, c.toJson(false)));
     }
 
     private static String messageWrapper(MessageType type, String data) {
