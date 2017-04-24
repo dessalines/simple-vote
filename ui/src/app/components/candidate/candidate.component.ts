@@ -18,9 +18,22 @@ export class CandidateComponent implements OnInit {
 	ngOnInit() {
 	}
 
+	toggleEditing() {
+		this.candidate.editing = !this.candidate.editing;
+	}
+
 	deleteCandidate() {
 		this.pollService.send(Tools.messageWrapper(MessageType.deleteCandidate,
-			{ candidate_id: this.candidate.id }));
+			{ 
+				question_id: this.candidate.question_id,
+				candidate_id: this.candidate.id 
+			}));
+	}
+
+	updateCandidate() {
+		this.pollService.send(Tools.messageWrapper(MessageType.updateCandidate,
+			this.candidate));
+		this.candidate.editing = false;
 	}
 
 }

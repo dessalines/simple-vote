@@ -130,6 +130,16 @@ export class PollComponent implements OnInit {
 			case MessageType.updateQuestion:
 				this.receiveUpdateQuestion(msg.data);
 				break;
+			case MessageType.createCandidate:
+				this.receiveCandidate(msg.data);
+				break;
+			case MessageType.deleteCandidate:
+				this.receiveDeleteCandidate(msg.data);
+				break;
+			case MessageType.updateCandidate:
+				this.receiveUpdateCandidate(msg.data);
+				break;
+
 			default:
 				alert('wrong message: ' + dataStr);
 		}
@@ -276,6 +286,31 @@ export class PollComponent implements OnInit {
 		// Find the index with the matching id
 		let index = this.poll.questions.findIndex(q => q.id == question.id);
 		this.poll.questions[index] = question;
+	}
+
+	receiveCandidate(candidate: Candidate) {
+		Tools.setUserForObj(candidate, this.poll.users);
+		this.setEditable(candidate, true);
+		let questionIndex = this.poll.questions.findIndex(q => q.id == candidate.question_id);
+		this.poll.questions[questionIndex].candidates.push(candidate);
+	}
+
+	receiveDeleteCandidate(data: any) {
+		console.log(data);
+		let questionIndex = this.poll.questions.findIndex(q => q.id == data.question_id);
+		this.poll.questions[questionIndex].candidates =
+			this.poll.questions[questionIndex].candidates.filter(q => q.id !== data.candidate_id);
+	}
+
+	receiveUpdateCandidate(candidate: Candidate) {
+		Tools.setUserForObj(candidate, this.poll.users);
+		this.setEditable(candidate);
+
+		// Find the index with the matching id
+		let questionIndex = this.poll.questions.findIndex(q => q.id == candidate.question_id);
+		let candidateIndex = this.poll.questions[questionIndex].candidates.findIndex(q => q.id == candidate.id);
+
+		this.poll.questions[questionIndex].candidates[candidateIndex] = candidate;
 	}
 
 }
