@@ -48,10 +48,12 @@
       </div>
       <button class="btn btn-primary" type="submit" role="button">Save</button>
     </form>
-    <div *ngFor="let candidate of question.candidates">
-      <app-candidate [candidate]="candidate"></app-candidate>
+    <div *ngIf="!this.question.editing">
+      <div *ngFor="let candidate of question.candidates ">
+        <app-candidate [candidate]="candidate "></app-candidate>
+      </div>
+      <button *ngIf="canCreateCandidate() " class="btn btn-primary btn-block
+      " (click)="createCandidate() " role="button "><i class="fa fa-fw fa-plus "></i>Create new candidate</button>
     </div>
-    <button *ngIf="canCreateCandidate()" class="btn btn-primary btn-block"
-      (click)="createCandidate()" role="button"><i class="fa fa-fw fa-plus"></i>Create new candidate</button>
   </div>
 </div>
