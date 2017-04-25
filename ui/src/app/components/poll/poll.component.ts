@@ -272,6 +272,11 @@ export class PollComponent implements OnInit {
 	receiveQuestion(question: Question) {
 		Tools.setUserForObj(question, this.poll.users);
 		this.setEditable(question, true);
+
+		if (this.poll.questions === undefined) {
+			this.poll.questions = [];
+		}
+		
 		this.poll.questions.push(question);
 	}
 
@@ -292,6 +297,9 @@ export class PollComponent implements OnInit {
 		Tools.setUserForObj(candidate, this.poll.users);
 		this.setEditable(candidate, true);
 		let questionIndex = this.poll.questions.findIndex(q => q.id == candidate.question_id);
+		if (this.poll.questions[questionIndex].candidates === undefined) {
+			this.poll.questions[questionIndex].candidates = [];
+		}
 		this.poll.questions[questionIndex].candidates.push(candidate);
 	}
 

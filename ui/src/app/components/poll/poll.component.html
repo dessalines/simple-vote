@@ -32,13 +32,17 @@
             </label>
           </div>
           <button class="btn btn-primary" type="submit" role="button">Save</button>
+          <br>
         </form>
       </div>
     </div>
-    <div *ngFor="let question of poll.questions">
-      <app-question [question]="question"></app-question>
+    <div *ngIf="!this.poll.editing">
+      <div *ngFor="let question of poll.questions">
+        <app-question [question]="question"></app-question>
+      </div>
+      <button *ngIf="canCreateQuestion()" class="btn btn-primary btn-block mb-3"
+        (click)="createQuestion()" role="button"><i class="fa fa-fw fa-plus"></i>Create new question</button>
     </div>
-    <button *ngIf="canCreateQuestion()" class="btn btn-primary btn-block mb-3" (click)="createQuestion()" role="button"><i class="fa fa-fw fa-plus"></i>Create new question</button>
   </div>
   <div class="col-lg-4">
     <app-chat [poll]="poll"></app-chat>

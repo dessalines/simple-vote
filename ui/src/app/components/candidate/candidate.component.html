@@ -6,6 +6,17 @@
       <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable"><i class="fa fa-fw fa-pencil-square-o"></i></small>
       <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable"><i class="fa fa-fw fa-trash"></i></small>
     </h5>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" style="width: 25%;"
+        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%
+      </div>
+      <input class="vote_input" [value]="myVote"
+        (mouseup)="myVote=$event.target.value"
+        (touchend)="myVote=$event.target.value"
+        (input)="myVote=$event.target.value"
+        (value)="myVote" type="range" min="0"
+        max="100" step="1" value="100" />
+    </div>
     <form *ngIf="this.candidate.editing" (ngSubmit)="updateCandidate()">
       <div class="form-group">
         <div class="input-group">
