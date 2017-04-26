@@ -139,7 +139,7 @@ export class PollComponent implements OnInit {
 				this.receiveComment(msg.data);
 				break;
 			case MessageType.updatePoll:
-				this.receivePoll(msg.data);
+				this.receiveUpdatePoll(msg.data);
 				break;
 			case MessageType.deletePoll:
 				this.receiveDeletePoll();
@@ -258,8 +258,9 @@ export class PollComponent implements OnInit {
 			{}));
 	}
 
-	receivePoll(poll: Poll) {
+	receiveUpdatePoll(poll: Poll) {
 		this.poll.title = poll.title;
+		this.poll.users_can_add_questions = poll.users_can_add_questions;
 	}
 
 	receiveDeletePoll() {
@@ -325,7 +326,14 @@ export class PollComponent implements OnInit {
 
 		// Find the index with the matching id
 		let index = this.poll.questions.findIndex(q => q.id == question.id);
-		this.poll.questions[index] = question;
+
+		// just update the details
+		let foundQuestion = this.poll.questions[index];
+		foundQuestion.title = question.title;
+		foundQuestion.threshold = question.threshold;
+		foundQuestion.expire_time = question.expire_time;
+		foundQuestion.users_can_add_candidates = question.users_can_add_candidates;
+
 	}
 
 	receiveCandidate(candidate: Candidate) {
@@ -352,7 +360,9 @@ export class PollComponent implements OnInit {
 		let questionIndex = this.poll.questions.findIndex(q => q.id == candidate.question_id);
 		let candidateIndex = this.poll.questions[questionIndex].candidates.findIndex(q => q.id == candidate.id);
 
-		this.poll.questions[questionIndex].candidates[candidateIndex] = candidate;
+		// just update the details
+		let foundCandidate = this.poll.questions[questionIndex].candidates[candidateIndex];
+		foundCandidate.title = candidate.title;
 	}
 
 	receiveVote(data: any) {
