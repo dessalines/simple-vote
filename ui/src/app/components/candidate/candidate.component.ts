@@ -13,6 +13,8 @@ export class CandidateComponent implements OnInit {
 
 	@Input() candidate: Candidate;
 
+	private showDetails: boolean = false;
+
 	constructor(private pollService: PollService,
 		private userService: UserService) { }
 
@@ -21,9 +23,18 @@ export class CandidateComponent implements OnInit {
 	ngOnChanges(changes: any) {
 	}
 
+	toggleDetails() {
+		this.showDetails = !this.showDetails;
+	}
+
 	toggleEditing() {
 		this.candidate.editing = !this.candidate.editing;
 	}
+
+	detailsExpander() {
+		return (this.showDetails) ? '[-]' : '[+]';
+	}
+
 
 	deleteCandidate() {
 		this.pollService.send(Tools.messageWrapper(MessageType.deleteCandidate,
@@ -56,7 +67,7 @@ export class CandidateComponent implements OnInit {
 			{
 				candidate_id: this.candidate.id,
 				question_id: this.candidate.question_id,
-				user_id: this.candidate.user_id,
+				user_id: Number(this.userService.getUser().id),
 				vote: Number(val) // cast vote to a number
 			}));
 	}

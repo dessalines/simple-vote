@@ -15,10 +15,9 @@ export class Tools {
 	}
 
 	static setCandidateAvgScore(c: Candidate) {
-		if (c.votes) {
+		console.log(c);
+		if (c.votes && c.votes.length) {
 			c.avg_score = c.votes.map(v => v.vote).reduce((v1, v2) => v1 + v2)/c.votes.length;
-			console.log(c.avg_score);
-			console.log(c.votes.map(v=>v.vote));
 		}
 	}
 

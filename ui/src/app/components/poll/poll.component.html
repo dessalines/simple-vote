@@ -49,3 +49,17 @@
   </div>
 </div>
 <app-new-user-modal (userCreated)="userCreated()"></app-new-user-modal>
+
+<div bsModal #reconnectModal="bs-modal" class="modal fade"
+  [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-xs-center">
+        <p>Click to Reconnect...</p>
+        <button class="btn btn-primary" (click)="websocketReconnect()">Reconnect</button>
+      </div>
+    </div>
+  </div>
+</div>
+

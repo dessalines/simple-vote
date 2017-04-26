@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import {
 	PollService,
@@ -33,6 +34,10 @@ export class PollComponent implements OnInit {
 	private poll: Poll;
 
 	private showDetails: boolean = false;
+
+	private websocketSoftClose: boolean = false;
+
+	@ViewChild('reconnectModal') private reconnectModal: ModalDirective;
 
 	constructor(private pollService: PollService,
 		private userService: UserService,
@@ -83,8 +88,26 @@ export class PollComponent implements OnInit {
 	}
 
 	unloadSubscriptions() {
+		this.websocketSoftClose = true;
 		this.pollService.ws.close(true);
 		console.log('Destroying poll sub');
+	}
+
+	websocketCloseWatcher() {
+		this.pollService.ws.onClose(cb => {
+
+			if (!this.websocketSoftClose) {
+				console.log('ws connection closed');
+
+				this.reconnectModal.show();
+			}
+		});
+	}
+
+	websocketReconnect() {
+		this.pollService.connect(this.pollId);
+		this.subscribeToPoll();
+		this.reconnectModal.hide();
 	}
 
 	update(dataStr: string) {
@@ -216,9 +239,7 @@ export class PollComponent implements OnInit {
 
 				Tools.setCandidateAvgScore(candidate);
 
-				console.log(this.poll.users);
 				Tools.setUsersForList(candidate.votes, this.poll.users);
-				console.log(candidate.votes);
 			}
 
 			// Sort by score
@@ -318,7 +339,6 @@ export class PollComponent implements OnInit {
 	}
 
 	receiveDeleteCandidate(data: any) {
-		console.log(data);
 		let questionIndex = this.poll.questions.findIndex(q => q.id == data.question_id);
 		this.poll.questions[questionIndex].candidates =
 			this.poll.questions[questionIndex].candidates.filter(q => q.id !== data.candidate_id);
@@ -338,31 +358,28 @@ export class PollComponent implements OnInit {
 	receiveVote(data: any) {
 
 		let vote: Vote = data;
-		console.log(vote);
 		Tools.setUserForObj(vote, this.poll.users);
-		
+
 		// Find the index
 		let questionIndex = this.poll.questions.findIndex(q => q.id == data.question_id);
 		let question = this.poll.questions[questionIndex];
 		let candidateIndex = question.candidates.findIndex(c => c.id == data.candidate_id);
 		let candidate = question.candidates[candidateIndex];
-		let votes = candidate.votes;
-		if (votes === undefined) {
-			votes = [];
+		if (candidate.votes === undefined) {
+			candidate.votes = [];
 		}
-		let voteIndex = votes.findIndex(v => v.id == data.id);
-		
-		if (voteIndex == null) {
-			votes.push(vote);
+		let voteIndex = candidate.votes.findIndex(v => v.id == data.id);
+		if (voteIndex == -1) {
+			candidate.votes.push(vote);
 		} else {
-			votes[voteIndex] = vote;
+			candidate.votes[voteIndex] = vote;
 		}
+
 		// Set the candidate average score
 		Tools.setCandidateAvgScore(candidate);
 
 		// Sort the question by candidates
 		Tools.sortCandidatesByScore(question);
-
 	}
 
 	receiveDeleteVote(data: any) {
