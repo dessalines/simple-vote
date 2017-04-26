@@ -29,8 +29,6 @@ export class NewUserModalComponent implements OnInit {
 	}
 
 	onSubmit() {
-		console.log('submitting');
-
 		this.userService.createNewUser(this.name).subscribe(rJWT => {
 			this.cookieService.put('jwt', rJWT);
 			this.userService.setUserFromCookie();

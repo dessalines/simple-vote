@@ -45,7 +45,6 @@ export class PollComponent implements OnInit {
 		private router: Router) { }
 
 	ngOnInit() {
-
 	}
 
 	toggleDetails() {
@@ -71,6 +70,7 @@ export class PollComponent implements OnInit {
 			this.pollId = +params["pollId"];
 			this.pollService.connect(this.pollId);
 
+			this.websocketCloseWatcher();
 			this.subscribeToPoll();
 		});
 	}
@@ -90,15 +90,17 @@ export class PollComponent implements OnInit {
 	unloadSubscriptions() {
 		this.websocketSoftClose = true;
 		this.pollService.ws.close(true);
+		this.pollSub.unsubscribe();
 		console.log('Destroying poll sub');
 	}
 
 	websocketCloseWatcher() {
 		this.pollService.ws.onClose(cb => {
+			console.log(cb);
+			console.log(this.websocketSoftClose);
 
 			if (!this.websocketSoftClose) {
 				console.log('ws connection closed');
-
 				this.reconnectModal.show();
 			}
 		});
