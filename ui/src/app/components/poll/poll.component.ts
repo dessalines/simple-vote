@@ -216,7 +216,9 @@ export class PollComponent implements OnInit {
 
 				Tools.setCandidateAvgScore(candidate);
 
+				console.log(this.poll.users);
 				Tools.setUsersForList(candidate.votes, this.poll.users);
+				console.log(candidate.votes);
 			}
 
 			// Sort by score
