@@ -7,6 +7,7 @@ package com.simplevote.webservice;
 import ch.qos.logback.classic.Logger;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.simplevote.db.Actions;
 import com.simplevote.db.Tables;
 import com.simplevote.tools.Tools;
@@ -271,9 +272,13 @@ public class PollWebSocket {
         Integer vote = data.get("vote").asInt();
 
         Tables.Vote v = Actions.createOrUpdateVote(userId, candidateId, vote);
+        ObjectNode newData = ((ObjectNode) data);
+        newData.put("id", v.getLongId());
+        newData.put("created", v.getLong("created"));
 
+        // Forward the data instead of the vote, since it has questionId, helps for searching
         broadcastMessage(getSessionsFromPoll(pollId),
-                messageWrapper(MessageType.createOrUpdateVote, v.toJson(false)));
+                messageWrapper(MessageType.createOrUpdateVote, newData.toString()));
     }
 
     public void deleteVote(Session session, JsonNode data) {
