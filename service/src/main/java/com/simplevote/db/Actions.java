@@ -73,7 +73,8 @@ public class Actions {
         return Tables.Question.createIt(
                 "user_id", userId,
                 "poll_id", pollId,
-                "threshold", 30);
+                "threshold", 30,
+                "users_can_add_candidates", true);
     }
 
     public static Tables.Question updateQuestion(Long questionId,

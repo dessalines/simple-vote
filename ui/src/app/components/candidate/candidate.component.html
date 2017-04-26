@@ -1,47 +1,47 @@
-<div class="card mb-3">
-  <div class="card-block">
-    <h5 class="card-title" *ngIf="!this.candidate.editing">
-      <span *ngIf="candidate.title">{{candidate.title}}</span>
-      <span *ngIf="!candidate.title">Untitled candidate</span>
-      <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable"><i class="fa fa-fw fa-pencil-square-o"></i></small>
-      <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable"><i class="fa fa-fw fa-trash"></i></small>
-      <small role="button" (click)="toggleDetails()">{{detailsExpander()}}</small>
-    </h5>
-    <div *ngIf="!this.candidate.editing" class="progress">
-      <div class="progress-bar" role="progressbar" tooltip="Average score: {{candidate.avg_score}}"
-        [style.width.%]="candidate.avg_score">Score: {{candidate.avg_score}}
-      </div>
-      <input class="vote_input" [value]="findMyVote()" (value)="createOrUpdateVote($event.target.value)"
-        (mouseup)="createOrUpdateVote($event.target.value)"
-        (touchend)="createOrUpdateVote($event.target.value)"
-        type="range" min="0" max="100" step="1" value="100"
-      />
+<div class="mb-3">
+  <p class="mb-1" *ngIf="!this.candidate.editing">
+    <span *ngIf="candidate.title">{{candidate.title}}</span>
+    <span *ngIf="!candidate.title">Untitled candidate</span>
+    <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable"><i class="fa fa-fw fa-pencil-square-o"></i></small>
+    <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable"><i class="fa fa-fw fa-trash"></i></small>
+    <small *ngIf="candidate.votes" role="button" (click)="toggleDetails()">{{detailsExpander()}}</small>
+  </p>
+  <div *ngIf="!this.candidate.editing" class="progress">
+    <div class="progress-bar" role="progressbar" [style.width.%]="candidate.avg_score">
+      <span *ngIf="candidate.avg_score">
+        	Score: {{candidate.avg_score}}
+        </span>
     </div>
-    <form *ngIf="this.candidate.editing" (ngSubmit)="updateCandidate()">
-      <div class="form-group">
-        <div class="input-group">
-          <input type="text" class="form-control" [(ngModel)]="candidate.title"
-            name="candidate_title" placeholder="Enter your candidate name...">
-          <span class="input-group-btn">
+    <input class="vote_input" [value]="findMyVote()" (value)="createOrUpdateVote($event.target.value)"
+      (mouseup)="createOrUpdateVote($event.target.value)"
+      (touchend)="createOrUpdateVote($event.target.value)"
+      type="range" min="0" max="100" step="1" value="100"
+    />
+  </div>
+  <form *ngIf="this.candidate.editing" (ngSubmit)="updateCandidate()">
+    <div class="form-group">
+      <div class="input-group">
+        <input type="text" class="form-control" [(ngModel)]="candidate.title"
+          name="candidate_title" placeholder="Enter your option name...">
+        <span class="input-group-btn">
             <button class="btn btn-primary" type="submit" role="button">Save</button>
            </span>
-        </div>
       </div>
-    </form>
-    <div *ngIf="showDetails">
-      <br>
-      <table class="table table-hover table-bordered table-responsive">
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>Vote</th>
-          </tr>
-        </thead>
-        <tr *ngFor="let vote of candidate.votes">
-          <td><b>{{vote.user.name}}</b></td>
-          <td>{{vote.vote}}</td>
-        </tr>
-      </table>
     </div>
+  </form>
+  <div *ngIf="showDetails">
+    <br>
+    <table class="table table-hover table-bordered table-responsive">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Vote</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let vote of candidate.votes">
+        <td><b>{{vote.user.name}}</b></td>
+        <td>{{vote.vote}}</td>
+      </tr>
+    </table>
   </div>
 </div>

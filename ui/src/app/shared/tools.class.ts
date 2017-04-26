@@ -15,13 +15,12 @@ export class Tools {
 	}
 
 	static setCandidateAvgScore(c: Candidate) {
-		console.log(c);
 		if (c.votes && c.votes.length) {
 			c.avg_score = c.votes.map(v => v.vote).reduce((v1, v2) => v1 + v2)/c.votes.length;
 		}
 	}
 
 	static sortCandidatesByScore(q: Question) {
-		q.candidates.sort((a, b) => (a.avg_score < b.avg_score) ? -1 : (a.avg_score > b.avg_score) ? 1 : 0);
+		q.candidates.sort((a, b) => (a.avg_score > b.avg_score) ? -1 : (a.avg_score < b.avg_score) ? 1 : 0);
 	}
 }

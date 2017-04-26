@@ -1,12 +1,12 @@
 <div class="card mb-3">
   <div class="card-block">
-    <h3 class="card-title" *ngIf="!this.question.editing">
+    <h4 class="card-title" *ngIf="!this.question.editing">
       <span *ngIf="question.title">{{question.title}}</span>
       <span *ngIf="!question.title">Untitled question</span>
       <small role="button" (click)="toggleEditing()" *ngIf="question.editable"><i class="fa fa-fw fa-pencil-square-o"></i></small>
       <small role="button" (click)="deleteQuestion()" *ngIf="question.editable"><i class="fa fa-fw fa-trash"></i></small>
       <small role="button" (click)="toggleDetails()">{{detailsExpander()}}</small>
-    </h3>
+    </h4>
     <div *ngIf="showDetails">
       <h4>Details</h4>
       <div>expire time: {{question.expire_time}}</div>
@@ -14,7 +14,7 @@
       <div>users can add candidates: {{question.users_can_add_candidates}}</div>
     </div>
     <form *ngIf="this.question.editing" (ngSubmit)="updateQuestion()">
-      <h3>Edit Question</h3>
+      <h4>Edit Question</h4>
       <div class="form-group row">
         <label class="col-md-2 col-form-label">Title</label>
         <div class="col-md-10">
@@ -52,8 +52,7 @@
       <div *ngFor="let candidate of question.candidates ">
         <app-candidate [candidate]="candidate "></app-candidate>
       </div>
-      <button *ngIf="canCreateCandidate() " class="btn btn-primary btn-block
-      " (click)="createCandidate() " role="button "><i class="fa fa-fw fa-plus "></i>Create new candidate</button>
+      <button *ngIf="canCreateCandidate() " class="btn btn-secondary" (click)="createCandidate()" role="button"><i class="fa fa-fw fa-plus "></i>Add an option</button>
     </div>
   </div>
 </div>
