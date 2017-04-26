@@ -268,6 +268,7 @@ public class PollWebSocket {
     public void createOrUpdateVote(Session session, JsonNode data) {
         Long pollId = getPollIdFromSession(session);
         Long userId = getUserFromSession(session).getId();
+        log.info(userId.toString());
         Long candidateId = data.get("candidate_id").asLong();
         Integer vote = data.get("vote").asInt();
 
