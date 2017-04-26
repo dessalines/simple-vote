@@ -1,4 +1,4 @@
-import { MessageType , User} from './';
+import { MessageType , User, Candidate, Question } from './';
 
 export class Tools {
 
@@ -12,5 +12,17 @@ export class Tools {
 
 	static messageWrapper(type: MessageType, data: any): string {
 		return "{\"message_type\":" + type + ",\"data\":" + JSON.stringify(data) + "}";
+	}
+
+	static setCandidateAvgScore(c: Candidate) {
+		if (c.votes) {
+			c.avg_score = c.votes.map(v => v.vote).reduce((v1, v2) => v1 + v2)/c.votes.length;
+			console.log(c.avg_score);
+			console.log(c.votes.map(v=>v.vote));
+		}
+	}
+
+	static sortCandidatesByScore(q: Question) {
+		q.candidates.sort((a, b) => (a.avg_score < b.avg_score) ? -1 : (a.avg_score > b.avg_score) ? 1 : 0);
 	}
 }

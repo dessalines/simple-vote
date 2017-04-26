@@ -139,6 +139,13 @@ export class PollComponent implements OnInit {
 			case MessageType.updateCandidate:
 				this.receiveUpdateCandidate(msg.data);
 				break;
+			case MessageType.createOrUpdateVote:
+				this.receiveVote(msg.data);
+				break;
+			case MessageType.deleteVote:
+				this.receiveDeleteVote(msg.data);
+				break;
+
 
 			default:
 				alert('wrong message: ' + dataStr);
@@ -207,8 +214,13 @@ export class PollComponent implements OnInit {
 			for (let candidate of question.candidates) {
 				candidate.votes = data.filter(c => c.candidate_id === candidate.id);
 
+				Tools.setCandidateAvgScore(candidate);
+
 				Tools.setUsersForList(candidate.votes, this.poll.users);
 			}
+
+			// Sort by score
+			Tools.sortCandidatesByScore(question);
 		}
 	}
 
@@ -276,7 +288,7 @@ export class PollComponent implements OnInit {
 		if (this.poll.questions === undefined) {
 			this.poll.questions = [];
 		}
-		
+
 		this.poll.questions.push(question);
 	}
 
@@ -319,6 +331,49 @@ export class PollComponent implements OnInit {
 		let candidateIndex = this.poll.questions[questionIndex].candidates.findIndex(q => q.id == candidate.id);
 
 		this.poll.questions[questionIndex].candidates[candidateIndex] = candidate;
+	}
+
+	receiveVote(data: any) {
+
+		let vote: Vote = data;
+		console.log(vote);
+		Tools.setUserForObj(vote, this.poll.users);
+		
+		// Find the index
+		let questionIndex = this.poll.questions.findIndex(q => q.id == data.question_id);
+		let question = this.poll.questions[questionIndex];
+		let candidateIndex = question.candidates.findIndex(c => c.id == data.candidate_id);
+		let candidate = question.candidates[candidateIndex];
+		let votes = candidate.votes;
+		if (votes === undefined) {
+			votes = [];
+		}
+		let voteIndex = votes.findIndex(v => v.id == data.id);
+		
+		if (voteIndex == null) {
+			votes.push(vote);
+		} else {
+			votes[voteIndex] = vote;
+		}
+		// Set the candidate average score
+		Tools.setCandidateAvgScore(candidate);
+
+		// Sort the question by candidates
+		Tools.sortCandidatesByScore(question);
+
+	}
+
+	receiveDeleteVote(data: any) {
+
+		// Find the index
+		let questionIndex = this.poll.questions.findIndex(q => q.id == data.question_id);
+		let question = this.poll.questions[questionIndex];
+		let candidateIndex = question.candidates.findIndex(c => c.id == data.candidate_id);
+		let candidate = question.candidates[candidateIndex];
+		let votes = candidate.votes;
+		let voteIndex = votes.findIndex(v => v.id == data.id);
+
+		votes.splice(voteIndex);
 	}
 
 }

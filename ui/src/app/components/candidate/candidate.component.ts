@@ -13,14 +13,12 @@ export class CandidateComponent implements OnInit {
 
 	@Input() candidate: Candidate;
 
-	private myVote: number;
-
 	constructor(private pollService: PollService,
 		private userService: UserService) { }
 
-	ngOnInit() {
-		let foundVote = this.findMyVote();
-		this.myVote = (foundVote) ? foundVote.vote : 50;
+	ngOnInit() {}
+
+	ngOnChanges(changes: any) {
 	}
 
 	toggleEditing() {
@@ -31,7 +29,7 @@ export class CandidateComponent implements OnInit {
 		this.pollService.send(Tools.messageWrapper(MessageType.deleteCandidate,
 			{
 				question_id: this.candidate.question_id,
-				candidate_id: this.candidate.id 
+				candidate_id: this.candidate.id
 			}));
 	}
 
@@ -41,31 +39,35 @@ export class CandidateComponent implements OnInit {
 		this.candidate.editing = false;
 	}
 
-	findMyVote(): Vote {
+	findMyVote(): number {
 		if (this.candidate.votes) {
-			return this.candidate.votes.find(v => v.user_id == this.userService.getUser().id);
+			let foundVote = this.candidate.votes.find(v => v.user_id == this.userService.getUser().id);
+			if (foundVote) {
+				return foundVote.vote;
+			}
 		} else {
-			return null;
+			return 50;
 		}
 
 	}
 
-	createOrUpdateVote() {
+	createOrUpdateVote(val: number) {
 		this.pollService.send(Tools.messageWrapper(MessageType.createOrUpdateVote,
-		{
-			candidate_id: this.candidate.id,
-			question_id: this.candidate.question_id,
-			user_id: this.candidate.user_id,
-			vote: this.myVote
-		}));
+			{
+				candidate_id: this.candidate.id,
+				question_id: this.candidate.question_id,
+				user_id: this.candidate.user_id,
+				vote: Number(val) // cast vote to a number
+			}));
 	}
+
 	deleteVote() {
 		this.pollService.send(Tools.messageWrapper(MessageType.deleteVote,
-		{
-			candidate_id: this.candidate.id,
-			question_id: this.candidate.question_id,
-			user_id: this.candidate.user_id,
-		}));
+			{
+				candidate_id: this.candidate.id,
+				question_id: this.candidate.question_id,
+				user_id: this.candidate.user_id,
+			}));
 	}
 
 
