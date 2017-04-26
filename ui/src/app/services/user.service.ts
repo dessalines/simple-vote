@@ -31,8 +31,6 @@ export class UserService {
 		}
 	}
 
-
-
 	private setUser(jwt: string) {
 		let dJWT = this.jwtHelper.decodeToken(jwt);
 		this.user = {
@@ -40,8 +38,8 @@ export class UserService {
 			name: dJWT.user_name,
 			jwt: jwt
 		};
-		console.log(this.user);
 	}
+
 	public getUser(): User {
 		return this.user;
 	}

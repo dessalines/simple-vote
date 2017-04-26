@@ -7,14 +7,14 @@
       <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable"><i class="fa fa-fw fa-trash"></i></small>
     </h5>
     <div *ngIf="!this.candidate.editing" class="progress">
-      <div class="progress-bar" role="progressbar" [style.width.%]="candidate.avg_score">Score: {{candidate.avg_score}}
+      <div class="progress-bar" role="progressbar" tooltip="Average score: {{candidate.avg_score}}"
+        [style.width.%]="candidate.avg_score">Score: {{candidate.avg_score}}
       </div>
-      <input class="vote_input" [value]="findMyVote()" 
-      	(value)="createOrUpdateVote($event.target.value)"
+      <input class="vote_input" [value]="findMyVote()" (value)="createOrUpdateVote($event.target.value)"
         (mouseup)="createOrUpdateVote($event.target.value)"
         (touchend)="createOrUpdateVote($event.target.value)"
-        type="range" min="0"
-        max="100" step="1" value="100" />
+        type="range" min="0" max="100" step="1" value="100"
+      />
     </div>
     <form *ngIf="this.candidate.editing" (ngSubmit)="updateCandidate()">
       <div class="form-group">
@@ -27,8 +27,10 @@
         </div>
       </div>
     </form>
-    <div *ngFor="let vote of candidate.votes">
-      <h4>{{vote.vote}}</h4>
+    <div *ngIf="true">
+      <div *ngFor="let vote of candidate.votes">
+        <h4>{{vote.user.name}} - {{vote.vote}}</h4>
+      </div>
     </div>
   </div>
 </div>

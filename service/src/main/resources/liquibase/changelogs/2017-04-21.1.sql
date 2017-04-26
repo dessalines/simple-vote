@@ -3,12 +3,45 @@
 --changeset tyler:2
 
 create view poll_user_view as
+
+-- get voters
 select distinct user_.id, user_.name, user_.created, poll.id as poll_id from user_
-left join poll on poll.user_id = user_.id
-left join question on question.poll_id = poll.id
-left join candidate on candidate.question_id = question.id
-left join vote on vote.candidate_id = candidate.id
-left join comment on comment.user_id = user_.id;
+inner join vote on vote.user_id = user_.id
+inner join candidate on candidate.id = vote.candidate_id
+inner join question on question.id = candidate.question_id
+inner join poll on poll.id = question.poll_id
+
+union
+
+-- get candidate makers
+select distinct user_.id, user_.name, user_.created, poll.id as poll_id from user_
+inner join candidate on candidate.user_id = user_.id
+inner join question on question.id = candidate.question_id
+inner join poll on poll.id = question.poll_id
+
+union
+
+-- get question makers
+select distinct user_.id, user_.name, user_.created, poll.id as poll_id from user_
+inner join question on question.user_id = user_.id
+inner join poll on poll.id = question.poll_id
+
+union
+
+-- get poll makers
+select distinct user_.id, user_.name, user_.created, poll.id as poll_id from user_
+inner join poll on poll.user_id = user_.id
+
+union
+
+-- get commenters
+select distinct user_.id, user_.name, user_.created, poll.id as poll_id from user_
+inner join comment on comment.user_id = user_.id
+inner join poll on poll.id = comment.poll_id;
+
+
+
+
 -- rollback drop view poll_user_view cascade;
 
 insert into user_ (name) values ('jim');
