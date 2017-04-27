@@ -23,6 +23,18 @@ export class Tools {
 	}
 
 	static sortCandidatesByScore(q: Question) {
-		q.candidates.sort((a, b) => (a.avg_score == b.avg_score) ? 0 : +(a.avg_score < b.avg_score) || -1);
+		let maxVotes: number = 0;
+		q.candidates.forEach(c => {
+			if (c.votes && c.votes.length > maxVotes) {
+				maxVotes = c.votes.length;
+			}
+		});
+
+		let threshold = maxVotes * q.threshold / 100;
+
+		q.candidates.sort((a, b) => {
+			let meetsThreshold: boolean = b.votes.length > threshold;
+			return (a.avg_score == b.avg_score) ? 0 : +(meetsThreshold && a.avg_score < b.avg_score) || -1
+		});
 	}
 }

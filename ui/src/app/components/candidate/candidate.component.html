@@ -11,7 +11,7 @@
   <div *ngIf="!this.candidate.editing" class="progress" [tooltip]="popTemplate">
     <div class="progress-bar" role="progressbar" [ngClass]="progressBarStyle" [style.width.%]="candidate.avg_score">
       <span *ngIf="candidate.avg_score">
-        	Score: {{candidate.avg_score}}
+        	Score: {{candidate.avg_score.toFixed(2)}}
         </span>
     </div>
     <input class="vote_input" [value]="findMyVote()" (value)="createOrUpdateVote($event.target.value)"

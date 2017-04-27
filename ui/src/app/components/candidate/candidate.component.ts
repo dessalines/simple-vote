@@ -89,7 +89,7 @@ export class CandidateComponent implements OnInit {
 
 	dynamicTooltip(): string {
 		let myVote: string = (this.foundVote()) ? this.foundVote().vote.toString() : 'none';
-		let avg: string = (this.candidate.avg_score !== undefined) ? this.candidate.avg_score.toString() : 'none';
+		let avg: string = (this.candidate.avg_score !== undefined) ? this.candidate.avg_score.toFixed(4).toString() : 'none';
 		return 'Your vote: ' + myVote + '<br>' + 'Average score: ' + avg;
 	}
 
