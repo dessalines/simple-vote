@@ -2,11 +2,12 @@
   <p class="mb-1" *ngIf="!this.candidate.editing">
     <span *ngIf="candidate.title">{{candidate.title}}</span>
     <span *ngIf="!candidate.title">Untitled candidate</span>
-    <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable"><i class="fa fa-fw fa-pencil-square-o"></i></small>
-    <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable"><i class="fa fa-fw fa-trash"></i></small>
-    <small *ngIf="candidate.votes" role="button" (click)="toggleDetails()">{{detailsExpander()}}</small>
+    <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit option"></i></small>
+    <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable" tooltip="Delete option"><i class="fa fa-fw fa-trash"></i></small>
+    <small *ngIf="candidate.votes" role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
   </p>
-  <div *ngIf="!this.candidate.editing" class="progress">
+  <ng-template #popTemplate><div *ngIf="candidate.avg_score" [innerHtml]="dynamicTooltip()"></div></ng-template>
+  <div *ngIf="!this.candidate.editing" class="progress" [tooltip]="popTemplate">
     <div class="progress-bar" role="progressbar" [style.width.%]="candidate.avg_score">
       <span *ngIf="candidate.avg_score">
         	Score: {{candidate.avg_score}}

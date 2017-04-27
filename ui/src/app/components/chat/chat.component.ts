@@ -4,7 +4,8 @@ import {
 	Poll,
 	Comment,
 	MessageType,
-	Tools
+	Tools,
+	User
 } from '../../shared';
 
 import { PollService } from '../../services';
@@ -30,6 +31,10 @@ export class ChatComponent implements OnInit {
 		this.pollService.send(Tools.messageWrapper(MessageType.createComment,
 			{ comment: this.comment }));
 		this.comment = undefined;
+	}
+
+	getActiveString(user: User): string {
+		return user.active ? "active" : "inactive";
 	}
 
 }

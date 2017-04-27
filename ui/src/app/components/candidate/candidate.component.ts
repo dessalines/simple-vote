@@ -81,6 +81,10 @@ export class CandidateComponent implements OnInit {
 			}));
 	}
 
+	dynamicTooltip(): string {
+		return 'Your vote: ' + this.findMyVote() + '<br>' + 'Average score: ' + this.candidate.avg_score;
+	}
+
 
 
 }
