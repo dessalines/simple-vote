@@ -55,7 +55,11 @@ export class QuestionComponent implements OnInit {
 	}
 
 	isExpired(): boolean {
-		return new Date(this.question.expire_time).getTime() < new Date().getTime();
+		if (this.question.expire_time) {
+			return new Date(this.question.expire_time).getTime() < new Date().getTime();
+		} else {
+			return false;
+		}
 	}
 
 }

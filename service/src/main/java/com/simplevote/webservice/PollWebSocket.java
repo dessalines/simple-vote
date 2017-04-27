@@ -231,7 +231,7 @@ public class PollWebSocket {
         }
         Integer threshold = (Tools.notNull(data.get("threshold"))) ? data.get("threshold").asInt() : null;
         Boolean usersCanAddCandidates = (Tools.notNull(data.get("users_can_add_candidates"))) ? data.get("users_can_add_candidates").asBoolean() : null;
-        
+
         Tables.Question q = Actions.updateQuestion(questionId,
                 title,
                 expireTime,

@@ -7,10 +7,10 @@
         <form #userForm="ngForm" (ngSubmit)="onSubmit()">
           <div class="form-group" [class.has-danger]="!(namev.valid || namev.pristine)">
             <div class="input-group">
-              <input id="inlineFormInput" type="text" class="form-control"
+              <input id="new-user-input" type="text" class="form-control"
                 required maxlength="20" pattern="[a-zA-Z0-9_-]+"
                 [(ngModel)]="name" name="name" placeholder="Enter your name...."
-                #namev="ngModel" autofocus>
+                #namev="ngModel" autofocus="">
               <span class="input-group-btn">
                   <button type="submit" class="btn btn-primary btn-block" [disabled]="!userForm.form.valid">Okay</button>
               </span>
