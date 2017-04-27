@@ -6,23 +6,29 @@
       <small role="button" (click)="toggleEditing()" *ngIf="question.editable" tooltip="Edit question"><i class="fa fa-fw fa-pencil-square-o"></i></small>
       <small role="button" (click)="deleteQuestion()" *ngIf="question.editable" tooltip="Delete question"><i class="fa fa-fw fa-trash"></i></small>
       <small role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
+      <small *ngIf="isExpired()"><i>expired</i></small>
     </h4>
     <div *ngIf="showDetails" class="mb-3">
       <h4>Details</h4>
       <div *ngIf="question.expire_time">expire time: {{question.expire_time | moment}}</div>
       <div *ngIf="!question.expire_time">No expiration</div>
       <div>
-      	<span tooltip="A percentage cutoff that removes candidates with too few votes">threshold: {{question.threshold}}%
-      	</span>
+        <span tooltip="A percentage cutoff that removes candidates with too few votes">threshold: {{question.threshold}}%
+        </span>
       </div>
-      <div>users can add candidates: {{question.users_can_add_candidates}}</div>
+      <div>
+        <label class="form-check-label">
+          <input disabled type="checkbox" class="form-check-input"
+            name="users_can_add_candidates" [(ngModel)]="question.users_can_add_candidates"> Users can add candidates
+        </label>
+      </div>
     </div>
     <form *ngIf="this.question.editing" (ngSubmit)="updateQuestion()">
       <h4>Edit Question</h4>
       <div class="form-group row">
         <label class="col-md-2 col-form-label">Title</label>
         <div class="col-md-10">
-          <input type="text" class="form-control" [(ngModel)]="question.title"
+          <input type="text" class="form-control" autofocus [(ngModel)]="question.title"
             name="question_title" placeholder="Enter your question name...">
         </div>
       </div>
@@ -34,7 +40,7 @@
       </div>
       <div class="form-group row">
         <label class="col-md-4 col-form-label">
-        	<span tooltip="A percentage cutoff that removes candidates with too few votes">Threshold: {{question.threshold}}</span>
+          <span tooltip="A percentage cutoff that removes candidates with too few votes">Threshold: {{question.threshold}}</span>
         </label>
         <div class="col-md-8">
           <input type="range" name="question_threshold" [value]="question.threshold"
@@ -46,8 +52,8 @@
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-md-4 col-form-label">Expire time: 
-        	<span *ngIf="question.expire_time">{{question.expire_time | moment}}</span>
+        <label class="col-md-4 col-form-label">Expire time:
+          <span *ngIf="question.expire_time">{{question.expire_time | moment}}</span>
         </label>
         <div class="col-md-8">
           <input type="date" class="form-control" [(ngModel)]="question.expire_time"
@@ -58,9 +64,11 @@
     </form>
     <div *ngIf="!this.question.editing">
       <div *ngFor="let candidate of question.candidates ">
-        <app-candidate [candidate]="candidate "></app-candidate>
+        <app-candidate [candidate]="candidate" [expired]="isExpired()"></app-candidate>
       </div>
-      <button *ngIf="canCreateCandidate() " class="btn btn-secondary" (click)="createCandidate()" role="button"><i class="fa fa-fw fa-plus "></i>Add an option</button>
+      <button *ngIf="canCreateCandidate() && !isExpired()"
+        class="btn btn-secondary" (click)="createCandidate()"
+        role="button"><i class="fa fa-fw fa-plus "></i>Add an option</button>
     </div>
   </div>
 </div>

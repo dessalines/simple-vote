@@ -21,6 +21,7 @@ import org.javalite.activejdbc.LazyList;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -222,10 +223,15 @@ public class PollWebSocket {
 
         Long questionId = data.get("id").asLong();
         String title = (Tools.notNull(data.get("title"))) ? data.get("title").asText() : null;
-        Long expireTime = (Tools.notNull(data.get("expire_time"))) ? data.get("expire_time").asLong() : null;
+        Long expireTime = null;
+        try {
+            expireTime = (Tools.notNull(data.get("expire_time"))) ? Tools.SDF.parse(data.get("expire_time").asText()).getTime() : null;
+        } catch(ParseException e) {
+            e.printStackTrace();
+        }
         Integer threshold = (Tools.notNull(data.get("threshold"))) ? data.get("threshold").asInt() : null;
         Boolean usersCanAddCandidates = (Tools.notNull(data.get("users_can_add_candidates"))) ? data.get("users_can_add_candidates").asBoolean() : null;
-
+        
         Tables.Question q = Actions.updateQuestion(questionId,
                 title,
                 expireTime,
