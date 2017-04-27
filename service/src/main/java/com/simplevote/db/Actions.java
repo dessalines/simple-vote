@@ -86,7 +86,7 @@ public class Actions {
 
         // TODO do userCanAddCandidates validation on front end
 
-        if (title != null && !title.equals("null")) q.set("title", title);
+        if (title != null) q.set("title", title);
         if (expireTime != null) q.set("expire_time", new Timestamp(expireTime));
         if (threshold != null) q.set("threshold", threshold);
         if (usersCanAddCandidates != null) q.set("users_can_add_candidates", usersCanAddCandidates);
