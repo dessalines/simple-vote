@@ -7,10 +7,14 @@
       <small role="button" (click)="deleteQuestion()" *ngIf="question.editable" tooltip="Delete question"><i class="fa fa-fw fa-trash"></i></small>
       <small role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
     </h4>
-    <div *ngIf="showDetails">
+    <div *ngIf="showDetails" class="mb-3">
       <h4>Details</h4>
-      <div>expire time: {{question.expire_time}}</div>
-      <div>threshold: {{question.threshold}}</div>
+      <div *ngIf="question.expire_time">expire time: {{question.expire_time | moment}}</div>
+      <div *ngIf="!question.expire_time">No expiration</div>
+      <div>
+      	<span tooltip="A percentage cutoff that removes candidates with too few votes">threshold: {{question.threshold}}%
+      	</span>
+      </div>
       <div>users can add candidates: {{question.users_can_add_candidates}}</div>
     </div>
     <form *ngIf="this.question.editing" (ngSubmit)="updateQuestion()">
@@ -29,8 +33,10 @@
         </label>
       </div>
       <div class="form-group row">
-        <label class="col-md-2 col-form-label">Threshold: {{question.threshold}}</label>
-        <div class="col-md-10">
+        <label class="col-md-4 col-form-label">
+        	<span tooltip="A percentage cutoff that removes candidates with too few votes">Threshold: {{question.threshold}}</span>
+        </label>
+        <div class="col-md-8">
           <input type="range" name="question_threshold" [value]="question.threshold"
             class="form-control" (mouseup)="question.threshold=$event.target.value"
             (touchend)="question.threshold=$event.target.value"
@@ -40,10 +46,12 @@
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-md-2 col-form-label">Expire time: {{question.expire_time | moment}}</label>
-        <div class="col-md-10">
+        <label class="col-md-4 col-form-label">Expire time: 
+        	<span *ngIf="question.expire_time">{{question.expire_time | moment}}</span>
+        </label>
+        <div class="col-md-8">
           <input type="date" class="form-control" [(ngModel)]="question.expire_time"
-            name="question_threshold">
+            name="question_expire_time">
         </div>
       </div>
       <button class="btn btn-primary" type="submit" role="button">Save</button>

@@ -178,7 +178,11 @@ public class PollWebSocket {
 
     public void updatePoll(Session session, JsonNode data) {
         Long pollId = getPollIdFromSession(session);
-        Tables.Poll p = Actions.updatePoll(pollId, data.get("title").asText(), data.get("users_can_add_questions").asBoolean());
+
+        String title = (Tools.notNull(data.get("title"))) ? data.get("title").asText() : null;
+        Boolean usersCanAddQuestions = (Tools.notNull(data.get("users_can_add_questions"))) ? data.get("users_can_add_questions").asBoolean() : null;
+
+        Tables.Poll p = Actions.updatePoll(pollId, title, usersCanAddQuestions);
 
         broadcastMessage(getSessionsFromPoll(pollId),
                 messageWrapper(MessageType.updatePoll, p.toJson(false)));
@@ -217,10 +221,10 @@ public class PollWebSocket {
         Long pollId = getPollIdFromSession(session);
 
         Long questionId = data.get("id").asLong();
-        String title = (data.get("title") != null) ? data.get("title").asText() : null;
-        Long expireTime = (data.get("expire_time") != null) ? data.get("expire_time").asLong() : null;
-        Integer threshold = (data.get("threshold") != null) ? data.get("threshold").asInt() : null;
-        Boolean usersCanAddCandidates = (data.get("users_can_add_candidates") != null) ? data.get("users_can_add_candidates").asBoolean() : null;
+        String title = (Tools.notNull(data.get("title"))) ? data.get("title").asText() : null;
+        Long expireTime = (Tools.notNull(data.get("expire_time"))) ? data.get("expire_time").asLong() : null;
+        Integer threshold = (Tools.notNull(data.get("threshold"))) ? data.get("threshold").asInt() : null;
+        Boolean usersCanAddCandidates = (Tools.notNull(data.get("users_can_add_candidates"))) ? data.get("users_can_add_candidates").asBoolean() : null;
 
         Tables.Question q = Actions.updateQuestion(questionId,
                 title,
@@ -257,7 +261,7 @@ public class PollWebSocket {
         Long pollId = getPollIdFromSession(session);
 
         Long candidateId = data.get("id").asLong();
-        String title = (data.get("title") != null) ? data.get("title").asText() : null;
+        String title = (Tools.notNull(data.get("title"))) ? data.get("title").asText() : null;
 
         Tables.Candidate c = Actions.updateCandidate(candidateId, title);
 
@@ -268,7 +272,6 @@ public class PollWebSocket {
     public void createOrUpdateVote(Session session, JsonNode data) {
         Long pollId = getPollIdFromSession(session);
         Long userId = getUserFromSession(session).getId();
-        log.info(userId.toString());
         Long candidateId = data.get("candidate_id").asLong();
         Integer vote = data.get("vote").asInt();
 
