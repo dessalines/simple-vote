@@ -18,7 +18,7 @@ export class CandidateComponent implements OnInit {
 	constructor(private pollService: PollService,
 		private userService: UserService) { }
 
-	ngOnInit() {}
+	ngOnInit() { }
 
 	ngOnChanges(changes: any) {
 	}
@@ -51,15 +51,19 @@ export class CandidateComponent implements OnInit {
 	}
 
 	findMyVote(): number {
-		if (this.candidate.votes) {
-			let foundVote = this.candidate.votes.find(v => v.user_id == this.userService.getUser().id);
-			if (foundVote) {
-				return foundVote.vote;
-			}
+		if (this.foundVote()) {
+			return this.foundVote().vote;
 		} else {
 			return 50;
 		}
+	}
 
+	foundVote(): Vote {
+		if (this.candidate.votes) {
+			return this.candidate.votes.find(v => v.user_id == this.userService.getUser().id);
+		} else {
+			return null;
+		}
 	}
 
 	createOrUpdateVote(val: number) {
@@ -82,7 +86,9 @@ export class CandidateComponent implements OnInit {
 	}
 
 	dynamicTooltip(): string {
-		return 'Your vote: ' + this.findMyVote() + '<br>' + 'Average score: ' + this.candidate.avg_score;
+		let myVote: string = (this.foundVote()) ? this.foundVote().vote.toString() : 'none';
+		let avg: string = (this.candidate.avg_score !== undefined) ? this.candidate.avg_score.toString() : 'none';
+		return 'Your vote: ' + myVote + '<br>' + 'Average score: ' + avg;
 	}
 
 
