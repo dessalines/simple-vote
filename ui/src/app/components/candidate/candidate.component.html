@@ -9,7 +9,7 @@
   </p>
   <ng-template #popTemplate><div [innerHtml]="dynamicTooltip()"></div></ng-template>
   <div *ngIf="!this.candidate.editing" class="progress" [tooltip]="popTemplate">
-    <div class="progress-bar" role="progressbar" [style.width.%]="candidate.avg_score">
+    <div class="progress-bar" role="progressbar" [ngClass]="progressBarStyle" [style.width.%]="candidate.avg_score">
       <span *ngIf="candidate.avg_score">
         	Score: {{candidate.avg_score}}
         </span>
