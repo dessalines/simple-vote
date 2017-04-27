@@ -13,6 +13,7 @@ export class CandidateComponent implements OnInit {
 
 	@Input() candidate: Candidate;
 	@Input() expired: boolean;
+	@Input() progressBarStyle: string;
 
 	private showDetails: boolean = false;
 

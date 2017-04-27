@@ -63,8 +63,11 @@
       <button class="btn btn-primary" type="submit" role="button">Save</button>
     </form>
     <div *ngIf="!this.question.editing">
-      <div *ngFor="let candidate of question.candidates ">
-        <app-candidate [candidate]="candidate" [expired]="isExpired()"></app-candidate>
+      <div *ngFor="let candidate of question.candidates; let i = index">
+        <app-candidate [candidate]="candidate" 
+        [expired]="isExpired()" 
+        [progressBarStyle]="getProgressBarColor(i)">
+        </app-candidate>
       </div>
       <button *ngIf="canCreateCandidate() && !isExpired()"
         class="btn btn-secondary" (click)="createCandidate()"

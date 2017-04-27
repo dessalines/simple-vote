@@ -62,4 +62,22 @@ export class QuestionComponent implements OnInit {
 		}
 	}
 
+	getProgressBarColor(i: number): string {
+		let out: string;
+		let mod = i % 5;
+		if (mod == 0) {
+			out = '';
+		} else if (mod == 1) {
+			out = 'bg-success';
+		} else if (mod == 2) {
+			out = 'bg-danger';
+		} else if (mod == 3) {
+			out = 'bg-warning';
+		} else if (mod == 4) {
+			out = 'bg-info';
+		}
+
+		return out;
+	}
+
 }
