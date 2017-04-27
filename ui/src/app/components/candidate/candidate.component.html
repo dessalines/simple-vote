@@ -5,8 +5,9 @@
     <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit option"></i></small>
     <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable" tooltip="Delete option"><i class="fa fa-fw fa-trash"></i></small>
     <small *ngIf="candidate.votes" role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
+    <small *ngIf="foundVote()" role="button" (click)="deleteVote()" tooltip="Clear vote"><i class="fa fa-fw fa-times"></i></small>
   </p>
-  <ng-template #popTemplate><div *ngIf="candidate.avg_score" [innerHtml]="dynamicTooltip()"></div></ng-template>
+  <ng-template #popTemplate><div [innerHtml]="dynamicTooltip()"></div></ng-template>
   <div *ngIf="!this.candidate.editing" class="progress" [tooltip]="popTemplate">
     <div class="progress-bar" role="progressbar" [style.width.%]="candidate.avg_score">
       <span *ngIf="candidate.avg_score">
