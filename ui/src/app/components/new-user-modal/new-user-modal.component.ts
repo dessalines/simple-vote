@@ -21,6 +21,9 @@ export class NewUserModalComponent implements OnInit {
 		private cookieService: CookieService) { }
 
 	ngOnInit() {
+		// focus when the modal is shown
+		this.smModal.onShown.subscribe(() => document.getElementById("new-user-input").focus());
+
 		if (this.userService.getUser() == null) {
 			setTimeout(() => this.smModal.show(),100);
 		} else {
