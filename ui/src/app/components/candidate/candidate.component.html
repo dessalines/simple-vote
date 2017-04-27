@@ -2,10 +2,10 @@
   <p class="mb-1" *ngIf="!this.candidate.editing">
     <span *ngIf="candidate.title">{{candidate.title}}</span>
     <span *ngIf="!candidate.title">Untitled candidate</span>
-    <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit option"></i></small>
-    <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable" tooltip="Delete option"><i class="fa fa-fw fa-trash"></i></small>
+    <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable && !expired"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit option"></i></small>
+    <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable && !expired" tooltip="Delete option"><i class="fa fa-fw fa-trash"></i></small>
     <small *ngIf="candidate.votes" role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
-    <small *ngIf="foundVote()" role="button" (click)="deleteVote()" tooltip="Clear vote"><i class="fa fa-fw fa-times"></i></small>
+    <small *ngIf="foundVote() && !expired" role="button" (click)="deleteVote()" tooltip="Clear vote"><i class="fa fa-fw fa-times"></i></small>
   </p>
   <ng-template #popTemplate><div [innerHtml]="dynamicTooltip()"></div></ng-template>
   <div *ngIf="!this.candidate.editing" class="progress" [tooltip]="popTemplate">
@@ -18,12 +18,13 @@
       (mouseup)="createOrUpdateVote($event.target.value)"
       (touchend)="createOrUpdateVote($event.target.value)"
       type="range" min="0" max="100" step="1" value="100"
+      [disabled]="expired"
     />
   </div>
   <form *ngIf="this.candidate.editing" (ngSubmit)="updateCandidate()">
     <div class="form-group">
       <div class="input-group">
-        <input type="text" class="form-control" [(ngModel)]="candidate.title"
+        <input type="text" class="form-control" autofocus [(ngModel)]="candidate.title"
           name="candidate_title" placeholder="Enter your option name...">
         <span class="input-group-btn">
             <button class="btn btn-primary" type="submit" role="button">Save</button>

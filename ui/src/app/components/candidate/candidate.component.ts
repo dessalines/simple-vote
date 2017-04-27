@@ -12,6 +12,7 @@ import { PollService, UserService } from '../../services';
 export class CandidateComponent implements OnInit {
 
 	@Input() candidate: Candidate;
+	@Input() expired: boolean;
 
 	private showDetails: boolean = false;
 

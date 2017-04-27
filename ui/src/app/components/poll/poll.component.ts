@@ -404,7 +404,14 @@ export class PollComponent implements OnInit {
 		let votes = candidate.votes;
 		let voteIndex = votes.findIndex(v => v.id == data.id);
 
+		// Remove the vote
 		votes.splice(voteIndex);
+
+		// Set the candidate average score
+		Tools.setCandidateAvgScore(candidate);
+
+		// Sort the question by candidates
+		Tools.sortCandidatesByScore(question);
 	}
 
 }

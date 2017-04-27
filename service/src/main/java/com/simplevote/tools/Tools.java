@@ -30,6 +30,7 @@ import java.net.HttpCookie;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
 public class Tools {
 
     public static Logger log = (Logger) LoggerFactory.getLogger(Tools.class);
+    public static SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
 
     public static ObjectMapper JACKSON = new ObjectMapper();
     public static TypeFactory typeFactory = JACKSON.getTypeFactory();
