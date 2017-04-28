@@ -16,11 +16,14 @@ export class CandidateComponent implements OnInit {
 	@Input() progressBarStyle: string;
 
 	private showDetails: boolean = false;
+	private backgroundColor: string;
 
 	constructor(private pollService: PollService,
 		private userService: UserService) { }
 
-	ngOnInit() { }
+	ngOnInit() {
+		this.backgroundColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);;
+	}
 
 	ngOnChanges(changes: any) {
 	}
@@ -89,10 +92,11 @@ export class CandidateComponent implements OnInit {
 
 	dynamicTooltip(): string {
 		let myVote: string = (this.foundVote()) ? this.foundVote().vote.toString() : 'none';
-		let avg: string = (this.candidate.avg_score !== undefined) ? this.candidate.avg_score.toFixed(4).toString() : 'none';
-		return 'Your vote: ' + myVote + '<br>' + 'Average score: ' + avg;
+		let avg: string = (this.candidate.avg_score !== undefined) ? this.candidate.avg_score.toFixed(2).toString() : 'none';
+		let count: string = (this.candidate.votes) ? this.candidate.votes.length.toString() : 'none';
+		return 'Your vote: ' + myVote
+			+ '<br>' + 'Average score: ' + avg 
+			+ '<br>' + '# of votes: ' + count;
 	}
-
-
 
 }

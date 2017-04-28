@@ -279,7 +279,9 @@ export class PollComponent implements OnInit {
 	scrollToBottomOfTable() {
 		setTimeout(() => {
 			let objDiv = document.getElementById("table");
-			objDiv.scrollTop = objDiv.scrollHeight;
+			if (objDiv) {
+				objDiv.scrollTop = objDiv.scrollHeight;
+			}
 		}, 50);
 
 	}
