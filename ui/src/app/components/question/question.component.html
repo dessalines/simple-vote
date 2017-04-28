@@ -65,8 +65,7 @@
     <div *ngIf="!this.question.editing">
       <div *ngFor="let candidate of question.candidates; let i = index">
         <app-candidate [candidate]="candidate" 
-        [expired]="isExpired()" 
-        [progressBarStyle]="getProgressBarColor(i)">
+        [expired]="isExpired()">
         </app-candidate>
       </div>
       <button *ngIf="canCreateCandidate() && !isExpired()"

@@ -33,7 +33,7 @@ export class Tools {
 		let threshold = maxVotes * q.threshold / 100;
 
 		q.candidates.sort((a, b) => {
-			let meetsThreshold: boolean = b.votes.length > threshold;
+			let meetsThreshold: boolean = (b.votes) ? b.votes.length > threshold : true;
 			return (a.avg_score == b.avg_score) ? 0 : +(meetsThreshold && a.avg_score < b.avg_score) || -1
 		});
 	}

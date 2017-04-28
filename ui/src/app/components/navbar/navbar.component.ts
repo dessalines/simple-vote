@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie';
 
 import {
 	PollService,
@@ -18,7 +19,8 @@ export class NavbarComponent implements OnInit {
 	constructor(private userService: UserService,
 		private pollService: PollService,
 		private route: ActivatedRoute,
-		private router: Router) { }
+		private router: Router,
+		private cookieService: CookieService) { }
 
 	ngOnInit() {
 	}
@@ -32,6 +34,11 @@ export class NavbarComponent implements OnInit {
 			console.log(p);
 			this.router.navigate(['/poll', p.id]);
 		});
+	}
+
+	logout() {
+		this.cookieService.remove('jwt');
+		location.reload();
 	}
 
 
