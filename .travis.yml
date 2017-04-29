@@ -4,7 +4,7 @@ jdk:
 services:
 - postgresql
 before_install:
-- psql -c 'create database simplevote;' -U tyler
+- psql -c 'create user simplevote with password "asdf"; create database simplevote with owner simplevote;' -U postgres
 - cd service
 after_success:
 - cd ..
