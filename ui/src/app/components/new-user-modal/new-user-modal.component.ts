@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { Observable } from 'rxjs/Observable';
 
 import { UserService } from '../../services';
 
@@ -15,6 +16,8 @@ export class NewUserModalComponent implements OnInit {
 	@ViewChild('smModal') private smModal: ModalDirective;
 	@Output() userCreated = new EventEmitter();	
 
+	@Input() createNewUser: boolean = true;
+
 	private name: string;
 
 	constructor(private userService: UserService,
@@ -24,7 +27,7 @@ export class NewUserModalComponent implements OnInit {
 		// focus when the modal is shown
 		this.smModal.onShown.subscribe(() => document.getElementById("new-user-input").focus());
 
-		if (this.userService.getUser() == null) {
+		if (this.userService.getUser() == null || this.createNewUser == false) {
 			setTimeout(() => this.smModal.show(),100);
 		} else {
 			this.userCreated.emit();
@@ -32,11 +35,22 @@ export class NewUserModalComponent implements OnInit {
 	}
 
 	onSubmit() {
-		this.userService.createNewUser(this.name).subscribe(rJWT => {
+		let obs: Observable<string>;
+		if (this.createNewUser) {
+			obs = this.userService.createNewUser(this.name);
+		} else {
+			obs = this.userService.updateUser(this.name);
+		}
+
+		obs.subscribe(rJWT => {
 			this.cookieService.put('jwt', rJWT);
 			this.userService.setUserFromCookie();
 			this.smModal.hide();
 			this.userCreated.emit();
+
+			if (!this.createNewUser) {
+				location.reload();
+			}
 		});
 	}
 }

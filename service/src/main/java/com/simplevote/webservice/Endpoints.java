@@ -43,7 +43,7 @@ public class Endpoints {
 
     public static void user() {
 
-        post("/new_user", (req, res) -> {
+        post("/user", (req, res) -> {
 
             Map<String, String> vars = Tools.createMapFromReqBody(req.body());
 
@@ -54,7 +54,7 @@ public class Endpoints {
 
         });
 
-        put("update_user", (req, res) -> {
+        put("user", (req, res) -> {
             Map<String, String> vars = Tools.createMapFromReqBody(req.body());
 
             String name = vars.get("name");

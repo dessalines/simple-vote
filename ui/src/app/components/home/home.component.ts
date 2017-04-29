@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import {
+	PollService,
+} from '../../services';
 
 @Component({
 	selector: 'app-home',
@@ -7,9 +12,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-	constructor() { }
+	constructor(private pollService: PollService,
+		private route: ActivatedRoute,
+		private router: Router) { }
 
 	ngOnInit() {
+	}
+
+	createPoll() {
+		this.pollService.createPoll().subscribe(p => {
+			console.log(p);
+			this.router.navigate(['/poll', p.id]);
+		});
 	}
 
 }

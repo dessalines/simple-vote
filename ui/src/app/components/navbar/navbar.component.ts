@@ -15,6 +15,7 @@ import {
 export class NavbarComponent implements OnInit {
 
 	private collapseNavbar: boolean = true;
+	private showUpdateUserComponent: boolean = false;
 
 	constructor(private userService: UserService,
 		private pollService: PollService,
@@ -34,6 +35,11 @@ export class NavbarComponent implements OnInit {
 			console.log(p);
 			this.router.navigate(['/poll', p.id]);
 		});
+	}
+
+	changeUserName() {
+		this.showUpdateUserComponent = true;
+		
 	}
 
 	logout() {

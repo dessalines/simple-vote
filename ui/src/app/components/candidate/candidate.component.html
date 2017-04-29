@@ -4,7 +4,7 @@
     <span *ngIf="!candidate.title">Untitled candidate</span>
     <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable && !expired"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit option"></i></small>
     <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable && !expired" tooltip="Delete option"><i class="fa fa-fw fa-trash"></i></small>
-    <small *ngIf="candidate.votes" role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
+    <small role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
     <small *ngIf="foundVote() && !expired" role="button" (click)="deleteVote()" tooltip="Clear vote"><i class="fa fa-fw fa-times"></i></small>
   </p>
   <ng-template #popTemplate><div [innerHtml]="dynamicTooltip()"></div></ng-template>
@@ -33,8 +33,8 @@
     </div>
   </form>
   <div *ngIf="showDetails">
-    <br>
-    <table class="table table-hover table-bordered table-responsive">
+    <div class="mb-1">Creator: {{candidate.user.name}}</div>
+    <table *ngIf="candidate.votes?.length" class="table table-hover table-bordered table-responsive">
       <thead>
         <tr>
           <th>User</th>

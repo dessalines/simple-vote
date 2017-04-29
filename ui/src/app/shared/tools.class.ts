@@ -34,6 +34,12 @@ export class Tools {
 
 		q.candidates.sort((a, b) => {
 			let meetsThreshold: boolean = (b.votes) ? b.votes.length > threshold : true;
+			if (b.avg_score === undefined) {
+				return -1;
+			}
+			if (a.avg_score === undefined) {
+				return 1;
+			}
 			return (a.avg_score == b.avg_score) ? 0 : +(meetsThreshold && a.avg_score < b.avg_score) || -1
 		});
 	}

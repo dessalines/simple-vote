@@ -3,6 +3,7 @@ import { Question, Comment, User } from './';
 export interface Poll {
 	id: number;
 	user_id: number;
+	user?: User;
 	title?: string;
 	users_can_add_questions?: boolean;
 	created: number;

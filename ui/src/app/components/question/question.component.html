@@ -10,10 +10,11 @@
     </h4>
     <div *ngIf="showDetails" class="mb-3">
       <h4>Details</h4>
+      <div>Creator: {{question.user.name}}</div>
       <div *ngIf="question.expire_time">expire time: {{question.expire_time | moment}}</div>
       <div *ngIf="!question.expire_time">No expiration</div>
       <div>
-        <span tooltip="A percentage cutoff that removes candidates with too few votes">threshold: {{question.threshold}}%
+        <span tooltip="A percentage cutoff that removes candidates with too few votes">Threshold: {{question.threshold}}%
         </span>
       </div>
       <div>

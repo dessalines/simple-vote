@@ -7,9 +7,19 @@
   -webkit-appearance: none;
   height: 1rem;
   background: transparent;
+  border: 1px solid white;
 }
 
 .vote_input:focus {
   outline: none;
 }
 
+
+
+/*Firefox styling */
+
+.vote_input:-moz-focusring,
+.vote_input:focus::-moz-range-track,
+.vote_input::-moz-range-track {
+  background: transparent;
+}

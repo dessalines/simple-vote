@@ -20,10 +20,16 @@
     </ul>
     <ul class="navbar-nav my-lg-0">
       <li class="nav-item">
-        <span class="nav-link" role="button" (click)="logout()" placement="left" tooltip="Logout">
-          <i class="fa fa-fw fa-sign-out"></i>
+        <span class="nav-link" role="button" (click)="changeUserName()" placement="bottom" tooltip="Change UserName">
+          <i class="fa fa-fw fa-user"></i>
         </span>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" role="button" (click)="logout()" placement="left" tooltip="Logout">
+          <i class="fa fa-fw fa-sign-out"></i>
+        </a>
       </li>
     </ul>
   </div>
 </nav>
+<app-new-user-modal *ngIf="showUpdateUserComponent" [createNewUser]=false></app-new-user-modal>
