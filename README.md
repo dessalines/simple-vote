@@ -1,14 +1,91 @@
-# TODO/Refactor
+[SimpleVote](http://simplevote.com) &mdash; An open-source, live updating, voting platform.
+==========
+![](http://img.shields.io/version/0.0.1.png?color=green)
+[![Build Status](https://travis-ci.org/dessalines/simple-vote.svg?branch=master)](https://travis-ci.org/dessalines/simple-vote)
 
-- Make into a simple link sharing methodology, with transparent voting(you know who voted for what). You create a poll, and have a shareable link.
-- People go to that link, enter a name(if they haven't already), and make their votes. (An infinite-length UUID/name cookie is set on that browser for an ID, if it doesn't already exist)
-- A setting exists to change your name. 
-- For votes over 5/10, possibly show an expand that has their name next to it.
-- People can add poll options. 
-- You can see a list of users who voted and click View Ballot to see their ballot.  
-- You can clear your vote.
-- You can set a threshold, but the default is 30%. 
-- Rewrite backend, use postgres
+<!---
+
+-->
+
+[SimpleVote](http://simplevote.com) is an open-source, self-hostable, **live-updating** voting/polling platform, for both live meetings, or extended polls. 
+
+Polls can be dynamic, meaning users can(*if allowed*) contribute options and questions themselves.
+
+It uses [range voting](http://rangevoting.org/UniqBest.html)(also known as olympic score voting) for all your poll options. [Range voting](http://rangevoting.org/) is *more expressive* than simple :thumbsup: or :thumbsdown: votes (IE [approval](http://rangevoting.org/AppExec.html)). It also beats out [IRV](http://rangevoting.org/rangeVirv.html), and [first past the post](http://rangevoting.org/Plurality.html) for [minimizing voter regret](http://rangevoting.org/UniqBest.html).
+
+Features:
+- Polls can have multiple questions.
+- Anyone can edit, delete, or create additional questions, and options(if allowed by the creator), at anytime.
+- Live chat on the sidebar. 
+- Questions can have expiration times, and thresholds (Making sure options with too few votes don't win). 
+- Easily shareable poll links.
+
+Tech used:
+- [Java Spark](https://github.com/perwendel/spark), [Bootstrap v4](https://github.com/twbs/bootstrap), [Angular4](https://github.com/angular/angular), [Angular-cli](https://github.com/angular/angular-cli), [ng2-bootstrap](http://valor-software.com/ng2-bootstrap/), [ActiveJDBC](http://javalite.io/activejdbc), [Liquibase](http://www.liquibase.org/), [Postgres](https://www.postgresql.org/), [Markdown-it](https://github.com/markdown-it/markdown-it), [angular2-toaster](https://github.com/Stabzs/Angular2-Toaster)
+
+Check out a sample poll [here](http://simplevote.com/#/poll/1).
+
+Join the subreddit: [/r/simplevote](https://www.reddit.com/r/simplevote/)
+
+[Change log](https://github.com/dessalines/simple-vote/issues/closed)
+
+==========
+
+## Installation 
+
+*If you want to self-host or help develop simplevote.*
+
+### Local development
+
+#### Requirements
+- Java 8 + Maven
+- Node + npm/yarn, [nvm](https://github.com/creationix/nvm) is the preferred installation method.
+- angular-cli: `npm i -g @angular/cli@latest`
+- Postgres 9.3 or higher
+
+#### Download SimpleVote
+`git clone https://github.com/dessalines/simple-vote`
+
+#### Setup a postgres database
+[Here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04) are some instructions to get your DB up and running.
+
+#### Open your pom.xml
+```sh
+cd simplevote
+vim service/pom.xml
+```
+
+Edit it to point to your own database:
+```xml
+<!--The Database location and login, here's a sample-->
+<jdbc.url>jdbc:postgresql://127.0.0.1/simplevote</jdbc.url>
+<jdbc.username>postgres</jdbc.username>
+<jdbc.password></jdbc.password
+```
+
+#### Install SimpleVote
+
+For local testing: 
+
+`./install_dev.sh` and goto `http://localhost:4567/`
+
+For a production environment, edit `ui/config/environment.prod.ts` to point to your hostname, then run:
+
+`./install_prod.sh`
+
+You can redirect ports in linux to route from port 80 to this port:
+
+`sudo iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 4567`
+
+==========
+
+## Bugs and feature requests
+Have a bug or a feature request? If your issue isn't [already listed](https://github.com/dessalines/simple-vote/issues/), then open a [new issue here](https://github.com/dessalines/simple-vote/issues/new).
+
+
+## TODO/Refactor
+
 - Use hashid
-- Rewrite front end in angular2. 
+- Set up travis-ci
+- Set up full-install (copies to /html)
 

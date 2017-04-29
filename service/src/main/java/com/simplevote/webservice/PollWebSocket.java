@@ -63,9 +63,9 @@ public class PollWebSocket {
         sendMessage(session, messageWrapper(MessageType.pollUsers,
                 Actions.getPollUsers(pollId).toJson(false)));
 
-        // Add, and send them the active users
+        // broadcast all the active users
         userPollMap.put(getUserFromSession(session), pollId);
-        sendMessage(session, messageWrapper(MessageType.pollActiveUsers,
+        broadcastMessage(getSessionsFromPoll(pollId), messageWrapper(MessageType.pollActiveUsers,
                 Tools.JACKSON.writeValueAsString(getUsersFromPoll(pollId))));
 
         // Send comments
@@ -152,9 +152,15 @@ public class PollWebSocket {
 
 
     @OnWebSocketClose
-    public void onClose(Session session, int statusCode, String reason) {
+    public void onClose(Session session, int statusCode, String reason) throws Exception {
         userPollMap.remove(getUserFromSession(session));
+        Long pollId = getPollIdFromSession(session);
         sessionPollMap.remove(session);
+
+        // broadcast all the active users
+        broadcastMessage(getSessionsFromPoll(pollId), messageWrapper(MessageType.pollActiveUsers,
+                Tools.JACKSON.writeValueAsString(getUsersFromPoll(pollId))));
+
     }
 
 

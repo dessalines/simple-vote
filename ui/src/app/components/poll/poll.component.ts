@@ -96,8 +96,6 @@ export class PollComponent implements OnInit {
 
 	websocketCloseWatcher() {
 		this.pollService.ws.onClose(cb => {
-			console.log(cb);
-			console.log(this.websocketSoftClose);
 
 			if (!this.websocketSoftClose) {
 				console.log('ws connection closed');
@@ -114,7 +112,7 @@ export class PollComponent implements OnInit {
 
 	update(dataStr: string) {
 		let msg = JSON.parse(dataStr);
-		console.log(msg);
+
 		switch (msg.message_type) {
 			case MessageType.poll:
 				this.setPoll(msg.data);
@@ -185,9 +183,17 @@ export class PollComponent implements OnInit {
 
 	setPollUsers(data: Array<User>) {
 		this.poll.users = data;
+		Tools.setUserForObj(this.poll, this.poll.users);
 	}
 
 	setPollActiveUsers(data: Array<User>) {
+
+		// first set all users to inactive
+		for (let user of this.poll.users) {
+			user.active = false;
+		}
+
+
 		for (let activeUser of data) {
 
 			// Search existing users
@@ -205,9 +211,10 @@ export class PollComponent implements OnInit {
 			} else {
 				this.poll.users = [activeUser];
 			}
-
-
 		}
+		
+		// Sort by active on top
+		this.poll.users.sort((a, b) => (a.active === b.active)? 0 : a.active? -1 : 1);
 	}
 
 	setPollComments(data: Array<Comment>) {

@@ -16,7 +16,7 @@ export class UserService {
 
 	private user: User;
 
-	private newUserUrl: string = environment.endpoint + 'new_user';
+	private userUrl: string = environment.endpoint + 'user';
 	private jwtHelper: JwtHelper = new JwtHelper();
 
 	constructor(private http: Http,
@@ -47,7 +47,15 @@ export class UserService {
 	createNewUser(nameStr: string): Observable<string> {
 		let name = JSON.stringify({ name: nameStr });
 
-		return this.http.post(this.newUserUrl, name)
+		return this.http.post(this.userUrl, name)
+			.map(r => r.text())
+			.catch(this.handleError);
+	}
+
+	updateUser(nameStr: string): Observable<string> {
+		let info = JSON.stringify({ name: nameStr, user_id: this.user.id });
+
+		return this.http.put(this.userUrl, info)
 			.map(r => r.text())
 			.catch(this.handleError);
 	}
