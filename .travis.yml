@@ -4,8 +4,8 @@ jdk:
 services:
 - postgresql
 before_install:
-- psql -c 'create user simplevote with password "asdf"' -U postgres
-- psql -c 'create database simplevote with owner simplevote' -U postgres
+- psql -c "create user simplevote with password 'asdf'" -U postgres
+- psql -c "create database simplevote with owner simplevote" -U postgres
 - cd service
 after_success:
 - cd ..
