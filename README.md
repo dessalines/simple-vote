@@ -85,7 +85,5 @@ Have a bug or a feature request? If your issue isn't [already listed](https://gi
 
 ## TODO
 
-- Use hashid
 - Set up travis-ci
-- Set up full-install (copies to /html)
 
