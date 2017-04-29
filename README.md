@@ -77,7 +77,7 @@ You can redirect ports in linux to route from port 80 to this port:
 
 `sudo iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 4567`
 
-==========
+---
 
 ## Bugs and feature requests
 Have a bug or a feature request? If your issue isn't [already listed](https://github.com/dessalines/simple-vote/issues/), then open a [new issue here](https://github.com/dessalines/simple-vote/issues/new).
