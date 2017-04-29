@@ -1,5 +1,5 @@
 [SimpleVote](http://simplevote.com) &mdash; An open-source, live updating, voting platform.
----
+==========
 ![](http://img.shields.io/version/0.0.1.png?color=green)
 [![Build Status](https://travis-ci.org/dessalines/simple-vote.svg?branch=master)](https://travis-ci.org/dessalines/simple-vote)
 
@@ -83,7 +83,7 @@ You can redirect ports in linux to route from port 80 to this port:
 Have a bug or a feature request? If your issue isn't [already listed](https://github.com/dessalines/simple-vote/issues/), then open a [new issue here](https://github.com/dessalines/simple-vote/issues/new).
 
 
-## TODO/Refactor
+## TODO
 
 - Use hashid
 - Set up travis-ci

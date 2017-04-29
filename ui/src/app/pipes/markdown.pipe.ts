@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-// import * as markdown_it from 'markdown-it'; TODO
 declare var markdownitEmoji: any;
-import * as markdown_it from 'markdown-it';// var MarkdownIt = require('markdown-it');
+import * as markdown_it from 'markdown-it';
 
 @Pipe({
 	name: 'markdown',

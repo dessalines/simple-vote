@@ -14,8 +14,8 @@ import {
 })
 export class NavbarComponent implements OnInit {
 
-	private collapseNavbar: boolean = true;
-	private showUpdateUserComponent: boolean = false;
+	public collapseNavbar: boolean = true;
+	public showUpdateUserComponent: boolean = false;
 
 	constructor(private userService: UserService,
 		private pollService: PollService,
@@ -39,7 +39,6 @@ export class NavbarComponent implements OnInit {
 
 	changeUserName() {
 		this.showUpdateUserComponent = true;
-		
 	}
 
 	logout() {

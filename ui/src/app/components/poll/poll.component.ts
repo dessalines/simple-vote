@@ -31,9 +31,9 @@ export class PollComponent implements OnInit {
 
 	private pollId: number = null;
 
-	private poll: Poll;
+	public poll: Poll;
 
-	private showDetails: boolean = false;
+	public showDetails: boolean = false;
 
 	private websocketSoftClose: boolean = false;
 
@@ -273,7 +273,6 @@ export class PollComponent implements OnInit {
 	}
 
 	receiveDeletePoll() {
-		// TODO send a toast for poll deleted
 		this.router.navigate(['/']);
 	}
 

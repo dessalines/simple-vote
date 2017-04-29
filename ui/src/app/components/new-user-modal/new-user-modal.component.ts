@@ -18,7 +18,7 @@ export class NewUserModalComponent implements OnInit {
 
 	@Input() createNewUser: boolean = true;
 
-	private name: string;
+	public name: string;
 
 	constructor(private userService: UserService,
 		private cookieService: CookieService) { }
