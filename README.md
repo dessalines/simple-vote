@@ -1,5 +1,5 @@
 [SimpleVote](http://simplevote.com) &mdash; An open-source, live updating, voting platform.
-==========
+---
 ![](http://img.shields.io/version/0.0.1.png?color=green)
 [![Build Status](https://travis-ci.org/dessalines/simple-vote.svg?branch=master)](https://travis-ci.org/dessalines/simple-vote)
 
@@ -29,7 +29,7 @@ Join the subreddit: [/r/simplevote](https://www.reddit.com/r/simplevote/)
 
 [Change log](https://github.com/dessalines/simple-vote/issues/closed)
 
-==========
+---
 
 ## Installation 
 
