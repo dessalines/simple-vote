@@ -13,7 +13,7 @@ export class QuestionComponent implements OnInit {
 
 	@Input() question: Question;
 
-	private showDetails: boolean = false;
+	public showDetails: boolean = false;
 
 	constructor(private pollService: PollService,
 		private userService: UserService) { }

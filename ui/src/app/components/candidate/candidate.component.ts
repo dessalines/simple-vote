@@ -15,8 +15,8 @@ export class CandidateComponent implements OnInit {
 	@Input() expired: boolean;
 	@Input() progressBarStyle: string;
 
-	private showDetails: boolean = false;
-	private backgroundColor: string;
+	public showDetails: boolean = false;
+	public backgroundColor: string;
 
 	constructor(private pollService: PollService,
 		private userService: UserService) { }

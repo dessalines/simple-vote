@@ -2,8 +2,8 @@
 cd ui
 yarn
 ng build -aot
-cd ..
+cp -R dist/ ../service/src/main/resources
 
 # Building the back end
-cd service
+cd ../service
 sh install.sh

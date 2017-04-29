@@ -5,4 +5,4 @@ target/
 .project
 .settings/
 simplevote.iml
-
+src/main/resources/dist/

@@ -52,7 +52,7 @@ public class WebService {
             Tools.runLiquibase();
         }
 
-        staticFiles.location("/public");
+        staticFiles.location("/dist");
         staticFiles.expireTime(600);
 
         // Set up websocket

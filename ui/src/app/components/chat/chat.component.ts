@@ -19,7 +19,7 @@ export class ChatComponent implements OnInit {
 
 	@Input() poll: Poll;
 
-	private comment: string;
+	public comment: string;
 
 
 	constructor(private pollService: PollService) { }
