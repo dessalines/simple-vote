@@ -4,7 +4,7 @@ jdk:
 services:
 - postgresql
 before_install:
-- psql -c 'create database flowchat;' -U postgres
+- psql -c 'create database simplevote;' -U tyler
 - cd service
 after_success:
 - cd ..
