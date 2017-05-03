@@ -3,7 +3,7 @@
     <div class="card mb-3">
       <div class="card-block">
         <h2 class="card-title" *ngIf="!this.poll.editing">
-          <span *ngIf="poll.title">{{poll.title}}</span>
+          <span *ngIf="poll.title" [innerHtml]="poll.title | markdown"></span>
           <span *ngIf="!poll.title">Untitled poll</span>
           <small role="button" (click)="toggleEditing()" *ngIf="poll.editable"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit poll"></i></small>
           <small role="button" (click)="deletePoll()" *ngIf="poll.editable" tooltip="Delete poll"><i class="fa fa-fw fa-trash"></i></small>
