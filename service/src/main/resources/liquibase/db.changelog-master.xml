@@ -9,5 +9,6 @@
     <!-- INCLUDEALL not working right now <includeAll path="src/main/resources/liquibase/changelogs"/>-->
     <include file="src/main/resources/liquibase/changelogs/2017-03-21.1.sql"/>
     <include file="src/main/resources/liquibase/changelogs/2017-04-21.1.sql"/>
+    <include file="src/main/resources/liquibase/changelogs/2017-05-02.1.sql"/>
 
 </databaseChangeLog>

@@ -42,7 +42,10 @@
         </tr>
       </thead>
       <tr *ngFor="let vote of candidate.votes">
-        <td><b>{{vote.user.name}}</b></td>
+        <td>
+          <b *ngIf="!anonymous">{{vote.user.name}}</b>
+          <b *ngIf="anonymous">???</b>
+        </td>
         <td>{{vote.vote}}</td>
       </tr>
     </table>
