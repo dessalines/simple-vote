@@ -19,6 +19,8 @@ Features:
 - Live chat on the sidebar. 
 - Questions can have expiration times, and thresholds (Making sure options with too few votes don't win). 
 - Easily shareable poll links.
+- Image and markdown support for all questions and candidates.
+- Questions can hide voter names(anonymous voting).
 
 Tech used:
 - [Java Spark](https://github.com/perwendel/spark), [Bootstrap v4](https://github.com/twbs/bootstrap), [Angular4](https://github.com/angular/angular), [Angular-cli](https://github.com/angular/angular-cli), [ng2-bootstrap](http://valor-software.com/ng2-bootstrap/), [ActiveJDBC](http://javalite.io/activejdbc), [Liquibase](http://www.liquibase.org/), [Postgres](https://www.postgresql.org/), [Markdown-it](https://github.com/markdown-it/markdown-it), [angular2-toaster](https://github.com/Stabzs/Angular2-Toaster)
