@@ -23,6 +23,12 @@
             name="users_can_add_candidates" [(ngModel)]="question.users_can_add_candidates"> Users can add candidates
         </label>
       </div>
+      <div>
+        <label class="form-check-label">
+          <input disabled type="checkbox" class="form-check-input"
+            name="anonymous" [(ngModel)]="question.anonymous"> Anonymous
+        </label>
+      </div>
     </div>
     <form *ngIf="this.question.editing" (ngSubmit)="updateQuestion()">
       <h4>Edit Question</h4>
@@ -37,6 +43,12 @@
         <label class="form-check-label">
           <input type="checkbox" class="form-check-input" name="users_can_add_candidates"
             [(ngModel)]="question.users_can_add_candidates"> Users can add candidates
+        </label>
+      </div>
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input" name="anonymous"
+            [(ngModel)]="question.anonymous"> Anonymous
         </label>
       </div>
       <div class="form-group row">
@@ -65,8 +77,8 @@
     </form>
     <div *ngIf="!this.question.editing">
       <div *ngFor="let candidate of question.candidates; let i = index">
-        <app-candidate [candidate]="candidate" 
-        [expired]="isExpired()">
+        <app-candidate [candidate]="candidate" [anonymous]="question.anonymous"
+          [expired]="isExpired()">
         </app-candidate>
       </div>
       <button *ngIf="canCreateCandidate() && !isExpired()"

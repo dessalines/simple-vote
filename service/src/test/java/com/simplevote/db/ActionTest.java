@@ -106,10 +106,12 @@ public class ActionTest {
                 "garpfish",
                 null,
                 90,
-                null);
+                null,
+                true);
         assertTrue(q.getString("title").equals("garpfish"));
         assertTrue(q.getTimestamp("expire_time") == null);
         assertTrue(q.getInteger("threshold").equals(90));
+        assertTrue(q.getBoolean("anonymous").equals(true));
 
 
         // Make sure it was deleted

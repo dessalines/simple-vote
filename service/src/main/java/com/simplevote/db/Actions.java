@@ -74,14 +74,16 @@ public class Actions {
                 "user_id", userId,
                 "poll_id", pollId,
                 "threshold", 30,
-                "users_can_add_candidates", true);
+                "users_can_add_candidates", true,
+                "anonymous", false);
     }
 
     public static Tables.Question updateQuestion(Long questionId,
                                                  String title,
                                                  Long expireTime,
                                                  Integer threshold,
-                                                 Boolean usersCanAddCandidates) {
+                                                 Boolean usersCanAddCandidates,
+                                                 Boolean anonymous) {
         Tables.Question q = Tables.Question.findById(questionId);
 
         // TODO do userCanAddCandidates validation on front end
@@ -90,6 +92,8 @@ public class Actions {
         if (expireTime != null) q.set("expire_time", new Timestamp(expireTime));
         if (threshold != null) q.set("threshold", threshold);
         if (usersCanAddCandidates != null) q.set("users_can_add_candidates", usersCanAddCandidates);
+        if (anonymous != null) q.set("anonymous", anonymous);
+
         q.saveIt();
 
         return q;
