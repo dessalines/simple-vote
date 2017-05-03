@@ -16,7 +16,11 @@ export class MarkdownPipe implements PipeTransform {
 	}
 
 	transform(value: string): any {
-		return this.markdownIt.renderInline(value);
+		let md = this.markdownIt.renderInline(value);
+		if (md.includes('<img')) {
+			md = md.slice(0, 4) + ' class="img-fluid" ' + md.slice(4);
+		}
+		return md;
 	}
 
 }

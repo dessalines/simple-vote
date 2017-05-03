@@ -1,6 +1,6 @@
 <div class="mb-3">
   <p class="mb-1" *ngIf="!this.candidate.editing">
-    <span *ngIf="candidate.title">{{candidate.title}}</span>
+    <span *ngIf="candidate.title" [innerHtml]="candidate.title | markdown"></span>
     <span *ngIf="!candidate.title">Untitled candidate</span>
     <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable && !expired"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit option"></i></small>
     <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable && !expired" tooltip="Delete option"><i class="fa fa-fw fa-trash"></i></small>

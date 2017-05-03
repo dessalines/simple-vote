@@ -1,7 +1,7 @@
 <div class="card mb-3">
   <div class="card-block">
     <h4 class="card-title" *ngIf="!this.question.editing">
-      <span *ngIf="question.title">{{question.title}}</span>
+      <span *ngIf="question.title" [innerHtml]="question.title | markdown"></span>
       <span *ngIf="!question.title">Untitled question</span>
       <small role="button" (click)="toggleEditing()" *ngIf="question.editable" tooltip="Edit question"><i class="fa fa-fw fa-pencil-square-o"></i></small>
       <small role="button" (click)="deleteQuestion()" *ngIf="question.editable" tooltip="Delete question"><i class="fa fa-fw fa-trash"></i></small>
