@@ -7,6 +7,8 @@ import {
 	UserService
 } from '../../services';
 
+import * as Hashids from 'hashids';
+
 @Component({
 	selector: 'app-navbar',
 	templateUrl: './navbar.component.html',
@@ -17,6 +19,8 @@ export class NavbarComponent implements OnInit {
 	public collapseNavbar: boolean = true;
 	public showUpdateUserComponent: boolean = false;
 
+	private hashids: any;
+
 	constructor(private userService: UserService,
 		private pollService: PollService,
 		private route: ActivatedRoute,
@@ -24,6 +28,7 @@ export class NavbarComponent implements OnInit {
 		private cookieService: CookieService) { }
 
 	ngOnInit() {
+		this.hashids = new Hashids();
 	}
 
 	toggleCollapseNavbar() {
@@ -32,8 +37,8 @@ export class NavbarComponent implements OnInit {
 
 	createPoll() {
 		this.pollService.createPoll().subscribe(p => {
-			console.log(p);
-			this.router.navigate(['/poll', p.id]);
+			let hashId = this.hashids.encode(p.id);
+			this.router.navigate(['/poll', hashId]);
 		});
 	}
 

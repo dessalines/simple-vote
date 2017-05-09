@@ -19,6 +19,8 @@ import {
 	Tools
 } from '../../shared';
 
+import * as Hashids from 'hashids';
+
 @Component({
 	selector: 'app-poll',
 	templateUrl: './poll.component.html',
@@ -28,6 +30,7 @@ export class PollComponent implements OnInit {
 
 	private paramsSub: any;
 	private pollSub: any;
+	private hashids: any;
 
 	private pollId: number = null;
 
@@ -45,6 +48,7 @@ export class PollComponent implements OnInit {
 		private router: Router) { }
 
 	ngOnInit() {
+		this.hashids = new Hashids();
 	}
 
 	toggleDetails() {
@@ -67,7 +71,8 @@ export class PollComponent implements OnInit {
 
 	init() {
 		this.paramsSub = this.route.params.subscribe(params => {
-			this.pollId = +params["pollId"];
+			let hashId = params["pollId"];
+			this.pollId = this.hashids.decode(hashId);
 			this.pollService.connect(this.pollId);
 
 			this.websocketCloseWatcher();
