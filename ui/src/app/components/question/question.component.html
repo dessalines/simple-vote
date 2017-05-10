@@ -29,6 +29,13 @@
             name="anonymous" [(ngModel)]="question.anonymous"> Anonymous
         </label>
       </div>
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label">Type</label>
+        <div class="btn-group col-md-8">
+          <label class="btn btn-secondary" [class.active]="question.question_type_id==1">Range</label>
+          <label class="btn btn-secondary" [class.active]="question.question_type_id==2">Pointing Poker</label>
+        </div>
+      </div>
     </div>
     <form *ngIf="this.question.editing" (ngSubmit)="updateQuestion()">
       <h4>Edit Question</h4>
@@ -50,6 +57,15 @@
           <input type="checkbox" class="form-check-input" name="anonymous"
             [(ngModel)]="question.anonymous"> Anonymous
         </label>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label">Type</label>
+        <div class="btn-group col-md-8">
+          <label class="btn btn-secondary" name="range_btn" [class.active]="question.question_type_id==1"
+            (click)="question.question_type_id = 1">Range</label>
+          <label class="btn btn-secondary" name="pp_btn" [class.active]="question.question_type_id==2"
+            (click)="question.question_type_id = 2">Pointing Poker</label>
+        </div>
       </div>
       <div class="form-group row">
         <label class="col-md-4 col-form-label">
@@ -78,7 +94,7 @@
     <div *ngIf="!this.question.editing">
       <div *ngFor="let candidate of question.candidates; let i = index">
         <app-candidate [candidate]="candidate" [anonymous]="question.anonymous"
-          [expired]="isExpired()">
+          [expired]="isExpired()" [questionType]="question.question_type_id">
         </app-candidate>
       </div>
       <button *ngIf="canCreateCandidate() && !isExpired()"

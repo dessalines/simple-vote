@@ -3,23 +3,56 @@
     <span *ngIf="candidate.title" [innerHtml]="candidate.title | markdown"></span>
     <span *ngIf="!candidate.title">Untitled candidate</span>
     <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable && !expired"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit option"></i></small>
-    <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable && !expired" tooltip="Delete option"><i class="fa fa-fw fa-trash"></i></small>
+    <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable && !expired"
+      tooltip="Delete option"><i class="fa fa-fw fa-trash"></i></small>
     <small role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
-    <small *ngIf="foundVote() && !expired" role="button" (click)="deleteVote()" tooltip="Clear vote"><i class="fa fa-fw fa-times"></i></small>
+    <small *ngIf="foundVote() && !expired" role="button"
+      (click)="deleteVote()" tooltip="Clear vote"><i class="fa fa-fw fa-times"></i></small>
   </p>
-  <ng-template #popTemplate><div [innerHtml]="dynamicTooltip()"></div></ng-template>
-  <div *ngIf="!this.candidate.editing" class="progress" [tooltip]="popTemplate">
-    <div class="progress-bar" role="progressbar" [style.background-color]="backgroundColor" [style.width.%]="candidate.avg_score">
-      <span *ngIf="candidate.avg_score">
-        	Score: {{candidate.avg_score.toFixed(0)}}
+  <ng-template #popTemplate>
+    <div [innerHtml]="dynamicTooltip()"></div>
+  </ng-template>
+  <div *ngIf="!this.candidate.editing">
+    <div *ngIf="questionType == 1" class="progress" [tooltip]="popTemplate">
+      <div class="progress-bar" role="progressbar" [style.background-color]="backgroundColor"
+        [style.width.%]="candidate.avg_score">
+        <span *ngIf="candidate.avg_score">
+          Score: {{candidate.avg_score.toFixed(0)}}
         </span>
+      </div>
+      <input class="vote_input" [value]="findMyVote()" (value)="createOrUpdateVote($event.target.value)"
+        (mouseup)="createOrUpdateVote($event.target.value)"
+        (touchend)="createOrUpdateVote($event.target.value)"
+        type="range" min="0" max="100" step="1" value="100"
+        [disabled]="expired" />
     </div>
-    <input class="vote_input" [value]="findMyVote()" (value)="createOrUpdateVote($event.target.value)"
-      (mouseup)="createOrUpdateVote($event.target.value)"
-      (touchend)="createOrUpdateVote($event.target.value)"
-      type="range" min="0" max="100" step="1" value="100"
-      [disabled]="expired"
-    />
+    <div *ngIf="questionType == 2">
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label">
+          <span *ngIf="candidate.avg_score">Average: {{candidate.avg_score.toFixed(1)}}</span>
+        </label>
+        <div class="btn-group col-md-9">
+          <label class="btn btn-secondary" [class.active]="findMyVote()==0"
+            (click)="createOrUpdateVote(0)">0</label>
+          <label class="btn btn-secondary" [class.active]="findMyVote()==1"
+            (click)="createOrUpdateVote(1)">1</label>
+            <label class="btn btn-secondary" [class.active]="findMyVote()==3"
+            (click)="createOrUpdateVote(3)">3</label>
+            <label class="btn btn-secondary" [class.active]="findMyVote()==5"
+            (click)="createOrUpdateVote(5)">5</label>
+            <label class="btn btn-secondary"  [class.active]="findMyVote()==8"
+            (click)="createOrUpdateVote(8)">8</label>
+            <label class="btn btn-secondary" [class.active]="findMyVote()==13"
+            (click)="createOrUpdateVote(13)">13</label>
+            <label class="btn btn-secondary" [class.active]="findMyVote()==20"
+            (click)="createOrUpdateVote(20)">20</label>
+            <label class="btn btn-secondary" [class.active]="findMyVote()==40"
+            (click)="createOrUpdateVote(40)">40</label>
+            <label class="btn btn-secondary" [class.active]="findMyVote()==100"
+            (click)="createOrUpdateVote(100)">100</label>
+        </div>
+      </div>
+    </div>
   </div>
   <form *ngIf="this.candidate.editing" (ngSubmit)="updateCandidate()">
     <div class="form-group">

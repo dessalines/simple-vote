@@ -1,6 +1,6 @@
 [SimpleVote](http://simplevote.com) &mdash; An open-source, live updating, voting platform.
 ==========
-![](http://img.shields.io/version/1.0.0.png?color=green)
+![](http://img.shields.io/version/1.1.0.png?color=green)
 [![Build Status](https://travis-ci.org/dessalines/simple-vote.svg?branch=master)](https://travis-ci.org/dessalines/simple-vote)
 
 <!---
@@ -21,6 +21,7 @@ Features:
 - Easily shareable poll links.
 - Image and markdown support for all questions and candidates.
 - Questions can hide voter names(anonymous voting).
+- Questions can be either Range, or Pointing Poker style.
 
 Tech used:
 - [Java Spark](https://github.com/perwendel/spark), [Bootstrap v4](https://github.com/twbs/bootstrap), [Angular4](https://github.com/angular/angular), [Angular-cli](https://github.com/angular/angular-cli), [ng2-bootstrap](http://valor-software.com/ng2-bootstrap/), [ActiveJDBC](http://javalite.io/activejdbc), [Liquibase](http://www.liquibase.org/), [Postgres](https://www.postgresql.org/), [Markdown-it](https://github.com/markdown-it/markdown-it), [angular2-toaster](https://github.com/Stabzs/Angular2-Toaster)

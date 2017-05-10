@@ -2,6 +2,7 @@ package com.simplevote.db;
 
 import com.auth0.jwt.JWT;
 import com.simplevote.tools.Tools;
+import com.simplevote.types.QuestionType;
 import com.simplevote.types.User;
 import org.javalite.activejdbc.LazyList;
 
@@ -75,7 +76,8 @@ public class Actions {
                 "poll_id", pollId,
                 "threshold", 30,
                 "users_can_add_candidates", true,
-                "anonymous", false);
+                "anonymous", false,
+                "question_type_id", QuestionType.Range.ordinal());
     }
 
     public static Tables.Question updateQuestion(Long questionId,
@@ -83,7 +85,8 @@ public class Actions {
                                                  Long expireTime,
                                                  Integer threshold,
                                                  Boolean usersCanAddCandidates,
-                                                 Boolean anonymous) {
+                                                 Boolean anonymous,
+                                                 Integer questionTypeId) {
         Tables.Question q = Tables.Question.findById(questionId);
 
         // TODO do userCanAddCandidates validation on front end
@@ -93,6 +96,7 @@ public class Actions {
         if (threshold != null) q.set("threshold", threshold);
         if (usersCanAddCandidates != null) q.set("users_can_add_candidates", usersCanAddCandidates);
         if (anonymous != null) q.set("anonymous", anonymous);
+        if (questionTypeId != null) q.set("question_type_id", questionTypeId);
 
         q.saveIt();
 

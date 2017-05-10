@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 
 // 3rd party
 import { CookieModule } from 'ngx-cookie';
-import { ModalModule, TooltipModule } from 'ngx-bootstrap';
+import { ModalModule, TooltipModule, ButtonsModule } from 'ngx-bootstrap';
 
 // Project libs
 import { AppRoutingModule } from './app.routing';
@@ -50,7 +50,8 @@ import {
     // 3rd party libs
     CookieModule.forRoot(),
     ModalModule.forRoot(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    ButtonsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Candidate, Tools, MessageType, Vote } from '../../shared';
+import { Candidate, Tools, MessageType, Vote, QuestionType } from '../../shared';
 
 import { PollService, UserService } from '../../services';
 
@@ -14,6 +14,7 @@ export class CandidateComponent implements OnInit {
 	@Input() candidate: Candidate;
 	@Input() expired: boolean;
 	@Input() anonymous: boolean;
+	@Input() questionType: QuestionType;
 
 	public showDetails: boolean = false;
 	public backgroundColor: string;
@@ -22,7 +23,7 @@ export class CandidateComponent implements OnInit {
 		private userService: UserService) { }
 
 	ngOnInit() {
-		this.backgroundColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);;
+		this.backgroundColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
 	}
 
 	ngOnChanges(changes: any) {
