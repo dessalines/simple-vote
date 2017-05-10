@@ -1,4 +1,4 @@
-[SimpleVote](http://simplevote.com) &mdash; An open-source, live updating, voting platform.
+[SimpleVote](http://simplevote.ml) &mdash; An open-source, live updating, voting platform.
 ==========
 ![](http://img.shields.io/version/1.1.0.png?color=green)
 [![Build Status](https://travis-ci.org/dessalines/simple-vote.svg?branch=master)](https://travis-ci.org/dessalines/simple-vote)
@@ -7,7 +7,7 @@
 
 -->
 
-[SimpleVote](http://simplevote.com) is an open-source, self-hostable, **live-updating** voting/polling platform, for both live meetings, or extended polls. 
+[SimpleVote](http://simplevote.ml) is an open-source, self-hostable, **live-updating** voting/polling platform, for both live meetings, or extended polls. 
 
 Polls can be dynamic, meaning users can(*if allowed*) contribute options and questions themselves.
 
@@ -26,7 +26,7 @@ Features:
 Tech used:
 - [Java Spark](https://github.com/perwendel/spark), [Bootstrap v4](https://github.com/twbs/bootstrap), [Angular4](https://github.com/angular/angular), [Angular-cli](https://github.com/angular/angular-cli), [ng2-bootstrap](http://valor-software.com/ng2-bootstrap/), [ActiveJDBC](http://javalite.io/activejdbc), [Liquibase](http://www.liquibase.org/), [Postgres](https://www.postgresql.org/), [Markdown-it](https://github.com/markdown-it/markdown-it), [angular2-toaster](https://github.com/Stabzs/Angular2-Toaster)
 
-Check out a sample poll [here](http://simplevote.com/#/poll/jR).
+Check out a sample poll [here](http://simplevote.ml/#/poll/jR).
 
 Join the subreddit: [/r/simplevote](https://www.reddit.com/r/simplevote/)
 
