@@ -10,6 +10,7 @@ export interface Question {
 	threshold: number;
 	users_can_add_candidates: boolean;
 	anonymous: boolean;
+	question_type_id: number;
 	created: number;
 	candidates?: Array<Candidate>;
 	editable?: boolean;

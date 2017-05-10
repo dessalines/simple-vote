@@ -238,13 +238,16 @@ public class PollWebSocket {
         Integer threshold = (Tools.notNull(data.get("threshold"))) ? data.get("threshold").asInt() : null;
         Boolean usersCanAddCandidates = (Tools.notNull(data.get("users_can_add_candidates"))) ? data.get("users_can_add_candidates").asBoolean() : null;
         Boolean anonymous = (Tools.notNull(data.get("anonymous"))) ? data.get("anonymous").asBoolean() : null;
+        Integer questionTypeId = (Tools.notNull(data.get("question_type_id"))) ? data.get("question_type_id").asInt() : null;
+
 
         Tables.Question q = Actions.updateQuestion(questionId,
                 title,
                 expireTime,
                 threshold,
                 usersCanAddCandidates,
-                anonymous);
+                anonymous,
+                questionTypeId);
 
         broadcastMessage(getSessionsFromPoll(pollId),
                 messageWrapper(MessageType.updateQuestion, q.toJson(false)));

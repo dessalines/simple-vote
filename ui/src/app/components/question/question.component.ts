@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Question, Tools, MessageType } from '../../shared';
+import { Question, Tools, MessageType, QuestionType } from '../../shared';
 
 import { PollService, UserService } from '../../services';
 

@@ -5,6 +5,7 @@ import ch.qos.logback.classic.Logger;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.simplevote.tools.Tools;
+import com.simplevote.types.QuestionType;
 import com.simplevote.types.User;
 import org.junit.After;
 import org.junit.Before;
@@ -107,11 +108,14 @@ public class ActionTest {
                 null,
                 90,
                 null,
-                true);
+                true,
+                QuestionType.Range.ordinal());
+
         assertTrue(q.getString("title").equals("garpfish"));
         assertTrue(q.getTimestamp("expire_time") == null);
         assertTrue(q.getInteger("threshold").equals(90));
         assertTrue(q.getBoolean("anonymous").equals(true));
+        assertTrue(q.getInteger("question_type_id").equals(1));
 
 
         // Make sure it was deleted
