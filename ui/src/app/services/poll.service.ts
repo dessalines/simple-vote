@@ -48,7 +48,6 @@ export class PollService {
 			this.ws.send(data);
 		} catch (e) {
 			console.log('aaaah I died');
-			alert('DERP');
 			console.log(e);
 		}
 	}

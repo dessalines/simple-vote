@@ -56,39 +56,53 @@ public class PollWebSocket {
         sessionPollMap.put(session, pollId);
 
         // Send the poll
-        sendMessage(session, messageWrapper(MessageType.poll,
-                Actions.getPoll(pollId).toJson(false)));
+        sendMessage(session,
+                messageWrapper(
+                        MessageType.poll,
+                        Actions.getPoll(pollId).toJson(false)));
 
         // Send them all the users
-        sendMessage(session, messageWrapper(MessageType.pollUsers,
-                Actions.getPollUsers(pollId).toJson(false)));
+        sendMessage(session,
+                messageWrapper(
+                        MessageType.pollUsers,
+                        Actions.getPollUsers(pollId).toJson(false)));
 
         // broadcast all the active users
         userPollMap.put(getUserFromSession(session), pollId);
-        broadcastMessage(getSessionsFromPoll(pollId), messageWrapper(MessageType.pollActiveUsers,
-                Tools.JACKSON.writeValueAsString(getUsersFromPoll(pollId))));
+        broadcastMessage(getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.pollActiveUsers,
+                        Tools.JACKSON.writeValueAsString(getUsersFromPoll(pollId))));
 
         // Send comments
-        sendMessage(session, messageWrapper(MessageType.pollComments,
-                Actions.getPollComments(pollId).toJson(false)));
+        sendMessage(session,
+                messageWrapper(
+                        MessageType.pollComments,
+                        Actions.getPollComments(pollId).toJson(false)));
 
         // Send the questions, collect up the IDs
         LazyList<Tables.Question> questions = Actions.getPollQuestions(pollId);
         List<Long> questionIds = questions.collect("id");
-        sendMessage(session, messageWrapper(MessageType.pollQuestions,
-                questions.toJson(false)));
+        sendMessage(session,
+                messageWrapper(
+                        MessageType.pollQuestions,
+                        questions.toJson(false)));
 
 
         // Send the candidates
         LazyList<Tables.Candidate> candidates = Actions.getPollCandidates(questionIds);
         List<Long> candidateIds = candidates.collect("id");
-        sendMessage(session, messageWrapper(MessageType.pollCandidates,
-                candidates.toJson(false)));
+        sendMessage(session,
+                messageWrapper(
+                        MessageType.pollCandidates,
+                        candidates.toJson(false)));
 
         // Send the votes
         LazyList<Tables.Vote> votes = Actions.getPollVotes(candidateIds);
-        sendMessage(session, messageWrapper(MessageType.pollVotes,
-                votes.toJson(false)));
+        sendMessage(session,
+                messageWrapper(
+                        MessageType.pollVotes,
+                        votes.toJson(false)));
 
 
         Tools.dbClose();
@@ -158,8 +172,11 @@ public class PollWebSocket {
         sessionPollMap.remove(session);
 
         // broadcast all the active users
-        broadcastMessage(getSessionsFromPoll(pollId), messageWrapper(MessageType.pollActiveUsers,
-                Tools.JACKSON.writeValueAsString(getUsersFromPoll(pollId))));
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.pollActiveUsers,
+                        Tools.JACKSON.writeValueAsString(getUsersFromPoll(pollId))));
 
     }
 
@@ -174,8 +191,11 @@ public class PollWebSocket {
 
         Tables.Comment c = Actions.createComment(userId, pollId, data.get("comment").asText());
 
-        broadcastMessage(getSessionsFromPoll(pollId),
-                messageWrapper(MessageType.createComment, c.toJson(false)));
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.createComment,
+                        c.toJson(false)));
 
     }
 
@@ -191,16 +211,21 @@ public class PollWebSocket {
 
         Tables.Poll p = Actions.updatePoll(pollId, title, usersCanAddQuestions);
 
-        broadcastMessage(getSessionsFromPoll(pollId),
-                messageWrapper(MessageType.updatePoll, p.toJson(false)));
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.updatePoll,
+                        p.toJson(false)));
     }
 
     public void deletePoll(Session session) {
         Long pollId = getPollIdFromSession(session);
         Actions.deletePoll(pollId);
 
-        broadcastMessage(getSessionsFromPoll(pollId),
-                messageWrapper(MessageType.deletePoll, null));
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.deletePoll, null));
     }
 
     public void createQuestion(Session session) {
@@ -209,8 +234,11 @@ public class PollWebSocket {
 
         Tables.Question q = Actions.createQuestion(userId, pollId);
 
-        broadcastMessage(getSessionsFromPoll(pollId),
-                messageWrapper(MessageType.createQuestion, q.toJson(false)));
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.createQuestion,
+                        q.toJson(false)));
 
     }
 
@@ -219,8 +247,11 @@ public class PollWebSocket {
         Long questionId = data.get("question_id").asLong();
         Actions.deleteQuestion(questionId);
 
-        broadcastMessage(getSessionsFromPoll(pollId),
-                messageWrapper(MessageType.deleteQuestion, data.toString()));
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.deleteQuestion,
+                        data.toString()));
 
     }
 
@@ -249,8 +280,11 @@ public class PollWebSocket {
                 anonymous,
                 questionTypeId);
 
-        broadcastMessage(getSessionsFromPoll(pollId),
-                messageWrapper(MessageType.updateQuestion, q.toJson(false)));
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.updateQuestion,
+                        q.toJson(false)));
     }
 
     public void createCandidate(Session session, JsonNode data) {
@@ -260,8 +294,11 @@ public class PollWebSocket {
 
         Tables.Candidate c = Actions.createCandidate(userId, questionId);
 
-        broadcastMessage(getSessionsFromPoll(pollId),
-                messageWrapper(MessageType.createCandidate, c.toJson(false)));
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.createCandidate,
+                        c.toJson(false)));
     }
 
     public void deleteCandidate(Session session, JsonNode data) {
@@ -269,8 +306,11 @@ public class PollWebSocket {
         Long candidateId = data.get("candidate_id").asLong();
         Actions.deleteCandidate(candidateId);
 
-        broadcastMessage(getSessionsFromPoll(pollId),
-                messageWrapper(MessageType.deleteCandidate, data.toString()));
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.deleteCandidate,
+                        data.toString()));
 
     }
 
@@ -282,8 +322,11 @@ public class PollWebSocket {
 
         Tables.Candidate c = Actions.updateCandidate(candidateId, title);
 
-        broadcastMessage(getSessionsFromPoll(pollId),
-                messageWrapper(MessageType.updateCandidate, c.toJson(false)));
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.updateCandidate,
+                        c.toJson(false)));
     }
 
     public void createOrUpdateVote(Session session, JsonNode data) {
@@ -298,8 +341,11 @@ public class PollWebSocket {
         newData.put("created", v.getLong("created"));
 
         // Forward the data instead of the vote, since it has questionId, helps for searching
-        broadcastMessage(getSessionsFromPoll(pollId),
-                messageWrapper(MessageType.createOrUpdateVote, newData.toString()));
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.createOrUpdateVote,
+                        newData.toString()));
     }
 
     public void deleteVote(Session session, JsonNode data) {
@@ -308,8 +354,11 @@ public class PollWebSocket {
         Long candidateId = data.get("candidate_id").asLong();
         Actions.deleteVote(userId, candidateId);
 
-        broadcastMessage(getSessionsFromPoll(pollId),
-                messageWrapper(MessageType.deleteVote, data.toString()));
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.deleteVote,
+                        data.toString()));
 
     }
 
