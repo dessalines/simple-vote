@@ -1,4 +1,4 @@
-import { MessageType , User, Candidate, Question } from './';
+import { MessageType, User, Candidate, Question } from './';
 
 export class Tools {
 
@@ -16,7 +16,7 @@ export class Tools {
 
 	static setCandidateAvgScore(c: Candidate) {
 		if (c.votes && c.votes.length) {
-			c.avg_score = c.votes.map(v => v.vote).reduce((v1, v2) => v1 + v2)/c.votes.length;
+			c.avg_score = c.votes.map(v => v.vote).reduce((v1, v2) => v1 + v2) / c.votes.length;
 		} else {
 			c.avg_score = undefined;
 		}
@@ -33,14 +33,30 @@ export class Tools {
 		let threshold = maxVotes * q.threshold / 100;
 
 		q.candidates.sort((a, b) => {
-			let meetsThreshold: boolean = (b.votes) ? b.votes.length > threshold : true;
+
+			// If there is no average
 			if (b.avg_score === undefined) {
 				return -1;
 			}
 			if (a.avg_score === undefined) {
 				return 1;
 			}
-			return (a.avg_score == b.avg_score) ? 0 : +(meetsThreshold && a.avg_score < b.avg_score) || -1
+
+			let aMeetsThreshold: boolean = (a.votes) ? a.votes.length > threshold : true;
+			let bMeetsThreshold: boolean = (b.votes) ? b.votes.length > threshold : true;
+
+			// The special cases for not meeting the threshold
+			if (aMeetsThreshold && bMeetsThreshold) {
+				let calc = (a.avg_score == b.avg_score) ? 0 : +(a.avg_score < b.avg_score) || -1;
+				return calc;
+			} else if (aMeetsThreshold && !bMeetsThreshold) {
+				return -1;
+			} else if (bMeetsThreshold && !aMeetsThreshold) {
+				return 1;
+			} else if (!aMeetsThreshold && !bMeetsThreshold) {
+				return 0;
+			}
+
 		});
 	}
 }
