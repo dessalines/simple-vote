@@ -91,13 +91,16 @@ export class CandidateComponent implements OnInit {
 			}));
 	}
 
-	dynamicTooltip(): string {
-		let myVote: string = (this.foundVote()) ? this.foundVote().vote.toString() : 'none';
-		let avg: string = (this.candidate.avg_score !== undefined) ? this.candidate.avg_score.toFixed(2).toString() : 'none';
-		let count: string = (this.candidate.votes) ? this.candidate.votes.length.toString() : 'none';
-		return 'Your vote: ' + myVote
-			+ '<br>' + 'Average score: ' + avg 
-			+ '<br>' + '# of votes: ' + count;
+	myVote(): string {
+		return (this.foundVote()) ? (this.foundVote().vote/10).toString() : 'none';
+	}
+
+	voteAvg(decimals: number = 2): string {
+		return (this.candidate.avg_score !== undefined) ? (this.candidate.avg_score/10).toFixed(decimals).toString() : 'none';
+	}
+
+	voteCount(): string {
+		return (this.candidate.votes) ? this.candidate.votes.length.toString() : 'none';
 	}
 
 }
