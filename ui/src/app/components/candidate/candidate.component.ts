@@ -4,6 +4,8 @@ import { Candidate, Tools, MessageType, Vote, QuestionType } from '../../shared'
 
 import { PollService, UserService } from '../../services';
 
+import {randomColor} from 'randomcolor';
+
 @Component({
 	selector: 'app-candidate',
 	templateUrl: './candidate.component.html',
@@ -23,7 +25,7 @@ export class CandidateComponent implements OnInit {
 		private userService: UserService) { }
 
 	ngOnInit() {
-		this.backgroundColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+		this.backgroundColor = randomColor();
 	}
 
 	ngOnChanges(changes: any) {
