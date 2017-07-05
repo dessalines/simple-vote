@@ -303,9 +303,9 @@ export class PollComponent implements OnInit {
 	}
 
 	setEditable(data: any, editing: boolean = false) {
-		if (data.user_id == this.userService.getUser().id) {
+		if (data.user_id == this.userService.getUser().id || this.poll.user_id == this.userService.getUser().id) {
 			data.editable = true;
-			if (editing) {
+			if (data.user_id == this.userService.getUser().id && editing) {
 				data.editing = true;
 			}
 		}
