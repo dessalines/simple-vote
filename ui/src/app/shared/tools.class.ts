@@ -28,6 +28,7 @@ export class Tools {
 			if (c.votes && c.votes.length > maxVotes) {
 				maxVotes = c.votes.length;
 			}
+			c.meetsThreshold = true;
 		});
 
 		let threshold = maxVotes * q.threshold / 100;
