@@ -37,6 +37,7 @@ export class PollComponent implements OnInit {
 	public poll: Poll;
 
 	public showDetails: boolean = false;
+	public showHelp: boolean = false;
 
 	private websocketSoftClose: boolean = false;
 
@@ -53,6 +54,10 @@ export class PollComponent implements OnInit {
 
 	toggleDetails() {
 		this.showDetails = !this.showDetails;
+	}
+
+	toggleHelp() {
+		this.showHelp = !this.showHelp;
 	}
 
 	toggleEditing() {
