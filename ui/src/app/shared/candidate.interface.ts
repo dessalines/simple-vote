@@ -9,6 +9,7 @@ export interface Candidate {
 	created: number;
 	votes?: Array<Vote>;
 	avg_score?: number;
+	meetsThreshold?: boolean;
 	editable?: boolean;
 	editing?: boolean;
 }

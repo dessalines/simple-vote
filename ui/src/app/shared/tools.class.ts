@@ -42,18 +42,18 @@ export class Tools {
 				return 1;
 			}
 
-			let aMeetsThreshold: boolean = (a.votes) ? a.votes.length > threshold : true;
-			let bMeetsThreshold: boolean = (b.votes) ? b.votes.length > threshold : true;
+			a.meetsThreshold = (a.votes) ? a.votes.length > threshold : true;
+			b.meetsThreshold = (b.votes) ? b.votes.length > threshold : true;
 
 			// The special cases for not meeting the threshold
-			if (aMeetsThreshold && bMeetsThreshold) {
+			if (a.meetsThreshold && b.meetsThreshold) {
 				let calc = (a.avg_score == b.avg_score) ? 0 : +(a.avg_score < b.avg_score) || -1;
 				return calc;
-			} else if (aMeetsThreshold && !bMeetsThreshold) {
+			} else if (a.meetsThreshold && !b.meetsThreshold) {
 				return -1;
-			} else if (bMeetsThreshold && !aMeetsThreshold) {
+			} else if (b.meetsThreshold && !a.meetsThreshold) {
 				return 1;
-			} else if (!aMeetsThreshold && !bMeetsThreshold) {
+			} else if (!a.meetsThreshold && !b.meetsThreshold) {
 				return 0;
 			}
 
