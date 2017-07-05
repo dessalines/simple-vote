@@ -2,22 +2,22 @@
   <p class="mb-1" *ngIf="!this.candidate.editing">
     <span *ngIf="candidate.title" [innerHtml]="candidate.title | markdown"></span>
     <span *ngIf="!candidate.title">Untitled candidate</span>
+    <span *ngIf="candidate.avg_score" class="text-muted">
+      <span *ngIf="foundVote()">Your Vote: {{myVote()}} | </span>
+      <span>Score: {{voteAvg(1)}} | </span>
+      <span>{{voteCount()}} Votes</span>
+    </span>
     <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable && !expired"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit option"></i></small>
     <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable && !expired" tooltip="Delete option"><i class="fa fa-fw fa-trash"></i></small>
     <small role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
     <small *ngIf="foundVote() && !expired" role="button" (click)="deleteVote()" tooltip="Clear vote"><i class="fa fa-fw fa-times"></i></small>
   </p>
-  <ng-template #popTemplate>
-    <div [innerHtml]="dynamicTooltip()"></div>
-  </ng-template>
   <div *ngIf="!this.candidate.editing">
-    <div *ngIf="questionType == 1" class="progress" [tooltip]="popTemplate">
+    <div *ngIf="questionType == 1" class="progress">
       <div class="progress-bar" role="progressbar" [style.background-color]="backgroundColor" [style.width.%]="candidate.avg_score">
-        <span *ngIf="candidate.avg_score">
-          Score: {{candidate.avg_score.toFixed(0)}}
-        </span>
+
       </div>
-      <input class="vote_input" [value]="findMyVote()" (value)="createOrUpdateVote($event.target.value)" (mouseup)="createOrUpdateVote($event.target.value)" (touchend)="createOrUpdateVote($event.target.value)" type="range" min="0" max="100" step="1" value="100" [disabled]="expired" />
+      <input class="vote_input" [value]="findMyVote()" (value)="createOrUpdateVote($event.target.value)" (mouseup)="createOrUpdateVote($event.target.value)" (touchend)="createOrUpdateVote($event.target.value)" type="range" min="0" max="100" step="5" value="100" [disabled]="expired" />
     </div>
     <div *ngIf="questionType == 2">
       <div class="form-group row">
