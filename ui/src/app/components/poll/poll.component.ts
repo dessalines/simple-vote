@@ -414,16 +414,17 @@ export class PollComponent implements OnInit {
 
 	receiveDeleteVote(data: any) {
 
+
 		// Find the index
 		let questionIndex = this.poll.questions.findIndex(q => q.id == data.question_id);
 		let question = this.poll.questions[questionIndex];
 		let candidateIndex = question.candidates.findIndex(c => c.id == data.candidate_id);
 		let candidate = question.candidates[candidateIndex];
 		let votes = candidate.votes;
-		let voteIndex = votes.findIndex(v => v.id == data.id);
+		let voteIndex = votes.findIndex(v => v.user_id == data.user_id);
 
 		// Remove the vote
-		votes.splice(voteIndex);
+		votes.splice(voteIndex, 1);
 
 		// Set the candidate average score
 		Tools.setCandidateAvgScore(candidate);
