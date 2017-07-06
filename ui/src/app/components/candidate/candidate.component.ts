@@ -89,7 +89,7 @@ export class CandidateComponent implements OnInit {
 			{
 				candidate_id: this.candidate.id,
 				question_id: this.candidate.question_id,
-				user_id: this.candidate.user_id,
+				user_id: Number(this.userService.getUser().id),
 			}));
 	}
 
