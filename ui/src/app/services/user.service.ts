@@ -5,11 +5,9 @@ import 'rxjs/add/observable/throw';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
-
 import { JwtHelper } from 'angular2-jwt';
-import { CookieService } from 'ngx-cookie';
 
-import { User } from '../shared';
+import { User, Tools } from '../shared';
 
 @Injectable()
 export class UserService {
@@ -19,13 +17,12 @@ export class UserService {
 	private userUrl: string = environment.endpoint + 'user';
 	private jwtHelper: JwtHelper = new JwtHelper();
 
-	constructor(private http: Http,
-		private cookieService: CookieService) {
+	constructor(private http: Http) {
 		this.setUserFromCookie();
 	}
 
 	public setUserFromCookie() {
-		let jwt = this.cookieService.get('jwt');
+		let jwt = Tools.readCookie('jwt');
 		if (jwt) {
 			this.setUser(jwt);
 		}
