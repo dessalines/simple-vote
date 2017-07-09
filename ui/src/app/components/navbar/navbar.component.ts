@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CookieService } from 'ngx-cookie';
 
 import {
 	PollService,
 	UserService
 } from '../../services';
+
+import { Tools } from '../../shared';
 
 import * as Hashids from 'hashids';
 
@@ -24,8 +25,7 @@ export class NavbarComponent implements OnInit {
 	constructor(private userService: UserService,
 		private pollService: PollService,
 		private route: ActivatedRoute,
-		private router: Router,
-		private cookieService: CookieService) { }
+		private router: Router) { }
 
 	ngOnInit() {
 		this.hashids = new Hashids();
@@ -47,7 +47,7 @@ export class NavbarComponent implements OnInit {
 	}
 
 	logout() {
-		this.cookieService.remove('jwt');
+		Tools.eraseCookie('jwt');
 		location.reload();
 	}
 

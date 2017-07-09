@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 // 3rd party
-import { CookieModule } from 'ngx-cookie';
 import { ModalModule, TooltipModule, ButtonsModule } from 'ngx-bootstrap';
 
 // Project libs
@@ -48,7 +47,6 @@ import {
     AppRoutingModule,
 
     // 3rd party libs
-    CookieModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     ButtonsModule.forRoot()

@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
-import { CookieService } from 'ngx-cookie';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs/Observable';
 
 import { UserService } from '../../services';
+
+import { Tools } from '../../shared';
 
 
 @Component({
@@ -20,8 +21,7 @@ export class NewUserModalComponent implements OnInit {
 
 	public name: string;
 
-	constructor(private userService: UserService,
-		private cookieService: CookieService) { }
+	constructor(private userService: UserService) { }
 
 	ngOnInit() {
 		// focus when the modal is shown
@@ -41,9 +41,8 @@ export class NewUserModalComponent implements OnInit {
 		} else {
 			obs = this.userService.updateUser(this.name);
 		}
-
 		obs.subscribe(rJWT => {
-			this.cookieService.put('jwt', rJWT);
+			Tools.createCookie('jwt', rJWT, 9999);
 			this.userService.setUserFromCookie();
 			this.smModal.hide();
 			this.userCreated.emit();
