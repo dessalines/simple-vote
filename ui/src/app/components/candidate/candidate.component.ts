@@ -18,6 +18,8 @@ export class CandidateComponent implements OnInit {
 	@Input() anonymous: boolean;
 	@Input() questionType: QuestionType;
 
+	public vote: number;
+
 	public showDetails: boolean = false;
 	public backgroundColor: string;
 
@@ -29,6 +31,11 @@ export class CandidateComponent implements OnInit {
 	}
 
 	ngOnChanges(changes: any) {
+		if (changes.candidate.currentValue && changes.candidate.firstChange) {
+			setTimeout(() => {
+				this.setMyVote();
+			}, 5);
+		}
 	}
 
 	toggleDetails() {
@@ -58,23 +65,17 @@ export class CandidateComponent implements OnInit {
 		this.candidate.editing = false;
 	}
 
-	findMyVote(): number {
-		if (this.foundVote()) {
-			return this.foundVote().vote;
-		} else {
-			return 50;
-		}
-	}
-
-	foundVote(): Vote {
+	setMyVote() {
 		if (this.candidate.votes) {
-			return this.candidate.votes.find(v => v.user_id == this.userService.getUser().id);
-		} else {
-			return null;
+			let foundVote = this.candidate.votes.find(v => v.user_id == this.userService.getUser().id);
+			if (foundVote) {
+				this.vote = foundVote.vote;
+			}
 		}
 	}
 
 	createOrUpdateVote(val: number) {
+		this.vote = val;
 		this.pollService.send(Tools.messageWrapper(MessageType.createOrUpdateVote,
 			{
 				candidate_id: this.candidate.id,
@@ -93,16 +94,12 @@ export class CandidateComponent implements OnInit {
 			}));
 	}
 
-	myVote(): string {
-		return (this.foundVote()) ? (this.foundVote().vote/10).toString() : 'none';
-	}
-
 	voteAvg(decimals: number = 2): string {
 		return (this.candidate.avg_score !== undefined) ? (this.candidate.avg_score/10).toFixed(decimals).toString() : 'none';
 	}
 
 	voteCount(): string {
-		return (this.candidate.votes) ? this.candidate.votes.length.toString() : 'none';
+		return (this.candidate.votes) ? this.candidate.votes.length.toString() : '0';
 	}
 
 }
