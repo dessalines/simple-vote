@@ -2,50 +2,49 @@
   <p class="mb-1" *ngIf="!this.candidate.editing">
     <span *ngIf="candidate.title" [innerHtml]="candidate.title | markdown"></span>
     <span *ngIf="!candidate.title">Untitled candidate</span>
-    <small *ngIf="candidate.avg_score" class="text-muted">
-      <span *ngIf="foundVote()">Your Vote: {{myVote()}} | </span>
-      <span *ngIf="candidate.meetsThreshold">Score: {{voteAvg(1)}} | </span>
+    <small class="text-muted">
+      <span *ngIf="vote && questionType == 1">Your Vote: {{vote / 10}} | </span>
+      <span *ngIf="vote && questionType == 2">Your Vote: {{vote}} | </span>
+      <span *ngIf="candidate.meetsThreshold && questionType == 1">Score: {{voteAvg(1)}} | </span>
+      <span *ngIf="candidate.meetsThreshold && questionType == 2">Score: {{candidate.avg_score.toFixed(1)}} | </span>
       <span *ngIf="!candidate.meetsThreshold">Score: Too Few Votes | </span>
       <span>{{voteCount()}} Votes</span>
     </small>
     <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable && !expired"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit option"></i></small>
     <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable && !expired" tooltip="Delete option"><i class="fa fa-fw fa-trash"></i></small>
     <small role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
-    <small *ngIf="foundVote() && !expired" role="button" (click)="deleteVote()" tooltip="Clear vote"><i class="fa fa-fw fa-times"></i></small>
+    <small *ngIf="vote && !expired" role="button" (click)="deleteVote()" tooltip="Clear vote"><i class="fa fa-fw fa-times"></i></small>
   </p>
   <div *ngIf="!this.candidate.editing">
     <div *ngIf="questionType == 1" class="progress">
       <div *ngIf="candidate.meetsThreshold" class="progress-bar" role="progressbar" [style.background-color]="backgroundColor" [style.width.%]="candidate.avg_score">
       </div>
       <div *ngIf="!candidate.meetsThreshold" class="progress-bar" role="progressbar"></div>
-      <input class="vote_input" [value]="findMyVote()" (value)="createOrUpdateVote($event.target.value)" (mouseup)="createOrUpdateVote($event.target.value)" (touchend)="createOrUpdateVote($event.target.value)" type="range" min="0" max="100" step="5" value="100" [disabled]="expired" />
+      <input class="vote_input" [(ngModel)]="vote" (value)="createOrUpdateVote($event.target.value)" (mouseup)="createOrUpdateVote($event.target.value)" (touchend)="createOrUpdateVote($event.target.value)" type="range" min="0" max="100" step="5" value="100" [disabled]="expired" />
     </div>
     <div *ngIf="questionType == 2">
       <div class="form-group row">
-        <label class="col-md-3 col-form-label">
-          <span *ngIf="candidate.avg_score">Average: {{candidate.avg_score.toFixed(1)}}</span>
-        </label>
         <div class="btn-group hidden-xs-down col-md-9">
-          <button class="btn btn-secondary" [class.active]="findMyVote()==0" (click)="createOrUpdateVote(0)">0</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==1" (click)="createOrUpdateVote(1)">1</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==3" (click)="createOrUpdateVote(3)">3</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==5" (click)="createOrUpdateVote(5)">5</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==8" (click)="createOrUpdateVote(8)">8</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==13" (click)="createOrUpdateVote(13)">13</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==20" (click)="createOrUpdateVote(20)">20</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==40" (click)="createOrUpdateVote(40)">40</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==100" (click)="createOrUpdateVote(100)">100</button>
+          <button class="btn btn-secondary" [class.active]="vote==0" (click)="createOrUpdateVote(0)">0</button>
+          <button class="btn btn-secondary" [class.active]="vote==1" (click)="createOrUpdateVote(1)">1</button>
+          <button class="btn btn-secondary" [class.active]="vote==3" (click)="createOrUpdateVote(3)">3</button>
+          <button class="btn btn-secondary" [class.active]="vote==5" (click)="createOrUpdateVote(5)">5</button>
+          <button class="btn btn-secondary" [class.active]="vote==8" (click)="createOrUpdateVote(8)">8</button>
+          <button class="btn btn-secondary" [class.active]="vote==13" (click)="createOrUpdateVote(13)">13</button>
+          <button class="btn btn-secondary" [class.active]="vote==20" (click)="createOrUpdateVote(20)">20</button>
+          <button class="btn btn-secondary" [class.active]="vote==40" (click)="createOrUpdateVote(40)">40</button>
+          <button class="btn btn-secondary" [class.active]="vote==100" (click)="createOrUpdateVote(100)">100</button>
         </div>
         <div class="btn-group-vertical hidden-sm-up col-md-9">
-          <button class="btn btn-secondary" [class.active]="findMyVote()==0" (click)="createOrUpdateVote(0)">0</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==1" (click)="createOrUpdateVote(1)">1</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==3" (click)="createOrUpdateVote(3)">3</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==5" (click)="createOrUpdateVote(5)">5</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==8" (click)="createOrUpdateVote(8)">8</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==13" (click)="createOrUpdateVote(13)">13</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==20" (click)="createOrUpdateVote(20)">20</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==40" (click)="createOrUpdateVote(40)">40</button>
-          <button class="btn btn-secondary" [class.active]="findMyVote()==100" (click)="createOrUpdateVote(100)">100</button>
+          <button class="btn btn-secondary" [class.active]="vote==0" (click)="createOrUpdateVote(0)">0</button>
+          <button class="btn btn-secondary" [class.active]="vote==1" (click)="createOrUpdateVote(1)">1</button>
+          <button class="btn btn-secondary" [class.active]="vote==3" (click)="createOrUpdateVote(3)">3</button>
+          <button class="btn btn-secondary" [class.active]="vote==5" (click)="createOrUpdateVote(5)">5</button>
+          <button class="btn btn-secondary" [class.active]="vote==8" (click)="createOrUpdateVote(8)">8</button>
+          <button class="btn btn-secondary" [class.active]="vote==13" (click)="createOrUpdateVote(13)">13</button>
+          <button class="btn btn-secondary" [class.active]="vote==20" (click)="createOrUpdateVote(20)">20</button>
+          <button class="btn btn-secondary" [class.active]="vote==40" (click)="createOrUpdateVote(40)">40</button>
+          <button class="btn btn-secondary" [class.active]="vote==100" (click)="createOrUpdateVote(100)">100</button>
         </div>
       </div>
     </div>
