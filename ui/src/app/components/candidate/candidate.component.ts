@@ -86,6 +86,7 @@ export class CandidateComponent implements OnInit {
 	}
 
 	deleteVote() {
+		this.vote = null;
 		this.pollService.send(Tools.messageWrapper(MessageType.deleteVote,
 			{
 				candidate_id: this.candidate.id,
