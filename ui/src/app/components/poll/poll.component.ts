@@ -256,12 +256,12 @@ export class PollComponent implements OnInit {
 		for (let question of this.poll.questions) {
 			for (let candidate of question.candidates) {
 				candidate.votes = data.filter(c => c.candidate_id === candidate.id);
-				this.zone.run(() => this.poll.questions.find(q => q.id == question.id).candidates.find(c => c.id == candidate.id).votes = candidate.votes);
 
 				Tools.setCandidateAvgScore(candidate);
 
 				Tools.setUsersForList(candidate.votes, this.poll.users);
 
+				this.zone.run(() => this.poll.questions.find(q => q.id == question.id).candidates.find(c => c.id == candidate.id).votes = candidate.votes);
 
 			}
 
