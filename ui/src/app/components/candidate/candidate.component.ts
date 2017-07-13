@@ -40,6 +40,13 @@ export class CandidateComponent implements OnInit {
 			}, 500);
 		}
 	}
+	ngAfterContentChecked() {
+		console.log('votes from afterContentChecked' + this.candidate.votes);
+	}
+
+	ngDoCheck() {
+		console.log('votes from ngDoCheck' + this.candidate.votes);
+	}
 
 	toggleDetails() {
 		this.showDetails = !this.showDetails;
