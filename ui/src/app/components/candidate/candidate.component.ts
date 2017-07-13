@@ -33,7 +33,7 @@ export class CandidateComponent implements OnInit {
 	ngOnChanges(changes: any) {
 		//  && changes.candidate.firstChange
 		if (changes.candidate.currentValue) {
-			console.log(changes.candidate.currentValue.votes);
+			console.log(changes.candidate.currentValue);
 			setTimeout(() => {
 				this.setMyVote(changes.candidate.currentValue);
 			}, 5);
