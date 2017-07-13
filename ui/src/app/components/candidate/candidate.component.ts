@@ -35,9 +35,9 @@ export class CandidateComponent implements OnInit {
 		if (changes.candidate.currentValue) {
 			console.log(changes.candidate.currentValue);
 			// console.log(changes.candidate.currentValue.votes);
-			// setTimeout(() => {
-				this.setMyVote(changes.candidate.currentValue);
-			// }, 5);
+			setTimeout(() => {
+				this.setMyVote();
+			}, 500);
 		}
 	}
 
@@ -68,10 +68,9 @@ export class CandidateComponent implements OnInit {
 		this.candidate.editing = false;
 	}
 
-	setMyVote(candidate: Candidate) {
-		console.log(this.userService.getUser().id);
-		if (candidate.votes) {
-			let foundVote = candidate.votes.find(v => v.user_id == this.userService.getUser().id);
+	setMyVote() {
+		if (this.candidate.votes) {
+			let foundVote = this.candidate.votes.find(v => v.user_id == this.userService.getUser().id);
 			console.log('got votes');
 			if (foundVote) {
 				this.vote = foundVote.vote;
