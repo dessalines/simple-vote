@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
@@ -46,7 +46,8 @@ export class PollComponent implements OnInit {
 	constructor(private pollService: PollService,
 		private userService: UserService,
 		private route: ActivatedRoute,
-		private router: Router) { }
+		private router: Router,
+		private zone: NgZone) { }
 
 	ngOnInit() {
 		this.hashids = new Hashids();
@@ -256,13 +257,21 @@ export class PollComponent implements OnInit {
 			for (let candidate of question.candidates) {
 				candidate.votes = data.filter(c => c.candidate_id === candidate.id);
 
+				this.zone.run(() => candidate.votes);
+				
 				Tools.setCandidateAvgScore(candidate);
 
 				Tools.setUsersForList(candidate.votes, this.poll.users);
+
+
 			}
 
 			// Sort by score
 			Tools.sortCandidatesByScore(question);
+
+
+
+
 		}
 	}
 
