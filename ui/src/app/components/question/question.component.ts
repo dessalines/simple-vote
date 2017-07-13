@@ -39,6 +39,7 @@ export class QuestionComponent implements OnInit {
 	}
 
 	updateQuestion() {
+		console.log(this.question);
 		this.pollService.send(Tools.messageWrapper(MessageType.updateQuestion,
 			this.question));
 		this.question.editing = false;

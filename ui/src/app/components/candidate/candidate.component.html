@@ -5,8 +5,8 @@
     <small class="text-muted">
       <span *ngIf="vote && questionType == 1">Your Vote: {{vote / 10}} | </span>
       <span *ngIf="vote && questionType == 2">Your Vote: {{vote}} | </span>
-      <span *ngIf="candidate.meetsThreshold && questionType == 1">Score: {{voteAvg(1)}} | </span>
-      <span *ngIf="candidate.meetsThreshold && questionType == 2">Score: {{candidate.avg_score.toFixed(1)}} | </span>
+      <span *ngIf="candidate?.meetsThreshold && questionType == 1">Score: {{voteAvg(1)}} | </span>
+      <span *ngIf="candidate.avg_score && questionType == 2">Score: {{candidate.avg_score.toFixed(1)}} | </span>
       <span *ngIf="!candidate.meetsThreshold">Score: Too Few Votes | </span>
       <span>{{voteCount()}} Votes</span>
     </small>
