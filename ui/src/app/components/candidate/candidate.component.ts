@@ -33,7 +33,8 @@ export class CandidateComponent implements OnInit {
 	ngOnChanges(changes: any) {
 		if (changes.candidate.currentValue) {
 			setTimeout(() => {
-				this.setMyVote();
+				console.log(changes.candidate.currentValue);
+				this.setMyVote(changes.candidate.currentValue);
 			}, 500);
 		}
 	}
@@ -65,9 +66,9 @@ export class CandidateComponent implements OnInit {
 		this.candidate.editing = false;
 	}
 
-	setMyVote() {
-		if (this.candidate.votes) {
-			let foundVote = this.candidate.votes.find(v => v.user_id == this.userService.getUser().id);
+	setMyVote(candidate: Candidate) {
+		if (candidate.votes) {
+			let foundVote = candidate.votes.find(v => v.user_id == this.userService.getUser().id);
 			if (foundVote) {
 				this.vote = foundVote.vote;
 			}
