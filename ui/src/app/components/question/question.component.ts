@@ -39,8 +39,7 @@ export class QuestionComponent implements OnInit {
 	}
 
 	updateQuestion() {
-		console.log(this.question);
-		let question = this.question;
+		let question = Object.assign({}, this.question); // clone the questions
 		delete question.candidates;
 		this.pollService.send(Tools.messageWrapper(MessageType.updateQuestion,
 			question));
