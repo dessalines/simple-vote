@@ -32,16 +32,17 @@ export class CandidateComponent implements OnInit {
 
 	ngOnChanges(changes: any) {
 		//  && changes.candidate.firstChange
-		if (changes.candidate) {
-			console.log(changes.candidate.currentValue);
-			console.log(changes.candidate.currentValue.votes);
-			setTimeout(() => {
-				this.setMyVote();
-			}, 500);
-		}
+		// if (changes.candidate) {
+		// 	console.log(changes.candidate.currentValue);
+		// 	console.log(changes.candidate.currentValue.votes);
+			// setTimeout(() => {
+			// 	this.setMyVote();
+			// }, 500);
+		// }
 	}
 	ngAfterContentChecked() {
 		console.log('votes from afterContentChecked' + this.candidate.votes);
+		this.setMyVote();
 	}
 
 	ngDoCheck() {
