@@ -113,7 +113,6 @@ public class PollWebSocket {
         Tools.dbInit();
         JsonNode node = null;
         try {
-            log.info(dataStr);
             node = Tools.JACKSON.readTree(dataStr);
         } catch (IOException e) {
             e.printStackTrace();
