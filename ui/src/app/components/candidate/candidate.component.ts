@@ -19,6 +19,7 @@ export class CandidateComponent implements OnInit {
 	@Input() questionType: QuestionType;
 
 	public vote: number;
+	private readVotes: boolean = false;
 
 	public showDetails: boolean = false;
 	public backgroundColor: string;
@@ -30,23 +31,11 @@ export class CandidateComponent implements OnInit {
 		this.backgroundColor = randomColor();
 	}
 
-	ngOnChanges(changes: any) {
-		//  && changes.candidate.firstChange
-		// if (changes.candidate) {
-		// 	console.log(changes.candidate.currentValue);
-		// 	console.log(changes.candidate.currentValue.votes);
-			// setTimeout(() => {
-			// 	this.setMyVote();
-			// }, 500);
-		// }
-	}
 	ngAfterContentChecked() {
-		console.log('votes from afterContentChecked' + this.candidate.votes);
-		this.setMyVote();
-	}
-
-	ngDoCheck() {
-		console.log('votes from ngDoCheck' + this.candidate.votes);
+		if (this.candidate.votes && !this.readVotes) {
+			this.readVotes = true;
+			this.setMyVote();
+		}
 	}
 
 	toggleDetails() {
