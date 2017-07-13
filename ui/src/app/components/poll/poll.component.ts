@@ -357,6 +357,7 @@ export class PollComponent implements OnInit {
 		foundQuestion.threshold = question.threshold;
 		foundQuestion.expire_time = question.expire_time;
 		foundQuestion.users_can_add_candidates = question.users_can_add_candidates;
+		foundQuestion.anonymous = question.anonymous;
 
 	}
 
