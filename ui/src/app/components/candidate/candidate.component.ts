@@ -31,10 +31,10 @@ export class CandidateComponent implements OnInit {
 	}
 
 	ngOnChanges(changes: any) {
-		if (changes.candidate.currentValue && changes.candidate.firstChange) {
+		if (changes.candidate.currentValue) {
 			setTimeout(() => {
 				this.setMyVote();
-			}, 100);
+			}, 5);
 		}
 	}
 
