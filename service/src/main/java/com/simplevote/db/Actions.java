@@ -74,7 +74,7 @@ public class Actions {
         return Tables.Question.createIt(
                 "user_id", userId,
                 "poll_id", pollId,
-                "threshold", 30,
+                "threshold", 10,
                 "users_can_add_candidates", true,
                 "anonymous", false,
                 "question_type_id", QuestionType.Range.ordinal());
