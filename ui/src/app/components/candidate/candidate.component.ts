@@ -34,7 +34,7 @@ export class CandidateComponent implements OnInit {
 		if (changes.candidate.currentValue && changes.candidate.firstChange) {
 			setTimeout(() => {
 				this.setMyVote();
-			}, 5);
+			}, 100);
 		}
 	}
 
