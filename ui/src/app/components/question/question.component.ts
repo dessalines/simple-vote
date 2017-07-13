@@ -40,8 +40,10 @@ export class QuestionComponent implements OnInit {
 
 	updateQuestion() {
 		console.log(this.question);
+		let question = this.question;
+		delete question.candidates;
 		this.pollService.send(Tools.messageWrapper(MessageType.updateQuestion,
-			this.question));
+			question));
 		this.question.editing = false;
 	}
 
