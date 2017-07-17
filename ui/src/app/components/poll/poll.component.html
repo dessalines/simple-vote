@@ -8,6 +8,7 @@
           <small role="button" (click)="toggleEditing()" *ngIf="poll.editable"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit poll"></i></small>
           <small role="button" (click)="deletePoll()" *ngIf="poll.editable" tooltip="Delete poll"><i class="fa fa-fw fa-trash"></i></small>
           <small role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
+          <small role="button" (click)="exportPoll()" tooltip="Export poll (.json)"><i class="fa fa-fw fa-floppy-o"></i></small>
         </h2>
         <button class="btn btn-secondary" role="button" (click)="toggleHelp()">
           <span *ngIf="!showHelp"><i class="fa fa-fw fa-question-circle"></i>How does this work?</span>
