@@ -1,9 +1,6 @@
 <div class="card">
   <div class="card-block">
     <h5 class="card-title">Chat</h5>
-    <div *ngFor="let user of poll.users">
-      <i class="fa fa-fw fa-circle" [class.text-success]="user.active" tooltip="{{user.name}} is {{getActiveString(user)}}" role="button" [class.text-muted]="!user.active"></i>{{user.name}}
-    </div>
     <div *ngIf="poll.comments?.length">
       <hr>
       <table class="table-hover table-responsive" id="table">
@@ -17,14 +14,23 @@
       </table>
     </div>
   </div>
-  <form>
-    <div class="row">
-      <div class="col-lg-12 input-group">
-        <input type="text" class="form-control square-input" [(ngModel)]="comment" placeholder="Enter a comment here..." name="comment">
-        <span class="input-group-btn">
-            <button class="btn btn-secondary square-btn" type="submit" (click)="createComment()"><i class="fa fa-fw fa-arrow-circle-right"></i></button>
+  <div class="card-block">
+    <form>
+      <div class="row">
+        <div class="col-lg-12 input-group">
+          <input type="text" class="form-control" [(ngModel)]="comment" placeholder="Enter a comment here..." name="comment">
+          <span class="input-group-btn">
+            <button class="btn btn-secondary" type="submit" (click)="createComment()"><i class="fa fa-fw fa-arrow-circle-right"></i></button>
           </span>
+        </div>
       </div>
+    </form>
+  </div>
+  <div class="card-block">
+    <h5 class="card-title">Users</h5>
+    <hr>
+    <div *ngFor="let user of poll.users">
+      <i class="fa fa-fw fa-circle" [class.text-success]="user.active" tooltip="{{user.name}} is {{getActiveString(user)}}" role="button" [class.text-muted]="!user.active"></i>{{user.name}}
     </div>
-  </form>
+  </div>
 </div>
