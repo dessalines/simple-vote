@@ -148,6 +148,9 @@ export class PollComponent implements OnInit {
 			case MessageType.createComment:
 				this.receiveComment(msg.data);
 				break;
+			case MessageType.deleteComment:
+				this.receiveDeleteComment(msg.data);
+				break;
 			case MessageType.updatePoll:
 				this.receiveUpdatePoll(msg.data);
 				break;
@@ -231,7 +234,7 @@ export class PollComponent implements OnInit {
 		this.poll.comments = data;
 		this.scrollToBottomOfTable();
 
-
+		this.setEditableForList(this.poll.comments);
 		Tools.setUsersForList(this.poll.comments, this.poll.users);
 	}
 
@@ -291,6 +294,7 @@ export class PollComponent implements OnInit {
 	}
 
 	receiveComment(comment: Comment) {
+		this.setEditable(comment);
 		Tools.setUserForObj(comment, this.poll.users);
 		this.poll.comments.push(comment);
 		this.scrollToBottomOfTable();
@@ -419,7 +423,6 @@ export class PollComponent implements OnInit {
 
 	receiveDeleteVote(data: any) {
 
-
 		// Find the index
 		let questionIndex = this.poll.questions.findIndex(q => q.id == data.question_id);
 		let question = this.poll.questions[questionIndex];
@@ -436,6 +439,11 @@ export class PollComponent implements OnInit {
 
 		// Sort the question by candidates
 		Tools.sortCandidatesByScore(question);
+	}
+
+	receiveDeleteComment(data: any) {
+		let commentIndex = this.poll.comments.findIndex(c => c.id == data.comment_id);
+		this.poll.comments.splice(commentIndex, 1);
 	}
 
 }

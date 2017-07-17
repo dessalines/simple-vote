@@ -200,7 +200,15 @@ public class PollWebSocket {
     }
 
     public void deleteComment(Session session, JsonNode data) {
+        Long pollId = getPollIdFromSession(session);
+        Long commentId = data.get("comment_id").asLong();
+        Actions.deleteComment(commentId);
 
+        broadcastMessage(
+                getSessionsFromPoll(pollId),
+                messageWrapper(
+                        MessageType.deleteComment,
+                        data.toString()));
     }
 
     public void updatePoll(Session session, JsonNode data) {
