@@ -225,9 +225,9 @@ export class PollComponent implements OnInit {
 				this.poll.users = [activeUser];
 			}
 		}
-		
+
 		// Sort by active on top
-		this.poll.users.sort((a, b) => (a.active === b.active)? 0 : a.active? -1 : 1);
+		this.poll.users.sort((a, b) => (a.active === b.active) ? 0 : a.active ? -1 : 1);
 	}
 
 	setPollComments(data: Array<Comment>) {
@@ -444,6 +444,23 @@ export class PollComponent implements OnInit {
 	receiveDeleteComment(data: any) {
 		let commentIndex = this.poll.comments.findIndex(c => c.id == data.comment_id);
 		this.poll.comments.splice(commentIndex, 1);
+	}
+
+	exportPoll() {
+		let pollJson: string = JSON.stringify(this.poll, null, 2);
+
+		var pom = document.createElement('a');
+		pom.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(pollJson));
+		pom.setAttribute('download', 'poll.json');
+
+		if (document.createEvent) {
+			var event = document.createEvent('MouseEvents');
+			event.initEvent('click', true, true);
+			pom.dispatchEvent(event);
+		}
+		else {
+			pom.click();
+		}
 	}
 
 }
