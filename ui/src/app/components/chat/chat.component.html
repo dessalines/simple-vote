@@ -11,6 +11,7 @@
           <td class="nowrap text-muted"><small>{{comment.created | moment}}</small></td>
           <td><b class="mr-1">{{comment.user.name}}</b>
             <span [innerHtml]="comment.comment | markdown"></span>
+            <span role="button" (click)="deleteComment(comment)" *ngIf="comment.editable" tooltip="Delete comment"><i class="fa fa-fw fa-trash"></i></span>
           </td>
         </tr>
       </table>

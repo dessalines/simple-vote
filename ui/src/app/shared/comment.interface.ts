@@ -7,4 +7,5 @@ export interface Comment {
 	poll_id: number;
 	comment: string;
 	created: number;
+	editable?: boolean;
 }

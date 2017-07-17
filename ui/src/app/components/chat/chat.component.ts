@@ -33,6 +33,11 @@ export class ChatComponent implements OnInit {
 		this.comment = undefined;
 	}
 
+	deleteComment(comment: Comment) {
+		this.pollService.send(Tools.messageWrapper(MessageType.deleteComment,
+			{ comment_id: comment.id }));
+	}
+
 	getActiveString(user: User): string {
 		return user.active ? "active" : "inactive";
 	}
