@@ -73,7 +73,10 @@
           <b *ngIf="!anonymous">{{vote.user.name}}</b>
           <b *ngIf="anonymous">???</b>
         </td>
-        <td>{{vote.vote}}</td>
+        <td>
+          <span>{{vote.vote}}</span>
+          <i *ngIf="vote.editable" tooltip="Clear vote" (click)="deleteOtherVote(vote)" role="button" class="fa fa-fw fa-times"></i>
+        </td>
       </tr>
     </table>
   </div>

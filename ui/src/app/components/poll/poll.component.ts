@@ -261,15 +261,12 @@ export class PollComponent implements OnInit {
 
 				Tools.setCandidateAvgScore(candidate);
 
+				this.setEditableForList(candidate.votes);
 				Tools.setUsersForList(candidate.votes, this.poll.users);
 			}
 
 			// Sort by score
 			Tools.sortCandidatesByScore(question);
-
-
-
-
 		}
 	}
 
@@ -397,6 +394,7 @@ export class PollComponent implements OnInit {
 	receiveVote(data: any) {
 
 		let vote: Vote = data;
+		this.setEditable(vote);
 		Tools.setUserForObj(vote, this.poll.users);
 
 		// Find the index

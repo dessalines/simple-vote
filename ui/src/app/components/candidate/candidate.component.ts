@@ -4,7 +4,7 @@ import { Candidate, Tools, MessageType, Vote, QuestionType } from '../../shared'
 
 import { PollService, UserService } from '../../services';
 
-import {randomColor} from 'randomcolor';
+import { randomColor } from 'randomcolor';
 
 @Component({
 	selector: 'app-candidate',
@@ -95,8 +95,18 @@ export class CandidateComponent implements OnInit {
 			}));
 	}
 
+	deleteOtherVote(vote: Vote) {
+		console.log(vote);
+		this.pollService.send(Tools.messageWrapper(MessageType.deleteVote,
+			{
+				candidate_id: this.candidate.id,
+				question_id: this.candidate.question_id,
+				user_id: vote.user_id
+			}));
+	}
+
 	voteAvg(decimals: number = 2): string {
-		return (this.candidate.avg_score !== undefined) ? (this.candidate.avg_score/10).toFixed(decimals).toString() : 'none';
+		return (this.candidate.avg_score !== undefined) ? (this.candidate.avg_score / 10).toFixed(decimals).toString() : 'none';
 	}
 
 	voteCount(): string {
