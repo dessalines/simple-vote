@@ -96,7 +96,10 @@ export class CandidateComponent implements OnInit {
 	}
 
 	deleteOtherVote(vote: Vote) {
-		console.log(vote);
+		if (vote.user_id == this.userService.getUser().id) {
+			this.vote = null;
+		}
+
 		this.pollService.send(Tools.messageWrapper(MessageType.deleteVote,
 			{
 				candidate_id: this.candidate.id,

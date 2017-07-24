@@ -358,7 +358,7 @@ public class PollWebSocket {
 
     public void deleteVote(Session session, JsonNode data) {
         Long pollId = getPollIdFromSession(session);
-        Long userId = getUserFromSession(session).getId();
+        Long userId = data.get("user_id").asLong();
         Long candidateId = data.get("candidate_id").asLong();
         Actions.deleteVote(userId, candidateId);
 

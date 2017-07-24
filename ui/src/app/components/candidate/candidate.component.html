@@ -74,7 +74,7 @@
           <b *ngIf="anonymous">???</b>
         </td>
         <td>
-          <span>{{vote.vote}}</span>
+          <span>{{vote.vote / 10}}</span>
           <i *ngIf="vote.editable" tooltip="Clear vote" (click)="deleteOtherVote(vote)" role="button" class="fa fa-fw fa-times"></i>
         </td>
       </tr>
