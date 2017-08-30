@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { Title } from '@angular/platform-browser';
 
 import {
 	PollService,
@@ -46,7 +47,8 @@ export class PollComponent implements OnInit {
 	constructor(private pollService: PollService,
 		private userService: UserService,
 		private route: ActivatedRoute,
-		private router: Router) { }
+		private router: Router,
+		private titleService: Title) { }
 
 	ngOnInit() {
 		this.hashids = new Hashids();
@@ -190,6 +192,7 @@ export class PollComponent implements OnInit {
 
 	setPoll(data: Poll) {
 		this.poll = data;
+		this.updatePageTitle();
 
 		this.setEditable(this.poll);
 	}
@@ -283,6 +286,7 @@ export class PollComponent implements OnInit {
 
 	receiveUpdatePoll(poll: Poll) {
 		this.poll.title = poll.title;
+		this.updatePageTitle();
 		this.poll.users_can_add_questions = poll.users_can_add_questions;
 	}
 
@@ -459,6 +463,11 @@ export class PollComponent implements OnInit {
 		else {
 			pom.click();
 		}
+	}
+
+	updatePageTitle() {
+		let title = (this.poll.title != null) ? this.poll.title : 'Unnamed Poll';
+		this.titleService.setTitle(title + ' - SimpleVote');
 	}
 
 }
