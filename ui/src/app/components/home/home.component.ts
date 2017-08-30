@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import {
 	PollService,
@@ -18,10 +19,12 @@ export class HomeComponent implements OnInit {
 
 	constructor(private pollService: PollService,
 		private route: ActivatedRoute,
-		private router: Router) { }
+		private router: Router,
+		private titleService: Title) { }
 
 	ngOnInit() {
 		this.hashids = new Hashids();
+		this.titleService.setTitle('SimpleVote');
 	}
 
 	createPoll() {
