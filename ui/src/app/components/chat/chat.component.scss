@@ -11,5 +11,15 @@ td {
 }
 
 .break {
-	word-break: break-all;
+  // word-break: break-all;
+  // overflow-wrap: break-word;
+    //   word-wrap: break-word;         /* All browsers since IE 5.5+ */
+    // overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
+    // width: 100%;
+    // display: table-caption;
+  // word-wrap: break-word; // legacy name
+  // overflow-wrap: break-word; // new name as per the CSS3 spec
+  // hyphens: auto;
+  // word-break: break-word;
+  // hyphens: auto;
 }
