@@ -22,7 +22,7 @@ deploy:
     - target/simplevote.jar
   skip_cleanup: true
   on:
-    repo: dessalines/simplevote
+    repo: dessalines/simple-vote
     tags: true
 before_deploy:
 - echo $PWD
