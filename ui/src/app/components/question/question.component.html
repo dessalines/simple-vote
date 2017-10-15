@@ -85,7 +85,11 @@
           <span *ngIf="question.expire_time">{{question.expire_time | moment}}</span>
         </label>
         <div class="col-md-8">
-          <input type="date" class="form-control" [(ngModel)]="question.expire_time"
+          <input type="text"
+            class="form-control"
+            #dp="bsDatepicker"
+            bsDatepicker
+            [(bsValue)]="expireDate"
             name="question_expire_time">
         </div>
       </div>

@@ -4,7 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 // 3rd party
-import { ModalModule, TooltipModule, ButtonsModule } from 'ngx-bootstrap';
+import { ModalModule,
+  TooltipModule,
+  ButtonsModule,
+  BsDatepickerModule } from 'ngx-bootstrap';
 
 // Project libs
 import { AppRoutingModule } from './app.routing';
@@ -49,7 +52,8 @@ import {
     // 3rd party libs
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   providers: [
     Title
