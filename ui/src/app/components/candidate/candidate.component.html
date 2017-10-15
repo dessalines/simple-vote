@@ -70,8 +70,8 @@
       </thead>
       <tr *ngFor="let vote of candidate.votes">
         <td>
-          <b *ngIf="!anonymous">{{vote.user.name}}</b>
-          <b *ngIf="anonymous">???</b>
+          <b *ngIf="!anonymous || vote.editable">{{vote.user.name}}</b>
+          <b *ngIf="anonymous && !vote.editable">???</b>
         </td>
         <td>
           <span>{{vote.vote / 10}}</span>
