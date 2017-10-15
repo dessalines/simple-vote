@@ -14,6 +14,7 @@ export class QuestionComponent implements OnInit {
 	@Input() question: Question;
 
 	public showDetails: boolean = false;
+	public _expireDate: string;
 
 	constructor(private pollService: PollService,
 		private userService: UserService) { }
@@ -53,7 +54,10 @@ export class QuestionComponent implements OnInit {
 
 	createCandidate() {
 		this.pollService.send(Tools.messageWrapper(MessageType.createCandidate,
-			{question_id: this.question.id}));
+			{
+				question_id: this.
+					question.id
+			}));
 	}
 
 	isExpired(): boolean {
@@ -62,6 +66,15 @@ export class QuestionComponent implements OnInit {
 		} else {
 			return false;
 		}
+	}
+
+	get expireDate(): string {
+		return this._expireDate;
+	}
+
+	set expireDate(v: string) {
+		this._expireDate = v;
+		this.question.expire_time = v;
 	}
 
 }
