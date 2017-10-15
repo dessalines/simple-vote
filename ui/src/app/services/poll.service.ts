@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WebSocketConfig } from '../shared';
-import { NG2WebSocket } from './';
+import { NG2WebSocket } from './ng2-websocket';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
 
 import { Poll } from '../shared';
-import { UserService } from './';
+import { UserService } from './user.service';
 
 @Injectable()
 export class PollService {
