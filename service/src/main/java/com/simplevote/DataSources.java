@@ -13,7 +13,7 @@ public class DataSources {
 
     public static Boolean SSL = false;
 
-    public static final String PROPERTIES_FILE = CODE_DIR + "/target/classes/app.properties";
+    public static final String PROPERTIES_FILE = CODE_DIR + "/simplevote.properties";
 
     public static Properties PROPERTIES = Tools.loadProperties(PROPERTIES_FILE);
 
