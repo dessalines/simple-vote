@@ -11,16 +11,16 @@
 
 Polls can be dynamic, meaning users can(*if allowed*) contribute options and questions themselves.
 
-It uses [range voting](http://rangevoting.org/UniqBest.html)(also known as olympic score voting) for all your poll options. [Range voting](http://rangevoting.org/) is *more expressive* than simple :thumbsup: or :thumbsdown: votes (IE [approval](http://rangevoting.org/AppExec.html)). It also beats out [IRV](http://rangevoting.org/rangeVirv.html), and [first past the post](http://rangevoting.org/Plurality.html) for [minimizing voter regret](http://rangevoting.org/UniqBest.html).
+It uses [range voting](http://rangevoting.org/UniqBest.html) (also known as olympic score voting) for all your poll options. [Range voting](http://rangevoting.org/) is *more expressive* than simple :thumbsup: or :thumbsdown: votes (IE [approval](http://rangevoting.org/AppExec.html)). It also beats out [IRV](http://rangevoting.org/rangeVirv.html), and [first past the post](http://rangevoting.org/Plurality.html) for [minimizing voter regret](http://rangevoting.org/UniqBest.html).
 
 Features:
 - Polls can have multiple questions.
-- Anyone can edit, delete, or create additional questions, and options(if allowed by the creator), at anytime.
+- Anyone can edit, delete, or create additional questions, and options (if allowed by the creator), at anytime.
 - Live chat on the sidebar. 
 - Questions can have expiration times, and thresholds (Making sure options with too few votes don't win). 
 - Easily shareable poll links.
 - Image and markdown support for all questions and candidates.
-- Questions can hide voter names(anonymous voting).
+- Questions can hide voter names (anonymous voting).
 - Questions can be either Range, or Pointing Poker style.
 
 Tech used:
