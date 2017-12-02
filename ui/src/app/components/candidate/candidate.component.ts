@@ -36,10 +36,6 @@ export class CandidateComponent implements OnInit {
 			this.readVotes = true;
 			this.setMyVote();
 		}
-
-		console.log("anonymous = " + this.anonymous);
-		console.log("candidate = ");
-		console.log(this.candidate);
 	}
 
 	toggleDetails() {
