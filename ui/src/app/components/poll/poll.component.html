@@ -1,7 +1,7 @@
 <div *ngIf="poll" class="row">
   <div class="col-lg-8">
     <div class="card mb-3">
-      <div class="card-block">
+      <div class="card-body">
         <h2 class="card-title" *ngIf="!this.poll.editing">
           <span *ngIf="poll.title" [innerHtml]="poll.title | markdown"></span>
           <span *ngIf="!poll.title">Untitled poll</span>
@@ -10,7 +10,7 @@
           <small role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
           <small role="button" (click)="exportPoll()" tooltip="Export poll (.json)"><i class="fa fa-fw fa-floppy-o mb-2"></i></small>
           <br>
-          <button class="btn btn-secondary" role="button" (click)="toggleHelp()">
+          <button class="btn btn-outline-info" role="button" (click)="toggleHelp()">
             <span *ngIf="!showHelp"><i class="fa fa-fw fa-question-circle"></i>How does this work?</span>
             <span *ngIf="showHelp">Hide</span>
           </button>
@@ -55,7 +55,7 @@
       <div *ngFor="let question of poll.questions">
         <app-question [question]="question"></app-question>
       </div>
-      <button *ngIf="canCreateQuestion()" class="btn btn-secondary mb-3"
+      <button *ngIf="canCreateQuestion()" class="btn btn-outline-primary mb-3"
         (click)="createQuestion()" role="button"><i class="fa fa-fw fa-plus"></i>Add a question</button>
     </div>
   </div>

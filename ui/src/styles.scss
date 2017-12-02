@@ -1,8 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import './app/styles/_variables';
 @import './app/styles/bootstrap';
-@import './app/styles/_bootswatch';
 @import './app/styles/extras.scss';
 @import '../node_modules/font-awesome/css/font-awesome.min.css';
 @import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';

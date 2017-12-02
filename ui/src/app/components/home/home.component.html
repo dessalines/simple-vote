@@ -11,13 +11,13 @@
       <li><p class="mb-0">Questions can have expiration times, and thresholds (Making sure options with too few votes don’t win).</p></li>
       <li><p class="mb-0">Easily shareable poll links.</p></li>
     </ul>
-    <button role="button" class="btn btn-secondary btn-block" (click)="createPoll()"><i class="fa fa-fw fa-pencil-square-o"></i>Create a poll</button>
+    <button role="button" class="btn btn-outline-primary btn-block" (click)="createPoll()"><i class="fa fa-fw fa-pencil-square-o"></i>Create a poll</button>
   </div>
   <!-- A mocked poll -->
   <div class="col-md-5">
-    <div class="card-block">
+    <div class="card-body">
       <h4 class="card-title">
-        <span tooltip="Check out sample poll" role="button" [routerLink]="['/poll/jR']">As a judge in the cuteness olympics, which gets 1st place ribbon?</span>
+        <a tooltip="Check out sample poll" class="text-dark" [routerLink]="['/poll/jR']">As a judge in the cuteness olympics, which gets 1st place ribbon?</a>
      </h4>
       <div>
         <div>
