@@ -1,5 +1,5 @@
 <div class="card mb-3">
-  <div class="card-block">
+  <div class="card-body">
     <h4 class="card-title" *ngIf="!this.question.editing">
       <span *ngIf="question.title" [innerHtml]="question.title | markdown"></span>
       <span *ngIf="!question.title">Untitled question</span>
@@ -32,8 +32,8 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label">Type</label>
         <div class="btn-group col-md-8">
-          <label class="btn btn-secondary" [class.active]="question.question_type_id==1">Range</label>
-          <label class="btn btn-secondary" [class.active]="question.question_type_id==2">Pointing Poker</label>
+          <label class="btn btn-outline-primary" [class.active]="question.question_type_id==1">Range</label>
+          <label class="btn btn-outline-primary" [class.active]="question.question_type_id==2">Pointing Poker</label>
         </div>
       </div>
     </div>
@@ -61,9 +61,9 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label">Type</label>
         <div class="btn-group col-md-8">
-          <label class="btn btn-secondary" name="range_btn" [class.active]="question.question_type_id==1"
+          <label class="btn btn-outline-primary" name="range_btn" [class.active]="question.question_type_id==1"
             (click)="question.question_type_id = 1">Range</label>
-          <label class="btn btn-secondary" name="pp_btn" [class.active]="question.question_type_id==2"
+          <label class="btn btn-outline-primary" name="pp_btn" [class.active]="question.question_type_id==2"
             (click)="question.question_type_id = 2">Pointing Poker</label>
         </div>
       </div>
@@ -102,7 +102,7 @@
         </app-candidate>
       </div>
       <button *ngIf="canCreateCandidate() && !isExpired()"
-        class="btn btn-secondary" (click)="createCandidate()"
+        class="btn btn-outline-primary" (click)="createCandidate()"
         role="button"><i class="fa fa-fw fa-plus "></i>Add an option</button>
     </div>
   </div>

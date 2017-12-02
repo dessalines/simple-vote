@@ -21,7 +21,7 @@ export class CandidateComponent implements OnInit {
 	public vote: number;
 	private readVotes: boolean = false;
 
-	public showDetails: boolean = false;
+	public showDetails: boolean = false; 
 	public backgroundColor: string;
 
 	constructor(private pollService: PollService,
@@ -36,6 +36,10 @@ export class CandidateComponent implements OnInit {
 			this.readVotes = true;
 			this.setMyVote();
 		}
+
+		console.log("anonymous = " + this.anonymous);
+		console.log("candidate = ");
+		console.log(this.candidate);
 	}
 
 	toggleDetails() {
