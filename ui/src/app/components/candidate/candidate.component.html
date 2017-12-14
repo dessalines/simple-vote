@@ -70,11 +70,11 @@
       </thead>
       <tr *ngFor="let vote of candidate.votes">
         <td>
-          <b *ngIf="!anonymous || vote.editable">{{vote.user.name}}</b>
-          <b *ngIf="anonymous && !vote.editable">???</b>
+          <b>{{vote.user.name}}</b>
         </td>
         <td>
-          <span>{{vote.vote / 10}}</span>
+          <span *ngIf="!anonymous || vote.editable">{{vote.vote / 10}}</span>
+          <span *ngIf="anonymous && !vote.editable">???</span>
           <i *ngIf="vote.editable" tooltip="Clear vote" (click)="deleteOtherVote(vote)" role="button" class="fa fa-fw fa-times"></i>
         </td>
       </tr>
