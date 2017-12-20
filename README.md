@@ -62,8 +62,8 @@ Edit it to point to your own database:
 ```xml
 <!--The Database location and login, here's a sample-->
 <jdbc.url>jdbc:postgresql://127.0.0.1/simplevote</jdbc.url>
-<jdbc.username>postgres</jdbc.username>
-<jdbc.password></jdbc.password
+<jdbc.username>simplevote</jdbc.username>
+<jdbc.password>asdf</jdbc.password
 ```
 
 #### Install SimpleVote
