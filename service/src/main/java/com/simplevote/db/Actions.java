@@ -76,7 +76,7 @@ public class Actions {
                 "poll_id", pollId,
                 "threshold", 10,
                 "users_can_add_candidates", true,
-                "anonymous", false,
+                "anonymous", true,
                 "question_type_id", QuestionType.Range.ordinal());
     }
 
