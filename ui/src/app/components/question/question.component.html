@@ -11,6 +11,7 @@
     <div *ngIf="showDetails" class="mb-3">
       <h4>Details</h4>
       <div>Creator: {{question.user.name}}</div>
+      <div>Creation date: {{question.created | moment}}</div>
       <div *ngIf="question.expire_time">expire time: {{question.expire_time | moment}}</div>
       <div *ngIf="!question.expire_time">No expiration</div>
       <div>

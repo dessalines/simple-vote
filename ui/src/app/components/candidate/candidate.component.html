@@ -61,6 +61,7 @@
   </form>
   <div *ngIf="showDetails">
     <div class="mb-1">Creator: {{candidate.user.name}}</div>
+    <div class="mb-1">Creation date: {{candidate.created | moment}}</div>
     <table *ngIf="candidate.votes?.length" class="table table-hover table-bordered table-responsive">
       <thead>
         <tr>

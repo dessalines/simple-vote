@@ -26,6 +26,7 @@
         <div *ngIf="showDetails">
           <h4>Details</h4>
           <div>Creator: {{poll.user.name}}</div>
+          <div>Creation date: {{poll.created | moment}}</div>
           <label class="form-check-label">
             <input disabled type="checkbox" class="form-check-input"
               name="users_can_add_questions" [(ngModel)]="poll.users_can_add_questions"> Users can add questions
