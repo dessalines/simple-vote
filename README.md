@@ -14,6 +14,7 @@ Polls can be dynamic, meaning users can(*if allowed*) contribute options and que
 It uses [range voting](http://rangevoting.org/UniqBest.html) (also known as olympic score voting) for all your poll options. [Range voting](http://rangevoting.org/) is *more expressive* than simple :thumbsup: or :thumbsdown: votes (IE [approval](http://rangevoting.org/AppExec.html)). It also beats out [IRV](http://rangevoting.org/rangeVirv.html), and [first past the post](http://rangevoting.org/Plurality.html) for [minimizing voter regret](http://rangevoting.org/UniqBest.html).
 
 Features:
+
 - Polls can have multiple questions.
 - Anyone can edit, delete, or create additional questions, and options (if allowed by the creator), at anytime.
 - Live chat on the sidebar. 
@@ -24,6 +25,7 @@ Features:
 - Questions can be either Range, or Pointing Poker style.
 
 Tech used:
+
 - [Java Spark](https://github.com/perwendel/spark), [Bootstrap v4](https://github.com/twbs/bootstrap), [Angular4](https://github.com/angular/angular), [Angular-cli](https://github.com/angular/angular-cli), [ng2-bootstrap](http://valor-software.com/ng2-bootstrap/), [ActiveJDBC](http://javalite.io/activejdbc), [Liquibase](http://www.liquibase.org/), [Postgres](https://www.postgresql.org/), [Markdown-it](https://github.com/markdown-it/markdown-it), [angular2-toaster](https://github.com/Stabzs/Angular2-Toaster)
 
 Check out a sample poll [here](http://simplevote.ml/#/poll/jR).
@@ -31,6 +33,10 @@ Check out a sample poll [here](http://simplevote.ml/#/poll/jR).
 Join the subreddit: [/r/simplevote](https://www.reddit.com/r/simplevote/)
 
 [Change log](https://github.com/dessalines/simple-vote/issues/closed)
+
+## Screenshots
+
+![image](https://i.imgur.com/ZXPI8e1.png)
 
 ---
 
