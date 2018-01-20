@@ -23,6 +23,7 @@
       <li class="nav-item">
         <span class="nav-link" role="button" (click)="changeUserName()" placement="bottom" tooltip="Change UserName">
           <i class="fa fa-fw fa-user"></i>
+          <span>{{userService.getUser().name}}</span>
         </span>
       </li>
       <li [hidden]="true" class="nav-item">
