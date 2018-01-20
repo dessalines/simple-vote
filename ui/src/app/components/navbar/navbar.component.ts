@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
 
 	private hashids: any;
 
-	constructor(private userService: UserService,
+	constructor(public userService: UserService,
 		private pollService: PollService,
 		private route: ActivatedRoute,
 		private router: Router) { }
