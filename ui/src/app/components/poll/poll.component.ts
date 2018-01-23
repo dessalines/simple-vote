@@ -114,7 +114,9 @@ export class PollComponent implements OnInit {
 
 			if (!this.websocketSoftClose) {
 				console.log('ws connection closed');
-				this.reconnectModal.show();
+				//this.reconnectModal.show();
+				this.websocketReconnect();
+
 			}
 		});
 	}
@@ -123,6 +125,7 @@ export class PollComponent implements OnInit {
 		this.pollService.connect(this.pollId);
 		this.subscribeToPoll();
 		this.reconnectModal.hide();
+		console.log('Reconnecting to websocket');
 	}
 
 	update(dataStr: string) {
