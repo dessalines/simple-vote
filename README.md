@@ -58,6 +58,11 @@ Join the subreddit: [/r/simplevote](https://www.reddit.com/r/simplevote/)
 #### Setup a postgres database
 [Here](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04) are some instructions to get your DB up and running.
 
+```sh
+psql -c "create user simplevote with password 'asdf' superuser"
+psql -c 'create database simplevote with owner simplevote;'
+```
+
 #### Open your pom.xml
 ```sh
 cd simplevote
