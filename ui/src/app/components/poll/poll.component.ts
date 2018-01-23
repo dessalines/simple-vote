@@ -41,6 +41,7 @@ export class PollComponent implements OnInit {
 	public showHelp: boolean = false;
 
 	private websocketSoftClose: boolean = false;
+	public isLoading: boolean = false;
 
 	@ViewChild('reconnectModal') private reconnectModal: ModalDirective;
 
@@ -52,6 +53,7 @@ export class PollComponent implements OnInit {
 
 	ngOnInit() {
 		this.hashids = new Hashids();
+		this.isLoading = true;
 	}
 
 	toggleDetails() {
@@ -91,6 +93,7 @@ export class PollComponent implements OnInit {
 		this.pollSub = this.pollService.ws.getDataStream().
 			subscribe(res => {
 				this.update(res.data);
+				this.isLoading = false;
 			});
 	}
 
