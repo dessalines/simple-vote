@@ -17,5 +17,5 @@ public class DataSources {
 
     public static Properties PROPERTIES = Tools.loadProperties(PROPERTIES_FILE);
 
-    public static final String CHANGELOG_MASTER = CODE_DIR + "/src/main/resources/liquibase/db.changelog-master.xml";
+    public static final String CHANGELOG_MASTER = "/tmp/.simplevote.tmp/liquibase/db.changelog-master.xml";
 }
