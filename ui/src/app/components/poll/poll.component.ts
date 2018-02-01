@@ -21,6 +21,8 @@ import {
 	DecodedHashId
 } from '../../shared';
 
+import * as Clipboard from 'clipboard/dist/clipboard.min.js';
+
 @Component({
 	selector: 'app-poll',
 	templateUrl: './poll.component.html',
@@ -51,6 +53,7 @@ export class PollComponent implements OnInit {
 
 	ngOnInit() {
 		this.isLoading = true;
+		new Clipboard('.clipboard-link');
 	}
 
 	toggleDetails() {
@@ -477,6 +480,16 @@ export class PollComponent implements OnInit {
 	updatePageTitle() {
 		let title = (this.poll.title != null) ? this.poll.title : 'Unnamed Poll';
 		this.titleService.setTitle(title + ' - SimpleVote');
+	}
+
+	getShareLink(readOnly: boolean = false) {
+		if (!readOnly || this.poll.readOnly) {
+			return window.location.href;
+		} else {
+			return window.location.host + "/#/poll/" + 
+			Tools.hashIdReadOnlyPrefix + 
+			window.location.hash.split("/")[2]; 
+		}
 	}
 
 }
