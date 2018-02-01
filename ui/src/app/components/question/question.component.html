@@ -34,6 +34,7 @@
         <label class="col-md-4 col-form-label">Type</label>
         <div class="btn-group col-md-8">
           <label class="btn btn-outline-primary" [class.active]="question.question_type_id==1">Range</label>
+          <label class="btn btn-outline-primary" [class.active]="question.question_type_id==3">Approval</label>
           <label class="btn btn-outline-primary" [class.active]="question.question_type_id==2">Pointing Poker</label>
         </div>
       </div>
@@ -64,6 +65,8 @@
         <div class="btn-group col-md-8">
           <label class="btn btn-outline-primary" name="range_btn" [class.active]="question.question_type_id==1"
             (click)="question.question_type_id = 1">Range</label>
+          <label class="btn btn-outline-primary" name="approval_btn" [class.active]="question.question_type_id==3"
+            (click)="question.question_type_id = 3">Approval</label>
           <label class="btn btn-outline-primary" name="pp_btn" [class.active]="question.question_type_id==2"
             (click)="question.question_type_id = 2">Pointing Poker</label>
         </div>
