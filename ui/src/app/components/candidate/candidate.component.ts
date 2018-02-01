@@ -68,6 +68,7 @@ export class CandidateComponent implements OnInit {
 	setMyVote() {
 		if (this.candidate.votes) {
 			let foundVote = this.candidate.votes.find(v => v.user_id == this.userService.getUser().id);
+
 			if (foundVote) {
 				this.vote = foundVote.vote;
 			}
@@ -114,6 +115,14 @@ export class CandidateComponent implements OnInit {
 
 	voteCount(): string {
 		return (this.candidate.votes) ? this.candidate.votes.length.toString() : '0';
+	}
+
+	approvalVoteToThumb(): string {
+		return (this.vote == 100) ? "👍" : "👎";
+	}
+
+	voteExists(): boolean {
+		return this.vote !== undefined && this.vote !== null;
 	}
 
 }
