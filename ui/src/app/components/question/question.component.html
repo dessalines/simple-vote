@@ -102,7 +102,7 @@
           [expired]="isExpired()" [questionType]="question.question_type_id">
         </app-candidate>
       </div>
-      <button *ngIf="canCreateCandidate() && !isExpired()"
+      <button *ngIf="canCreateCandidate() && !isExpired() && !question.readOnly"
         class="btn btn-outline-primary" (click)="createCandidate()"
         role="button"><i class="fa fa-fw fa-plus "></i>Add an option</button>
     </div>

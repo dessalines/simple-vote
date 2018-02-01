@@ -12,4 +12,5 @@ export interface Poll {
 	users?: Array<User>;
 	editable?: boolean;
 	editing?: boolean;
+	readOnly?: boolean;
 }

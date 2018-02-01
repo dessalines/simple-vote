@@ -1,6 +1,10 @@
-import { MessageType, User, Candidate, Question } from './';
+import { MessageType, User, Candidate, Question, DecodedHashId } from './';
+
+import * as Hashids from 'hashids';
 
 export class Tools {
+
+	static hashIdReadOnlyPrefix: string = "vgnzu";
 
 	static setUsersForList(arr: Array<any>, users: Array<User>) {
 		arr.forEach(k => Tools.setUserForObj(k, users));
@@ -59,6 +63,33 @@ export class Tools {
 			}
 
 		});
+	}
+
+
+	static decodeHashId(hashId: string): DecodedHashId {
+		let hashids = new Hashids();
+		if (hashId.startsWith(this.hashIdReadOnlyPrefix)) {
+			return {
+				id: hashids.decode(hashId.split(this.hashIdReadOnlyPrefix)[1]),
+				readOnly: true
+			}
+		} else {
+			return {
+				id: hashids.decode(hashId),
+				readOnly: false
+			}
+		}
+	}
+
+	static encodeHashId(id: number, readOnly: boolean = false): string {
+		let hashids = new Hashids();
+
+		if (!readOnly) {
+			return hashids.encode(id);
+		} else {
+			return this.hashIdReadOnlyPrefix + hashids.encode(id);
+		}
+
 	}
 
 	static createCookie(name, value, days) {
