@@ -13,6 +13,8 @@
           <small role="button" (click)="toggleEditing()" *ngIf="poll.editable"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit poll"></i></small>
           <small role="button" (click)="deletePoll()" *ngIf="poll.editable" tooltip="Delete poll"><i class="fa fa-fw fa-trash"></i></small>
           <small role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
+          <small *ngIf="!poll.readOnly" role="button" class="clipboard-link" [attr.data-clipboard-text]="getShareLink()" tooltip="Copy poll link to clipboard"><i class="fa fa-fw fa-share"></i></small>
+          <small role="button" class="clipboard-link" [attr.data-clipboard-text]="getShareLink(true)" tooltip="Copy read-only poll link to clipboard"><i class="fa fa-fw fa-eye"></i></small>
           <small role="button" (click)="exportPoll()" tooltip="Export poll (.json)"><i class="fa fa-fw fa-floppy-o mb-2"></i></small>
           <br>
           <button class="btn btn-outline-info" role="button" (click)="toggleHelp()">
