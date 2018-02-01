@@ -8,3 +8,4 @@ export { Vote } from './vote.interface';
 export { MessageType } from './message-type.enum';
 export { QuestionType } from './question-type.enum';
 export { Tools } from './tools.class';
+export { DecodedHashId } from './decoded-hash-id.interface';

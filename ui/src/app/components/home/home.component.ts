@@ -6,7 +6,9 @@ import {
 	PollService,
 } from '../../services';
 
-import * as Hashids from 'hashids';
+import {
+	Tools
+} from '../../shared';
 
 @Component({
 	selector: 'app-home',
@@ -15,21 +17,18 @@ import * as Hashids from 'hashids';
 })
 export class HomeComponent implements OnInit {
 
-	private hashids: any;
-
 	constructor(private pollService: PollService,
 		private route: ActivatedRoute,
 		private router: Router,
 		private titleService: Title) { }
 
 	ngOnInit() {
-		this.hashids = new Hashids();
 		this.titleService.setTitle('SimpleVote');
 	}
 
 	createPoll() {
 		this.pollService.createPoll().subscribe(p => {
-			let hashId = this.hashids.encode(p.id);
+			let hashId = Tools.encodeHashId(p.id);
 			this.router.navigate(['/poll', hashId]);
 		});
 	}

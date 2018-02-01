@@ -12,4 +12,5 @@ export interface Candidate {
 	meetsThreshold?: boolean;
 	editable?: boolean;
 	editing?: boolean;
+	readOnly?: boolean;
 }

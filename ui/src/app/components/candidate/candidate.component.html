@@ -20,31 +20,31 @@
       <div *ngIf="candidate.meetsThreshold" class="progress-bar" role="progressbar" [style.background-color]="backgroundColor" [style.width.%]="candidate.avg_score">
       </div>
       <div *ngIf="!candidate.meetsThreshold" class="progress-bar" role="progressbar"></div>
-      <input class="vote_input" [(ngModel)]="vote" (value)="createOrUpdateVote($event.target.value)" (mouseup)="createOrUpdateVote($event.target.value)" (touchend)="createOrUpdateVote($event.target.value)" type="range" min="0" max="100" step="5" value="100" [disabled]="expired" />
+      <input class="vote_input" [class.invisible]="expired || candidate.readOnly" [(ngModel)]="vote" (value)="createOrUpdateVote($event.target.value)" (mouseup)="createOrUpdateVote($event.target.value)" (touchend)="createOrUpdateVote($event.target.value)" type="range" min="0" max="100" step="5" value="100" />
     </div>
     <div *ngIf="questionType == 2">
       <div class="form-group row">
-        <div class="btn-group hidden-xs-down col-md-9">
-          <button class="btn btn-outline-primary" [class.active]="vote==0" (click)="createOrUpdateVote(0)">0</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==1" (click)="createOrUpdateVote(1)">1</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==3" (click)="createOrUpdateVote(3)">3</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==5" (click)="createOrUpdateVote(5)">5</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==8" (click)="createOrUpdateVote(8)">8</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==13" (click)="createOrUpdateVote(13)">13</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==20" (click)="createOrUpdateVote(20)">20</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==40" (click)="createOrUpdateVote(40)">40</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==100" (click)="createOrUpdateVote(100)">100</button>
+        <div class="btn-group d-none d-md-inline-flex col-md-9">
+          <button class="btn btn-outline-primary" [class.active]="vote==0" (click)="createOrUpdateVote(0)" [disabled]="expired || candidate.readOnly">0</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==1" (click)="createOrUpdateVote(1)" [disabled]="expired || candidate.readOnly">1</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==3" (click)="createOrUpdateVote(3)" [disabled]="expired || candidate.readOnly">3</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==5" (click)="createOrUpdateVote(5)" [disabled]="expired || candidate.readOnly">5</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==8" (click)="createOrUpdateVote(8)" [disabled]="expired || candidate.readOnly">8</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==13" (click)="createOrUpdateVote(13)" [disabled]="expired || candidate.readOnly">13</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==20" (click)="createOrUpdateVote(20)" [disabled]="expired || candidate.readOnly">20</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==40" (click)="createOrUpdateVote(40)" [disabled]="expired || candidate.readOnly">40</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==100" (click)="createOrUpdateVote(100)" [disabled]="expired || candidate.readOnly">100</button>
         </div>
-        <div class="btn-group-vertical hidden-sm-up col-md-9">
-          <button class="btn btn-outline-primary" [class.active]="vote==0" (click)="createOrUpdateVote(0)">0</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==1" (click)="createOrUpdateVote(1)">1</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==3" (click)="createOrUpdateVote(3)">3</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==5" (click)="createOrUpdateVote(5)">5</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==8" (click)="createOrUpdateVote(8)">8</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==13" (click)="createOrUpdateVote(13)">13</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==20" (click)="createOrUpdateVote(20)">20</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==40" (click)="createOrUpdateVote(40)">40</button>
-          <button class="btn btn-outline-primary" [class.active]="vote==100" (click)="createOrUpdateVote(100)">100</button>
+        <div class="btn-group-vertical d-xs-inline-flex d-md-none col-md-9">
+          <button class="btn btn-outline-primary" [class.active]="vote==0" (click)="createOrUpdateVote(0)" [disabled]="expired || candidate.readOnly">0</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==1" (click)="createOrUpdateVote(1)" [disabled]="expired || candidate.readOnly">1</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==3" (click)="createOrUpdateVote(3)" [disabled]="expired || candidate.readOnly">3</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==5" (click)="createOrUpdateVote(5)" [disabled]="expired || candidate.readOnly">5</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==8" (click)="createOrUpdateVote(8)" [disabled]="expired || candidate.readOnly">8</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==13" (click)="createOrUpdateVote(13)" [disabled]="expired || candidate.readOnly">13</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==20" (click)="createOrUpdateVote(20)" [disabled]="expired || candidate.readOnly">20</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==40" (click)="createOrUpdateVote(40)" [disabled]="expired || candidate.readOnly">40</button>
+          <button class="btn btn-outline-primary" [class.active]="vote==100" (click)="createOrUpdateVote(100)" [disabled]="expired || candidate.readOnly">100</button>
         </div>
       </div>
     </div>

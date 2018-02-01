@@ -17,10 +17,9 @@ import {
 	User,
 	Comment,
 	MessageType,
-	Tools
+	Tools,
+	DecodedHashId
 } from '../../shared';
-
-import * as Hashids from 'hashids';
 
 @Component({
 	selector: 'app-poll',
@@ -31,9 +30,8 @@ export class PollComponent implements OnInit {
 
 	private paramsSub: any;
 	private pollSub: any;
-	private hashids: any;
 
-	private pollId: number = null;
+	private decodedPollId: DecodedHashId;
 
 	public poll: Poll;
 
@@ -52,7 +50,6 @@ export class PollComponent implements OnInit {
 		private titleService: Title) { }
 
 	ngOnInit() {
-		this.hashids = new Hashids();
 		this.isLoading = true;
 	}
 
@@ -80,9 +77,8 @@ export class PollComponent implements OnInit {
 
 	init() {
 		this.paramsSub = this.route.params.subscribe(params => {
-			let hashId = params["pollId"];
-			this.pollId = this.hashids.decode(hashId);
-			this.pollService.connect(this.pollId);
+			this.decodedPollId = Tools.decodeHashId(params["pollId"]);
+			this.pollService.connect(this.decodedPollId.id);
 
 			this.websocketCloseWatcher();
 			this.subscribeToPoll();
@@ -122,7 +118,7 @@ export class PollComponent implements OnInit {
 	}
 
 	websocketReconnect() {
-		this.pollService.connect(this.pollId);
+		this.pollService.connect(this.decodedPollId.id);
 		this.subscribeToPoll();
 		this.reconnectModal.hide();
 		console.log('Reconnecting to websocket');
@@ -200,6 +196,7 @@ export class PollComponent implements OnInit {
 		this.poll = data;
 		this.updatePageTitle();
 
+		this.poll.readOnly = this.decodedPollId.readOnly;
 		this.setEditable(this.poll);
 	}
 
@@ -251,6 +248,7 @@ export class PollComponent implements OnInit {
 		this.poll.questions = data;
 
 		this.setEditableForList(this.poll.questions);
+		this.setReadOnlyForList(this.poll.questions);
 		Tools.setUsersForList(this.poll.questions, this.poll.users);
 	}
 
@@ -259,6 +257,7 @@ export class PollComponent implements OnInit {
 			question.candidates = data.filter(c => c.question_id === question.id);
 
 			this.setEditableForList(question.candidates);
+			this.setReadOnlyForList(question.candidates);
 			Tools.setUsersForList(question.candidates, this.poll.users);
 		}
 	}
@@ -328,6 +327,10 @@ export class PollComponent implements OnInit {
 
 	setEditableForList(data: Array<any>) {
 		data.forEach(k => this.setEditable(k, false));
+	}
+
+	setReadOnlyForList(data: Array<any>) {
+		data.forEach(k => k.readOnly = this.poll.readOnly);
 	}
 
 	canCreateQuestion(): boolean {

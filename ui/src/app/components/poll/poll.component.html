@@ -61,7 +61,7 @@
       <div *ngFor="let question of poll.questions">
         <app-question [question]="question"></app-question>
       </div>
-      <button *ngIf="canCreateQuestion()" class="btn btn-outline-primary mb-3"
+      <button *ngIf="canCreateQuestion() && !poll.readOnly" class="btn btn-outline-primary mb-3"
         (click)="createQuestion()" role="button"><i class="fa fa-fw fa-plus"></i>Add a question</button>
     </div>
   </div>
