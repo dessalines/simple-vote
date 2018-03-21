@@ -117,6 +117,22 @@ public class Tools {
                 e.printStackTrace();
             }
         }
+
+        Map<String, String> env = System.getenv();
+        for (String varName : env.keySet()) {
+            switch (varName) {
+                case "SIMPLEVOTE_DB_URL":
+                    prop.setProperty("jdbc.url", env.get(varName));
+                    break;
+                case "SIMPLEVOTE_DB_USERNAME":
+                    prop.setProperty("jdbc.username", env.get(varName));
+                    break;
+                case "SIMPLEVOTE_DB_PASSWORD":
+                    prop.setProperty("jdbc.password", env.get(varName));
+                    break;
+            }
+        }
+
         return prop;
 
     }
