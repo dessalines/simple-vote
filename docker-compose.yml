@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  simple_vote:
+    build: .
+    depends_on:
+      - simple_vote_db
+    ports:
+     - "4567:4567"
+    environment:
+      SIMPLEVOTE_DB_URL: "jdbc:postgresql://simple_vote_db/simplevote"
+      SIMPLEVOTE_DB_USERNAME: "postgres"
+      SIMPLEVOTE_DB_PASSWORD: "example"
+
+  simple_vote_db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: simplevote
