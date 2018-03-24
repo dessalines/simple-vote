@@ -30,7 +30,9 @@
     <h5 class="card-title">Users</h5>
     <hr>
     <div *ngFor="let user of poll.users">
-      <i class="fa fa-fw fa-circle" [class.text-success]="user.active" tooltip="{{user.name}} is {{getActiveString(user)}}" role="button" [class.text-muted]="!user.active"></i>{{user.name}}
+      <i class="fa fa-fw fa-circle" [class.text-success]="user.active" tooltip="{{user.name}} is {{getActiveString(user)}}" role="button" [class.text-muted]="!user.active"></i>
+      <i class="fa fa-fw fa-trash" role="button" (click)="deleteVotes(user)" *ngIf="poll.user_id == userService.getUser().id" tooltip="Delete all {{user.name}}'s votes" role="button"></i>
+      {{user.name}}
     </div>
   </div>
 </div>

@@ -127,6 +127,7 @@ public class ActionTest {
 //
 //        Actions.deleteUser(user.getId());
 //    }
+//update databasechangelog set filename = '/tmp/.simplevote.tmp/liquibase/changelogs/2018-02-01.1.sql' where filename ='src/main/resources/liquibase/changelogs/2018-02-01.sql';
 //
 //    @Test
 //    public void testCandidate() {
