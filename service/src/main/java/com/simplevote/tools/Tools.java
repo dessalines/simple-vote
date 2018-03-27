@@ -102,6 +102,26 @@ public class Tools {
     public static Properties loadProperties(String propertiesFileLocation) {
 
         Properties prop = new Properties();
+
+        Map<String, String> env = System.getenv();
+        for (String varName : env.keySet()) {
+            switch (varName) {
+                case "SIMPLEVOTE_DB_URL":
+                    prop.setProperty("jdbc.url", env.get(varName));
+                    break;
+                case "SIMPLEVOTE_DB_USERNAME":
+                    prop.setProperty("jdbc.username", env.get(varName));
+                    break;
+                case "SIMPLEVOTE_DB_PASSWORD":
+                    prop.setProperty("jdbc.password", env.get(varName));
+                    break;
+            }
+        }
+
+        if (prop.getProperty("jdbc.url") != null) {
+            return prop;
+        }
+
         InputStream input = null;
         try {
             input = new FileInputStream(propertiesFileLocation);
@@ -118,20 +138,7 @@ public class Tools {
             }
         }
 
-        Map<String, String> env = System.getenv();
-        for (String varName : env.keySet()) {
-            switch (varName) {
-                case "SIMPLEVOTE_DB_URL":
-                    prop.setProperty("jdbc.url", env.get(varName));
-                    break;
-                case "SIMPLEVOTE_DB_USERNAME":
-                    prop.setProperty("jdbc.username", env.get(varName));
-                    break;
-                case "SIMPLEVOTE_DB_PASSWORD":
-                    prop.setProperty("jdbc.password", env.get(varName));
-                    break;
-            }
-        }
+
 
         return prop;
 

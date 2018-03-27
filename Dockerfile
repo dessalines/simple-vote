@@ -29,4 +29,5 @@ FROM openjdk:8-jre-slim
 
 COPY --from=java-builder /opt/simple-vote/service/target/simplevote.jar /opt/simplevote.jar
 
-CMD ["java", "-jar", "/opt/simplevote.jar"]
+RUN unzip -o /opt/simplevote.jar -d /tmp/.simplevote.tmp
+CMD ["java", "-jar", "/opt/simplevote.jar", "-liquibase"]
