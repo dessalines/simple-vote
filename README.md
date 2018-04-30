@@ -100,7 +100,7 @@ For local testing:
 
 `./install_dev.sh` and goto `http://localhost:4567/`
 
-For a production environment, edit `ui/config/environment.prod.ts` to point to your hostname, then run:
+For a production environment, edit `ui/src/environments/environment.prod.ts` to point to your hostname, then run:
 
 `./install_prod.sh`
 
