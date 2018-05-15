@@ -117,10 +117,6 @@ export class CandidateComponent implements OnInit {
 		return (this.candidate.votes) ? this.candidate.votes.length.toString() : '0';
 	}
 
-	approvalVoteToThumb(): string {
-		return (this.vote == 100) ? "👍" : "👎";
-	}
-
 	voteExists(): boolean {
 		return this.vote !== undefined && this.vote !== null;
 	}
