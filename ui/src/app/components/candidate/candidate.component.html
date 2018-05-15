@@ -4,8 +4,7 @@
     <span *ngIf="!candidate.title">Untitled candidate</span>
     <small class="text-muted">
       <span *ngIf="voteExists() && questionType == 1">Your Vote: {{vote / 10}} | </span>
-      <span *ngIf="voteExists() && questionType == 2">Your Vote: {{vote}} | </span>
-      <span *ngIf="voteExists() && questionType == 3">Your Vote: {{approvalVoteToThumb()}}</span>
+      <span *ngIf="voteExists() && questionType >= 2">Your Vote: {{vote / 10}} | </span>
       <span *ngIf="candidate?.meetsThreshold && (questionType == 1 || questionType == 3)" role="button">Score: <span tooltip="{{voteAvg(4)}}">{{voteAvg(1)}}</span> | </span>
       <span *ngIf="candidate.avg_score && questionType == 2">Score: {{candidate.avg_score.toFixed(1)}} | </span>
       <span *ngIf="!candidate.meetsThreshold">Score: Too Few Votes | </span>
@@ -27,6 +26,8 @@
       <div class="form-group row">
         <div class="btn-group col-md-12">
           <button class="btn btn-outline-primary" [class.active]="vote==100" (click)="createOrUpdateVote(100)" [disabled]="expired || candidate.readOnly"><i class="fa fa-fw fa-thumbs-up"></i>
+          </button>
+          <button class="btn btn-outline-primary" [class.active]="vote==50" (click)="createOrUpdateVote(50)" [disabled]="expired || candidate.readOnly">Abstain
           </button>
           <button class="btn btn-outline-primary" [class.active]="vote==0" (click)="createOrUpdateVote(0)" [disabled]="expired || candidate.readOnly"><i class="fa fa-fw fa-thumbs-down"></i>
           </button>
