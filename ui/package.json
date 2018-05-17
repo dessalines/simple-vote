@@ -20,7 +20,7 @@
     "@angular/platform-browser": "6.0.1",
     "@angular/platform-browser-dynamic": "6.0.1",
     "@angular/router": "6.0.1",
-    "angular2-jwt": "^0.2.2",
+    "@auth0/angular-jwt": "^2.0.0",
     "bootswatch": "^4.0.0-beta.2",
     "clipboard": "^1.7.1",
     "core-js": "^2.4.1",
@@ -28,9 +28,10 @@
     "hashids": "^1.1.1",
     "markdown-it": "^8.3.1",
     "moment": "^2.22.1",
-    "ngx-bootstrap": "^2.0.0-rc.0",
+    "ngx-bootstrap": "^2.0.5",
     "randomcolor": "^0.5.3 ",
     "rxjs": "^6.1.0",
+    "rxjs-compat": "^6.1.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

@@ -1,0 +1,16 @@
+.pointer {
+  cursor: pointer;
+}
+.edits {
+  color: #828282;
+  font-size: 13.6px;
+  font-weight: 400;
+}
+
+.list-inline {
+  display: inline;
+}
+
+.list-inline-item:not(:last-child) {
+  margin-right: 10px
+}

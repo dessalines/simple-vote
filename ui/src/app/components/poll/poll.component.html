@@ -7,27 +7,36 @@
   <div class="col-lg-8">
     <div class="card mb-3">
       <div class="card-body">
-        <h2 class="card-title" *ngIf="!this.poll.editing">
+        <h2 class="card-title mb-0" *ngIf="!this.poll.editing">
           <span *ngIf="poll.title" [innerHtml]="poll.title | markdown"></span>
           <span *ngIf="!poll.title">Untitled poll</span>
-          <small role="button" (click)="toggleEditing()" *ngIf="poll.editable"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit poll"></i></small>
-          <small role="button" (click)="deletePoll()" *ngIf="poll.editable" tooltip="Delete poll"><i class="fa fa-fw fa-trash"></i></small>
-          <small role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
-          <small *ngIf="!poll.readOnly" role="button" class="clipboard-link" [attr.data-clipboard-text]="getShareLink()" tooltip="Copy poll link to clipboard"><i class="fa fa-fw fa-share"></i></small>
-          <small role="button" class="clipboard-link" [attr.data-clipboard-text]="getShareLink(true)" tooltip="Copy read-only poll link to clipboard"><i class="fa fa-fw fa-eye"></i></small>
-          <small role="button" (click)="exportPoll()" tooltip="Export poll (.json)"><i class="fa fa-fw fa-floppy-o mb-2"></i></small>
-          <br>
-          <button class="btn btn-outline-info" role="button" (click)="toggleHelp()">
-            <span *ngIf="!showHelp"><i class="fa fa-fw fa-question-circle"></i>How does this work?</span>
-            <span *ngIf="showHelp">Hide</span>
-          </button>
         </h2>
+
+        <ul class="list-inline pointer edits">
+          <li class="list-inline-item" role="button" (click)="toggleEditing()" *ngIf="poll.editable" tooltip="Edit poll">edit</li>
+          <li class="list-inline-item" role="button" (click)="deletePoll()" *ngIf="poll.editable" tooltip="Delete poll">delete</li>
+          <li class="list-inline-item" role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</li>
+          <li class="list-inline-item clipboard-link" *ngIf="!poll.readOnly" role="button" [attr.data-clipboard-text]="getShareLink()"
+            tooltip="Copy poll link to clipboard">copy link</li>
+          <li class="list-inline-item clipboard-link mb-2" role="button" [attr.data-clipboard-text]="getShareLink(true)" tooltip="Copy read-only poll link to clipboard">copy read-only link</li>
+          <li class="list-inline-item" role="button" (click)="exportPoll()" tooltip="Export poll (.json)">export</li>
+        </ul>
+        <br>
+
+        <button class="btn btn-outline-info" role="button" (click)="toggleHelp()">
+          <span *ngIf="!showHelp">
+            <i class="fa fa-fw fa-question-circle"></i>How does this work?</span>
+          <span *ngIf="showHelp">Hide</span>
+        </button>
+
+
         <div *ngIf="showHelp">
           <h4>Think of this like olympic score voting</h4>
-          <img class="img-fluid" src="https://miracleon32ndstreet.files.wordpress.com/2010/12/image12.png"/>
+          <img class="img-fluid" src="https://miracleon32ndstreet.files.wordpress.com/2010/12/image12.png" />
           <ul>
             <li>Move the slider right (higher) if you like the option, left if you don't.</li>
-            <li><b>You don't have to vote for every option</b>, not voting won't hurt your current votes.</li>
+            <li>
+              <b>You don't have to vote for every option</b>, not voting won't hurt your current votes.</li>
           </ul>
         </div>
         <div *ngIf="showDetails">
@@ -35,8 +44,7 @@
           <div>Creator: {{poll.user.name}}</div>
           <div>Creation date: {{poll.created | moment}}</div>
           <label class="form-check-label">
-            <input disabled type="checkbox" class="form-check-input"
-              name="users_can_add_questions" [(ngModel)]="poll.users_can_add_questions"> Users can add questions
+            <input disabled type="checkbox" class="form-check-input" name="users_can_add_questions" [(ngModel)]="poll.users_can_add_questions"> Users can add questions
           </label>
         </div>
         <form *ngIf="this.poll.editing" (ngSubmit)="updatePoll()">
@@ -44,14 +52,13 @@
           <div class="form-group row">
             <label class="col-md-2 col-form-label">Title</label>
             <div class="col-md-10">
-              <input type="text" class="form-control" [(ngModel)]="poll.title"
-                name="poll_title" placeholder="Enter your poll name..." autofocus>
+              <input type="text" class="form-control" [(ngModel)]="poll.title" name="poll_title" placeholder="Enter your poll name..."
+                autofocus>
             </div>
           </div>
           <div class="form-check">
             <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="users_can_add_questions"
-                [(ngModel)]="poll.users_can_add_questions"> Users can add questions
+              <input type="checkbox" class="form-check-input" name="users_can_add_questions" [(ngModel)]="poll.users_can_add_questions"> Users can add questions
             </label>
           </div>
           <button class="btn btn-primary" type="submit" role="button">Save</button>
@@ -63,8 +70,8 @@
       <div *ngFor="let question of poll.questions">
         <app-question [question]="question"></app-question>
       </div>
-      <button *ngIf="canCreateQuestion() && !poll.readOnly" class="btn btn-outline-primary mb-3"
-        (click)="createQuestion()" role="button"><i class="fa fa-fw fa-plus"></i>Add a question</button>
+      <button *ngIf="canCreateQuestion() && !poll.readOnly" class="btn btn-outline-primary mb-3" (click)="createQuestion()" role="button">
+        <i class="fa fa-fw fa-plus"></i>Add a question</button>
     </div>
   </div>
   <div class="col-lg-4">
@@ -72,9 +79,8 @@
   </div>
 </div>
 <app-new-user-modal (userCreated)="userCreated()"></app-new-user-modal>
-<div bsModal #reconnectModal="bs-modal" class="modal fade"
-  [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
-  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div bsModal #reconnectModal="bs-modal" class="modal fade" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body text-center">

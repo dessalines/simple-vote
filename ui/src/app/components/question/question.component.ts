@@ -31,7 +31,7 @@ export class QuestionComponent implements OnInit {
 	}
 
 	detailsExpander() {
-		return (this.showDetails) ? '[-]' : '[+]';
+		return (this.showDetails) ? 'hide details' : 'show details';
 	}
 
 	deleteQuestion() {

@@ -1,35 +1,50 @@
 <div class="mb-3">
-  <p class="mb-1" *ngIf="!this.candidate.editing">
-    <span *ngIf="candidate.title" [innerHtml]="candidate.title | markdown"></span>
-    <span *ngIf="!candidate.title">Untitled candidate</span>
-    <small class="text-muted">
-      <span *ngIf="voteExists() && questionType == 1">Your Vote: {{vote / 10}} | </span>
-      <span *ngIf="voteExists() && questionType >= 2">Your Vote: {{vote / 10}} | </span>
-      <span *ngIf="candidate?.meetsThreshold && (questionType == 1 || questionType == 3)" role="button">Score: <span tooltip="{{voteAvg(4)}}">{{voteAvg(1)}}</span> | </span>
-      <span *ngIf="candidate.avg_score && questionType == 2">Score: {{candidate.avg_score.toFixed(1)}} | </span>
-      <span *ngIf="!candidate.meetsThreshold">Score: Too Few Votes | </span>
-      <span>{{voteCount()}} Votes</span>
-    </small>
-    <small role="button" (click)="toggleEditing()" *ngIf="candidate.editable && !expired"><i class="fa fa-fw fa-pencil-square-o" tooltip="Edit option"></i></small>
-    <small role="button" (click)="deleteCandidate()" *ngIf="candidate.editable && !expired" tooltip="Delete option"><i class="fa fa-fw fa-trash"></i></small>
-    <small role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</small>
-    <small *ngIf="voteExists() && !expired" role="button" (click)="deleteVote()" tooltip="Clear vote"><i class="fa fa-fw fa-times"></i></small>
-  </p>
+  <div class="mb-1" *ngIf="!this.candidate.editing">
+    <div class="row">
+      <div class="col-xs-12 col-md-7">
+        <span *ngIf="candidate.title" [innerHtml]="candidate.title | markdown" class="mr-2"></span>
+        <span *ngIf="!candidate.title" class="mr-2">Untitled candidate</span>
+
+        <ul class="list-inline pointer edits">
+          <li class="list-inline-item" role="button" (click)="toggleEditing()" *ngIf="candidate.editable && !expired" tooltip="Edit option">edit</li>
+          <li class="list-inline-item" role="button" (click)="deleteCandidate()" *ngIf="candidate.editable && !expired" tooltip="Delete option">
+            <span>delete</span>
+          </li>
+          <li class="list-inline-item" role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</li>
+          <li class="list-inline-item" *ngIf="voteExists() && !expired" role="button" (click)="deleteVote()" tooltip="Clear vote">clear vote</li>
+        </ul>
+      </div>
+      <div class="col-xs-12 col-md-5 edits text-right">
+        <span *ngIf="voteExists() && questionType == 1">Your Vote: {{vote / 10}} | </span>
+        <span *ngIf="voteExists() && questionType >= 2">Your Vote: {{vote / 10}} | </span>
+        <span *ngIf="candidate?.meetsThreshold && (questionType == 1 || questionType == 3)" role="button">Score:
+          <span tooltip="{{voteAvg(4)}}">{{voteAvg(1)}}</span> | </span>
+        <span *ngIf="candidate.avg_score && questionType == 2">Score: {{candidate.avg_score.toFixed(1)}} | </span>
+        <span *ngIf="!candidate.meetsThreshold">Score: Too Few Votes | </span>
+        <span>{{voteCount()}} Votes</span>
+      </div>
+    </div>
+  </div>
   <div *ngIf="!this.candidate.editing">
     <div *ngIf="questionType == 1" class="progress">
-      <div *ngIf="candidate.meetsThreshold" class="progress-bar" role="progressbar" [style.background-color]="backgroundColor" [style.width.%]="candidate.avg_score">
+      <div *ngIf="candidate.meetsThreshold" class="progress-bar" role="progressbar" [style.background-color]="backgroundColor"
+        [style.width.%]="candidate.avg_score">
       </div>
       <div *ngIf="!candidate.meetsThreshold" class="progress-bar" role="progressbar"></div>
-      <input class="vote_input" [class.invisible]="expired || candidate.readOnly" [(ngModel)]="vote" (value)="createOrUpdateVote($event.target.value)" (mouseup)="createOrUpdateVote($event.target.value)" (touchend)="createOrUpdateVote($event.target.value)" type="range" min="0" max="100" step="5" value="100" />
+      <input class="vote_input" [class.invisible]="expired || candidate.readOnly" [(ngModel)]="vote" (value)="createOrUpdateVote($event.target.value)"
+        (mouseup)="createOrUpdateVote($event.target.value)" (touchend)="createOrUpdateVote($event.target.value)" type="range"
+        min="0" max="100" step="5" value="100" />
     </div>
     <div *ngIf="questionType == 3">
       <div class="form-group row">
         <div class="btn-group col-md-12">
-          <button class="btn btn-outline-primary" [class.active]="vote==100" (click)="createOrUpdateVote(100)" [disabled]="expired || candidate.readOnly"><i class="fa fa-fw fa-thumbs-up"></i>
+          <button class="btn btn-outline-primary" [class.active]="vote==100" (click)="createOrUpdateVote(100)" [disabled]="expired || candidate.readOnly">
+            <i class="fa fa-fw fa-thumbs-up"></i>
           </button>
           <button class="btn btn-outline-primary" [class.active]="vote==50" (click)="createOrUpdateVote(50)" [disabled]="expired || candidate.readOnly">Abstain
           </button>
-          <button class="btn btn-outline-primary" [class.active]="vote==0" (click)="createOrUpdateVote(0)" [disabled]="expired || candidate.readOnly"><i class="fa fa-fw fa-thumbs-down"></i>
+          <button class="btn btn-outline-primary" [class.active]="vote==0" (click)="createOrUpdateVote(0)" [disabled]="expired || candidate.readOnly">
+            <i class="fa fa-fw fa-thumbs-down"></i>
           </button>
         </div>
       </div>
@@ -66,8 +81,8 @@
       <div class="input-group">
         <input type="text" class="form-control" autofocus [(ngModel)]="candidate.title" name="candidate_title" placeholder="Enter your option name...">
         <span class="input-group-btn">
-            <button class="btn btn-primary" type="submit" role="button">Save</button>
-           </span>
+          <button class="btn btn-primary" type="submit" role="button">Save</button>
+        </span>
       </div>
     </div>
   </form>
