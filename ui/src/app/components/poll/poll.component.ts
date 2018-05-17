@@ -45,6 +45,7 @@ export class PollComponent implements OnInit {
 
 	private websocketSoftClose: boolean = false;
 	public isLoading: boolean = false;
+	private initEditing: boolean = false;
 
 	@ViewChild('reconnectModal') private reconnectModal: ModalDirective;
 
@@ -75,7 +76,6 @@ export class PollComponent implements OnInit {
 		return (this.showDetails) ? 'hide details' : 'show details';
 	}
 
-
 	// Only initialize after the user has been created
 	userCreated() {
 		this.init();
@@ -85,6 +85,8 @@ export class PollComponent implements OnInit {
 		this.paramsSub = this.route.params.subscribe(params => {
 			this.decodedPollId = Tools.decodeHashId(params["pollId"]);
 			this.pollService.connect(this.decodedPollId.id);
+
+			this.initEditing = params["editing"];
 
 			this.websocketCloseWatcher();
 			this.subscribeToPoll();
@@ -112,15 +114,15 @@ export class PollComponent implements OnInit {
 	}
 
 	websocketCloseWatcher() {
-		this.pollService.ws.onClose(cb => {
+		// check every 5 seconds for websocket disconnect status
+		setInterval(() => {
 
-			if (!this.websocketSoftClose) {
-				console.log('ws connection closed');
-				//this.reconnectModal.show();
+			if (this.pollService.ws.getReadyState() != 1) {
+				console.log("Reconnecting to websocket");
 				this.websocketReconnect();
-
 			}
-		});
+		}, 5000);
+
 	}
 
 	websocketReconnect() {
@@ -204,6 +206,10 @@ export class PollComponent implements OnInit {
 
 		this.poll.readOnly = this.decodedPollId.readOnly;
 		this.setEditable(this.poll);
+
+		if (this.poll.editable && this.initEditing) {
+			this.poll.editing = true;
+		}
 	}
 
 	setPollUsers(data: Array<User>) {
@@ -288,6 +294,9 @@ export class PollComponent implements OnInit {
 		this.pollService.send(Tools.messageWrapper(MessageType.updatePoll,
 			this.poll));
 		this.poll.editing = false;
+
+		// Removing editing from the window location hash
+		window.history.pushState('', 'title', window.location.hash.split(";")[0]);
 	}
 
 	deletePoll() {
@@ -300,7 +309,6 @@ export class PollComponent implements OnInit {
 		this.updatePageTitle();
 		this.poll.users_can_add_questions = poll.users_can_add_questions;
 		this.poll.predefined_user_list = poll.predefined_user_list;
-		console.log(this.poll.predefined_user_list);
 	}
 
 	receiveDeletePoll() {
