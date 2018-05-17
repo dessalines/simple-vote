@@ -5,7 +5,7 @@ import 'rxjs/add/observable/throw';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
-import { JwtHelper } from 'angular2-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { User, Tools } from '../shared';
 
@@ -15,7 +15,7 @@ export class UserService {
 	private user: User;
 
 	private userUrl: string = environment.endpoint + 'user';
-	private jwtHelper: JwtHelper = new JwtHelper();
+	private jwtHelper: JwtHelperService = new JwtHelperService();
 
 	constructor(private http: Http) {
 		this.setUserFromCookie();

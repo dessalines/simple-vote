@@ -69,7 +69,7 @@ export class PollComponent implements OnInit {
 	}
 
 	detailsExpander() {
-		return (this.showDetails) ? '[-]' : '[+]';
+		return (this.showDetails) ? 'hide details' : 'show details';
 	}
 
 

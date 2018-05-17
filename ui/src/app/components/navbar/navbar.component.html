@@ -16,11 +16,11 @@
            (click)="createPoll()">Create a poll</button>
       </li>
       <li class="nav-item">
-        <a role="button" class="nav-link link-unstyled" placement="bottom" tooltip="Donate to the developer" href="https://paypal.me/THoulihan" target="_blank"><small><i class="fa fa-fw fa-beer"></i></small></a>
+        <a role="button" class="nav-link link-unstyled" placement="bottom" tooltip="Donate to the developer" href="https://paypal.me/THoulihan" target="_blank"><small>donate</small></a>
       </li>
     </ul>
     <ul class="navbar-nav my-lg-0">
-      <li class="nav-item">
+      <li class="nav-item pointer">
         <span class="nav-link" role="button" (click)="changeUserName()" placement="bottom" tooltip="Change UserName">
           <i class="fa fa-fw fa-user"></i>
           <span>{{userService.getUser().name}}</span>
