@@ -9,3 +9,4 @@ export { MessageType } from './message-type.enum';
 export { QuestionType } from './question-type.enum';
 export { Tools } from './tools.class';
 export { DecodedHashId } from './decoded-hash-id.interface';
+export { UserListMatch } from './user-list-match.interface';

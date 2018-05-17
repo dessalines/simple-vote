@@ -216,8 +216,9 @@ public class PollWebSocket {
 
         String title = (Tools.notNull(data.get("title"))) ? data.get("title").asText() : null;
         Boolean usersCanAddQuestions = (Tools.notNull(data.get("users_can_add_questions"))) ? data.get("users_can_add_questions").asBoolean() : null;
-
-        Tables.Poll p = Actions.updatePoll(pollId, title, usersCanAddQuestions);
+        String predefinedUserList = (Tools.notNull(data.get("predefined_user_list"))) ? data.get("predefined_user_list").asText() : null;
+        
+        Tables.Poll p = Actions.updatePoll(pollId, title, usersCanAddQuestions, predefinedUserList);
 
         broadcastMessage(
                 getSessionsFromPoll(pollId),

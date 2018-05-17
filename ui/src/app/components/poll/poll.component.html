@@ -46,6 +46,25 @@
           <label class="form-check-label">
             <input disabled type="checkbox" class="form-check-input" name="users_can_add_questions" [(ngModel)]="poll.users_can_add_questions"> Users can add questions
           </label>
+          <div *ngIf="poll.predefined_user_list" class="table-responsive">
+            <div>Predefined User List: </div>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Match Text</th>
+                  <th scope="col">User</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let match of userListMatches()">
+                  <th scope="row">{{match.text}}</th>
+                  <td><span *ngIf="match.user">{{match.user.name}}
+                    <i class="fa fa-fw fa-check text-success"></i></span>
+                  </td>
+              </tbody>
+            </table>
+          </div>
         </div>
         <form *ngIf="this.poll.editing" (ngSubmit)="updatePoll()">
           <h2>Edit Poll</h2>
@@ -60,6 +79,12 @@
             <label class="form-check-label">
               <input type="checkbox" class="form-check-input" name="users_can_add_questions" [(ngModel)]="poll.users_can_add_questions"> Users can add questions
             </label>
+          </div>
+          <div class="form-group">
+            <label for="predefined_user_list_textarea">An
+              <i>optional</i> predefined user list (comma-separated)</label>
+            <textarea [(ngModel)]="poll.predefined_user_list" class="form-control" id="predefined_user_list_textarea" name="predefined_user_list_textarea"
+              rows="3"></textarea>
           </div>
           <button class="btn btn-primary" type="submit" role="button">Save</button>
           <br>

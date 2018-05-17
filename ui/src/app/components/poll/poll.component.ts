@@ -18,7 +18,8 @@ import {
 	Comment,
 	MessageType,
 	Tools,
-	DecodedHashId
+	DecodedHashId,
+	UserListMatch
 } from '../../shared';
 
 import * as Clipboard from 'clipboard/dist/clipboard.min.js';
@@ -209,7 +210,7 @@ export class PollComponent implements OnInit {
 	}
 
 	setPollActiveUsers(data: Array<User>) {
-
+	
 		// first set all users to inactive
 		for (let user of this.poll.users) {
 			user.active = false;
@@ -296,6 +297,8 @@ export class PollComponent implements OnInit {
 		this.poll.title = poll.title;
 		this.updatePageTitle();
 		this.poll.users_can_add_questions = poll.users_can_add_questions;
+		this.poll.predefined_user_list = poll.predefined_user_list;
+		console.log(this.poll.predefined_user_list);
 	}
 
 	receiveDeletePoll() {
@@ -490,6 +493,26 @@ export class PollComponent implements OnInit {
 			Tools.hashIdReadOnlyPrefix + 
 			window.location.hash.split("/")[2]; 
 		}
+	}
+
+	userListMatches(): Array<UserListMatch> {
+
+		let ulms = [];
+
+		for (let userSearchString of this.poll.predefined_user_list.split(",")) {
+			let ulm: UserListMatch = {
+				text: userSearchString
+			};
+			let index = this.poll.users.findIndex(u => u.name.includes(ulm.text));
+			console.log(index);
+			if (index != -1) {
+				ulm.user = this.poll.users[index];
+			}
+
+			ulms.push(ulm);
+		}
+
+		return ulms;
 	}
 
 }
