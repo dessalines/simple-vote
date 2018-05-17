@@ -71,14 +71,12 @@ export class Tools {
 		if (hashId.startsWith(this.hashIdReadOnlyPrefix)) {
 			return {
 				id: hashids.decode(hashId.split(this.hashIdReadOnlyPrefix)[1]),
-				readOnly: true,
-				hashId: hashId
+				readOnly: true
 			}
 		} else {
 			return {
 				id: hashids.decode(hashId),
-				readOnly: false,
-				hashId: hashId
+				readOnly: false
 			}
 		}
 	}
