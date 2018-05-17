@@ -12,4 +12,5 @@
     <include file="/tmp/.simplevote.tmp/liquibase/changelogs/2017-05-02.1.sql"/>
     <include file="/tmp/.simplevote.tmp/liquibase/changelogs/2017-05-10.1.sql"/>
     <include file="/tmp/.simplevote.tmp/liquibase/changelogs/2018-02-01.1.sql"/>
+    <include file="/tmp/.simplevote.tmp/liquibase/changelogs/2018-05-16.1.sql"/>
 </databaseChangeLog>

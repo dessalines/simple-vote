@@ -13,4 +13,5 @@ export interface Poll {
 	editable?: boolean;
 	editing?: boolean;
 	readOnly?: boolean;
+	predefined_user_list?: string;
 }

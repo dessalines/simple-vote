@@ -186,6 +186,6 @@ public class Tools {
     }
 
     public static Boolean notNull(JsonNode node) {
-        return (node != null && !node.asText().equals("null"));
+        return (node != null && !node.asText().equals("null") && !node.asText().equals(""));
     }
 }

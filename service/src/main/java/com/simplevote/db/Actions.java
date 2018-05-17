@@ -57,10 +57,11 @@ public class Actions {
         return Tables.Poll.createIt("user_id", userId);
     }
 
-    public static Tables.Poll updatePoll(Long pollId, String title, Boolean usersCanAddQuestions) {
+    public static Tables.Poll updatePoll(Long pollId, String title, Boolean usersCanAddQuestions, String predefinedUserList) {
         Tables.Poll p = Tables.Poll.findFirst("id = ?", pollId);
         if (title != null) p.set("title", title);
         if (usersCanAddQuestions != null) p.set("users_can_add_questions", usersCanAddQuestions);
+        if (predefinedUserList != null) p.set("predefined_user_list", predefinedUserList);
         p.saveIt();
 
         return p;
