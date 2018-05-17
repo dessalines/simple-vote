@@ -40,6 +40,8 @@ export class PollComponent implements OnInit {
 
 	public showDetails: boolean = false;
 	public showHelp: boolean = false;
+	public userListMatchData: Array<UserListMatch>;
+	public participationPct: number;
 
 	private websocketSoftClose: boolean = false;
 	public isLoading: boolean = false;
@@ -498,7 +500,7 @@ export class PollComponent implements OnInit {
 	userListMatches(): Array<UserListMatch> {
 
 		let ulms = [];
-
+		let participation = 0;
 		for (let userSearchString of this.poll.predefined_user_list.split(",")) {
 			let ulm: UserListMatch = {
 				text: userSearchString
@@ -507,12 +509,15 @@ export class PollComponent implements OnInit {
 			console.log(index);
 			if (index != -1) {
 				ulm.user = this.poll.users[index];
+				participation++;
 			}
-
 			ulms.push(ulm);
 		}
-
+		this.userListMatchData = ulms;
+		this.participationPct = participation / ulms.length * 100
 		return ulms;
 	}
+
+	
 
 }
