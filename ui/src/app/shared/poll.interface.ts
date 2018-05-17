@@ -1,4 +1,4 @@
-import { Question, Comment, User } from './';
+import { Question, Comment, User, UserListMatch } from './';
 
 export interface Poll {
 	id: number;
@@ -14,4 +14,6 @@ export interface Poll {
 	editing?: boolean;
 	readOnly?: boolean;
 	predefined_user_list?: string;
+	user_list_matches?: Array<UserListMatch>;
+	participation_pct?: number;
 }
