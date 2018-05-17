@@ -40,8 +40,6 @@ export class PollComponent implements OnInit {
 
 	public showDetails: boolean = false;
 	public showHelp: boolean = false;
-	public userListMatchData: Array<UserListMatch>;
-	public participationPct: number;
 
 	private websocketSoftClose: boolean = false;
 	public isLoading: boolean = false;
@@ -519,8 +517,8 @@ export class PollComponent implements OnInit {
 			}
 			ulms.push(ulm);
 		}
-		this.userListMatchData = ulms;
-		this.participationPct = participation / ulms.length * 100
+		this.poll.user_list_matches = ulms;
+		this.poll.participation_pct = participation / ulms.length * 100
 		return ulms;
 	}
 
