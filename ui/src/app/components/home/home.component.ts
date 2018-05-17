@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
 	createPoll() {
 		this.pollService.createPoll().subscribe(p => {
 			let hashId = Tools.encodeHashId(p.id);
-			this.router.navigate(['/poll', hashId]);
+			this.router.navigate(['/poll', hashId, {editing: true}]);
 		});
 	}
 

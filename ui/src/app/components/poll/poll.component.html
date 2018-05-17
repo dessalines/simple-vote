@@ -12,7 +12,7 @@
           <span *ngIf="!poll.title">Untitled poll</span>
         </h2>
 
-        <ul class="list-inline pointer edits">
+        <ul *ngIf="!this.poll.editing" class="list-inline pointer edits">
           <li class="list-inline-item" role="button" (click)="toggleEditing()" *ngIf="poll.editable" tooltip="Edit poll">edit</li>
           <li class="list-inline-item" role="button" (click)="deletePoll()" *ngIf="poll.editable" tooltip="Delete poll">delete</li>
           <li class="list-inline-item" role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</li>
@@ -21,16 +21,16 @@
           <li class="list-inline-item clipboard-link mb-2" role="button" [attr.data-clipboard-text]="getShareLink(true)" tooltip="Copy read-only poll link to clipboard">copy read-only link</li>
           <li class="list-inline-item" role="button" (click)="exportPoll()" tooltip="Export poll (.json)">export</li>
         </ul>
-        <br>
+        <br *ngIf="!this.poll.editing">
 
-        <button class="btn btn-outline-info" role="button" (click)="toggleHelp()">
+        <button *ngIf="!this.poll.editing" class="btn btn-outline-info" role="button" (click)="toggleHelp()">
           <span *ngIf="!showHelp">
             <i class="fa fa-fw fa-question-circle"></i>How does this work?</span>
           <span *ngIf="showHelp">Hide</span>
         </button>
 
 
-        <div *ngIf="showHelp">
+        <div *ngIf="showHelp && !this.poll.editing">
           <h4>Think of this like olympic score voting</h4>
           <img class="img-fluid" src="https://miracleon32ndstreet.files.wordpress.com/2010/12/image12.png" />
           <ul>
@@ -39,7 +39,7 @@
               <b>You don't have to vote for every option</b>, not voting won't hurt your current votes.</li>
           </ul>
         </div>
-        <div *ngIf="showDetails">
+        <div *ngIf="showDetails && !this.poll.editing">
           <h4>Details</h4>
           <div>Creator: {{poll.user.name}}</div>
           <div>Creation date: {{poll.created | moment}}</div>
