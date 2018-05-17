@@ -118,7 +118,6 @@ export class PollComponent implements OnInit {
 		setInterval(() => {
 
 			if (this.pollService.ws.getReadyState() != 1) {
-				console.log("Reconnecting to websocket");
 				this.websocketReconnect();
 			}
 		}, 5000);
@@ -514,7 +513,6 @@ export class PollComponent implements OnInit {
 				text: userSearchString
 			};
 			let index = this.poll.users.findIndex(u => u.name.includes(ulm.text));
-			console.log(index);
 			if (index != -1) {
 				ulm.user = this.poll.users[index];
 				participation++;
