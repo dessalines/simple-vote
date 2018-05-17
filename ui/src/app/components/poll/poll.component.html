@@ -67,7 +67,7 @@
             <span tooltip="{{this.poll.participation_pct}}%">Participation: {{this.poll.participation_pct.toFixed(0)}}%</span>
           </div>
         </div>
-        <form *ngIf="this.poll.editing" (ngSubmit)="updatePoll()">
+        <form class="needs-validation" #pollForm="ngForm" *ngIf="this.poll.editing" (ngSubmit)="updatePoll()">
           <h2>Edit Poll</h2>
           <div class="form-group row">
             <label class="col-md-2 col-form-label">Title</label>
@@ -85,9 +85,11 @@
             <label for="predefined_user_list_textarea">An
               <i>optional</i> predefined user list (comma-separated)</label>
             <textarea [(ngModel)]="poll.predefined_user_list" class="form-control" id="predefined_user_list_textarea" name="predefined_user_list_textarea"
-              rows="3"></textarea>
+              rows="3" pattern="[a-zA-Z0-9_,-]+" #predefinedv="ngModel" [class.is-invalid]="!(predefinedv.valid || predefinedv.pristine)"></textarea>
           </div>
-          <button class="btn btn-primary" type="submit" role="button">Save</button>
+          <div [hidden]="predefinedv.valid || predefinedv.pristine" class="text-danger">Predefined user list must not have spaces.
+          </div>
+          <button class="btn btn-primary" type="submit" role="button" [disabled]="!pollForm.form.valid">Save</button>
           <br>
         </form>
       </div>
