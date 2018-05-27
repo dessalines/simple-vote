@@ -9,6 +9,13 @@
     "@angular-devkit/core" "0.6.1"
     rxjs "^6.0.0"
 
+"@angular-devkit/architect@0.6.5":
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.6.5.tgz#98185fd0adea9c1a81b67ff6d543b79033902ce2"
+  dependencies:
+    "@angular-devkit/core" "0.6.5"
+    rxjs "^6.0.0"
+
 "@angular-devkit/build-angular@~0.6.1":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-angular/-/build-angular-0.6.1.tgz#e59df34271d74436e62086dcf1523e2d22ac7f1b"
@@ -83,22 +90,31 @@
     rxjs "^6.0.0"
     source-map "^0.5.6"
 
-"@angular-devkit/schematics@0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-0.6.1.tgz#8e94fbd45e24596f1f0a086a70dde88dbc6cf96e"
+"@angular-devkit/core@0.6.5":
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-0.6.5.tgz#d5c7e603e4557e1d86193dcfaaa34dbc86a3432a"
   dependencies:
-    "@angular-devkit/core" "0.6.1"
+    ajv "~6.4.0"
+    chokidar "^2.0.3"
+    rxjs "^6.0.0"
+    source-map "^0.5.6"
+
+"@angular-devkit/schematics@0.6.5":
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-0.6.5.tgz#6985c821feab391ef298ef5a5002b95bea7ad843"
+  dependencies:
+    "@angular-devkit/core" "0.6.5"
     rxjs "^6.0.0"
 
-"@angular/cli@6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-6.0.1.tgz#52c21451716be51716a413c5367b3f3d003f8447"
+"@angular/cli@6.0.5":
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-6.0.5.tgz#9b1b8459a20bd9b5166d1d84225a274a37c57bce"
   dependencies:
-    "@angular-devkit/architect" "0.6.1"
-    "@angular-devkit/core" "0.6.1"
-    "@angular-devkit/schematics" "0.6.1"
-    "@schematics/angular" "0.6.1"
-    "@schematics/update" "0.6.1"
+    "@angular-devkit/architect" "0.6.5"
+    "@angular-devkit/core" "0.6.5"
+    "@angular-devkit/schematics" "0.6.5"
+    "@schematics/angular" "0.6.5"
+    "@schematics/update" "0.6.5"
     opn "~5.3.0"
     resolve "^1.1.7"
     rxjs "^6.0.0"
@@ -178,20 +194,20 @@
     tree-kill "^1.0.0"
     webpack-sources "^1.1.0"
 
-"@schematics/angular@0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-0.6.1.tgz#912495d248b95fcd20a04609e48cf2a4516b2071"
+"@schematics/angular@0.6.5":
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-0.6.5.tgz#407f476ba1fea1ac5ef661b15c135af216ec710c"
   dependencies:
-    "@angular-devkit/core" "0.6.1"
-    "@angular-devkit/schematics" "0.6.1"
+    "@angular-devkit/core" "0.6.5"
+    "@angular-devkit/schematics" "0.6.5"
     typescript ">=2.6.2 <2.8"
 
-"@schematics/update@0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@schematics/update/-/update-0.6.1.tgz#047ae51df9d80827d56e2f88b662b7c109cb0988"
+"@schematics/update@0.6.5":
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/@schematics/update/-/update-0.6.5.tgz#170aa7c5ed0aaa68f7200a72e52e55892f09df76"
   dependencies:
-    "@angular-devkit/core" "0.6.1"
-    "@angular-devkit/schematics" "0.6.1"
+    "@angular-devkit/core" "0.6.5"
+    "@angular-devkit/schematics" "0.6.5"
     npm-registry-client "^8.5.1"
     rxjs "^6.0.0"
     semver "^5.3.0"

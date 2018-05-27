@@ -13,9 +13,9 @@
         </h2>
 
         <ul *ngIf="!this.poll.editing" class="list-inline pointer edits">
-          <li class="list-inline-item" role="button" (click)="toggleEditing()" *ngIf="poll.editable" tooltip="Edit poll">edit</li>
-          <li class="list-inline-item" role="button" (click)="deletePoll()" *ngIf="poll.editable" tooltip="Delete poll">delete</li>
-          <li class="list-inline-item" role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</li>
+          <li class="list-inline-item" role="button" (click)="toggleEditing()" *ngIf="poll.editable" >edit</li>
+          <li class="list-inline-item" role="button" (click)="deletePoll()" *ngIf="poll.editable" >delete</li>
+          <li class="list-inline-item" role="button" (click)="toggleDetails()">{{detailsExpander()}}</li>
           <li class="list-inline-item clipboard-link" *ngIf="!poll.readOnly" role="button" [attr.data-clipboard-text]="getShareLink()"
             tooltip="Copy poll link to clipboard">copy link</li>
           <li class="list-inline-item clipboard-link mb-2" role="button" [attr.data-clipboard-text]="getShareLink(true)" tooltip="Copy read-only poll link to clipboard">copy read-only link</li>

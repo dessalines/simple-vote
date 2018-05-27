@@ -4,9 +4,9 @@
       <span *ngIf="question.title" [innerHtml]="question.title | markdown" class="mr-2"></span>
       <span *ngIf="!question.title" class="mr-2">Untitled question</span>
       <ul class="list-inline pointer edits">
-        <li class="list-inline-item" role="button" (click)="toggleEditing()" *ngIf="question.editable" tooltip="Edit question">edit</li>
-        <li class="list-inline-item" role="button" (click)="deleteQuestion()" *ngIf="question.editable" tooltip="Delete question">delete</li>
-        <li class="list-inline-item" role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</li>
+        <li class="list-inline-item" role="button" (click)="toggleEditing()" *ngIf="question.editable">edit</li>
+        <li class="list-inline-item" role="button" (click)="deleteQuestion()" *ngIf="question.editable">delete</li>
+        <li class="list-inline-item" role="button" (click)="toggleDetails()">{{detailsExpander()}}</li>
         <li class="list-inline-item" *ngIf="isExpired()">
           <i>expired</i>
         </li>
