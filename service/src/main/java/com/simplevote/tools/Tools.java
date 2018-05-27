@@ -1,6 +1,23 @@
 package com.simplevote.tools;
 
-import ch.qos.logback.classic.Logger;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpCookie;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Properties;
+import java.util.stream.Collectors;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -12,27 +29,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.simplevote.DataSources;
+
+import org.javalite.activejdbc.DB;
+import org.javalite.activejdbc.DBException;
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.Logger;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
-import liquibase.resource.FileSystemResourceAccessor;
-import org.javalite.activejdbc.DB;
-import org.javalite.activejdbc.DBException;
-import org.slf4j.LoggerFactory;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpCookie;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import liquibase.resource.ClassLoaderResourceAccessor;
 
 /**
  * Created by tyler on 4/20/17.
@@ -168,7 +176,7 @@ public class Tools {
 
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(c));
             log.info(DataSources.CHANGELOG_MASTER);
-            liquibase = new Liquibase(DataSources.CHANGELOG_MASTER, new FileSystemResourceAccessor(), database);
+            liquibase = new Liquibase(DataSources.CHANGELOG_MASTER, new ClassLoaderResourceAccessor(), database);
             liquibase.update("main");
         } catch (SQLException | LiquibaseException e) {
             e.printStackTrace();
