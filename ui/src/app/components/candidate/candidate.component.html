@@ -6,11 +6,11 @@
         <span *ngIf="!candidate.title" class="mr-2">Untitled candidate</span>
 
         <ul class="list-inline pointer edits">
-          <li class="list-inline-item" role="button" (click)="toggleEditing()" *ngIf="candidate.editable && !expired" tooltip="Edit option">edit</li>
-          <li class="list-inline-item" role="button" (click)="deleteCandidate()" *ngIf="candidate.editable && !expired" tooltip="Delete option">
+          <li class="list-inline-item" role="button" (click)="toggleEditing()" *ngIf="candidate.editable && !expired">edit</li>
+          <li class="list-inline-item" role="button" (click)="deleteCandidate()" *ngIf="candidate.editable && !expired">
             <span>delete</span>
           </li>
-          <li class="list-inline-item" role="button" (click)="toggleDetails()" tooltip="Show details">{{detailsExpander()}}</li>
+          <li class="list-inline-item" role="button" (click)="toggleDetails()">{{detailsExpander()}}</li>
           <li class="list-inline-item" *ngIf="voteExists() && !expired" role="button" (click)="deleteVote()" tooltip="Clear vote">clear vote</li>
         </ul>
       </div>

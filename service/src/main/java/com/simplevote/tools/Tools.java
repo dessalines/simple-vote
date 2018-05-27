@@ -1,10 +1,15 @@
 package com.simplevote.tools;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpCookie;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import com.auth0.jwt.JWT;
@@ -29,10 +35,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.simplevote.DataSources;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
-import org.javalite.activejdbc.DB;
-import org.javalite.activejdbc.DBException;
 import org.slf4j.LoggerFactory;
+
+import org.javalite.activejdbc.Base;
 
 import ch.qos.logback.classic.Logger;
 import liquibase.Liquibase;
@@ -54,29 +62,32 @@ public class Tools {
     public static TypeFactory typeFactory = JACKSON.getTypeFactory();
     public static MapType mapType = typeFactory.constructMapType(HashMap.class, String.class, String.class);
 
-    public static final void dbInit() {
-        try {
-            new DB("default").open("org.postgresql.Driver",
-                    DataSources.PROPERTIES.getProperty("jdbc.url"),
-                    DataSources.PROPERTIES.getProperty("jdbc.username"),
-                    DataSources.PROPERTIES.getProperty("jdbc.password"));
-        } catch (DBException e) {
-            e.printStackTrace();
-            dbClose();
-            dbInit();
-        }
+    public static final HikariConfig hikariConfig() {
+        HikariConfig hc = new HikariConfig();
+        hc.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
+        hc.setJdbcUrl(DataSources.PROPERTIES.getProperty("jdbc.url"));
+        hc.setUsername(DataSources.PROPERTIES.getProperty("jdbc.username"));
+        hc.setPassword(DataSources.PROPERTIES.getProperty("jdbc.password"));
+        hc.setMaximumPoolSize(10);
+        return hc;
+    }
 
+    public static final HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig());
+
+    public static final void dbInit() {
+        Base.open(hikariDataSource); // get connection from pool
     }
 
     public static final void dbClose() {
-        new DB("default").close();
+        Base.close();
     }
 
     public static final Algorithm getJWTAlgorithm() {
         Algorithm JWTAlgorithm = null;
         try {
             JWTAlgorithm = Algorithm.HMAC256(DataSources.PROPERTIES.getProperty("jdbc.password"));
-        } catch (UnsupportedEncodingException | JWTCreationException exception){}
+        } catch (UnsupportedEncodingException | JWTCreationException exception) {
+        }
 
         return JWTAlgorithm;
     }
@@ -86,11 +97,11 @@ public class Tools {
         DecodedJWT jwt = null;
 
         try {
-            JWTVerifier verifier = JWT.require(getJWTAlgorithm())
-                    .withIssuer("simplevote")
-                    .build(); //Reusable verifier instance
+            JWTVerifier verifier = JWT.require(getJWTAlgorithm()).withIssuer("simplevote").build(); // Reusable verifier
+                                                                                                    // instance
             jwt = verifier.verify(token);
-        } catch (JWTVerificationException e){}
+        } catch (JWTVerificationException e) {
+        }
 
         return jwt;
     }
@@ -100,7 +111,7 @@ public class Tools {
         Map<String, String> map = new HashMap<>();
         try {
             map = JACKSON.readValue(reqBody, mapType);
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -114,15 +125,15 @@ public class Tools {
         Map<String, String> env = System.getenv();
         for (String varName : env.keySet()) {
             switch (varName) {
-                case "SIMPLEVOTE_DB_URL":
-                    prop.setProperty("jdbc.url", env.get(varName));
-                    break;
-                case "SIMPLEVOTE_DB_USERNAME":
-                    prop.setProperty("jdbc.username", env.get(varName));
-                    break;
-                case "SIMPLEVOTE_DB_PASSWORD":
-                    prop.setProperty("jdbc.password", env.get(varName));
-                    break;
+            case "SIMPLEVOTE_DB_URL":
+                prop.setProperty("jdbc.url", env.get(varName));
+                break;
+            case "SIMPLEVOTE_DB_USERNAME":
+                prop.setProperty("jdbc.username", env.get(varName));
+                break;
+            case "SIMPLEVOTE_DB_PASSWORD":
+                prop.setProperty("jdbc.password", env.get(varName));
+                break;
             }
         }
 
@@ -138,7 +149,7 @@ public class Tools {
             prop.load(input);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally  {
+        } finally {
             try {
                 input.close();
             } catch (IOException e) {
@@ -146,18 +157,15 @@ public class Tools {
             }
         }
 
-
-
         return prop;
 
     }
 
     public static Map<String, String> cookieListToMap(List<HttpCookie> list) {
-        return list.stream().collect(Collectors.toMap(
-                HttpCookie::getName, HttpCookie::getValue));
+        return list.stream().collect(Collectors.toMap(HttpCookie::getName, HttpCookie::getValue));
     }
 
-    public static String convertListToInQuery(Collection<?> col){
+    public static String convertListToInQuery(Collection<?> col) {
         if (col.size() > 0) {
             return Arrays.toString(col.toArray()).replaceAll("\\[", "(").replaceAll("\\]", ")");
         } else {
@@ -187,7 +195,7 @@ public class Tools {
                     c.rollback();
                     c.close();
                 } catch (SQLException e) {
-                    //nothing to do
+                    // nothing to do
                 }
             }
         }
@@ -195,5 +203,40 @@ public class Tools {
 
     public static Boolean notNull(JsonNode node) {
         return (node != null && !node.asText().equals("null") && !node.asText().equals(""));
+    }
+
+    public static void setDistEndpoint(String endpoint) {
+
+        try {
+            InputStream is = Tools.class.getResourceAsStream("/dist/index.html");
+            Scanner s = new Scanner(is).useDelimiter("\\A");
+            String result = s.hasNext() ? s.next() : "";
+            is.close();
+
+            log.info(result);
+            // URL url = Tools.class.getResource("dist/main.28840dc9b3ab5c94ac58.js");
+            URL url = Tools.class.getResource("/dist/index.html");
+
+            log.info(url.toString());
+
+            String content = endpoint;
+            byte[] contentInBytes = content.getBytes();
+
+            PrintWriter writer = new PrintWriter(
+                new File(Tools.class.getResource("/dist/index.html").getPath()));
+
+            writer.println(content);
+            writer.close();
+
+            is = Tools.class.getResourceAsStream("/dist/index.html");
+            s = new Scanner(is).useDelimiter("\\A");
+            result = s.hasNext() ? s.next() : "";
+            is.close();
+
+            log.info(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
