@@ -1,5 +1,34 @@
-FROM openjdk:8-jre-slim
+
+FROM node:9 as node-builder
+
+# Hacky workaround for installing @angular/cli
+RUN chmod a+w /usr/local/lib/node_modules && chmod a+w /usr/local/bin
+USER node
+RUN npm i -g @angular/cli@latest
+
+# Build front end resources
 USER root
-WORKDIR /opt/
-RUN apt-get update && apt-get install -y curl wget
-RUN curl -s https://api.github.com/repos/dessalines/simple-vote/releases/latest | grep browser_download_url | cut -d '"' -f 4 | xargs wget
+ARG UI_PATH=/opt/simple-vote/ui
+COPY ui ${UI_PATH}
+WORKDIR ${UI_PATH}
+
+ARG HOST_NAME=http://localhost:4567
+
+RUN echo "HOST_NAME is ${HOST_NAME}"
+RUN echo "export const environment = {production: true,endpoint: '${HOST_NAME}/',websocket: 'ws`echo ${HOST_NAME}|cut -b 5-999`/poll'};" > src/environments/environment.prod.ts
+RUN cat src/environments/environment.prod.ts
+RUN yarn
+RUN ng build --prod --aot
+
+
+FROM maven:3.5-jdk-8 as java-builder
+
+COPY service /opt/simple-vote/service
+COPY --from=node-builder /opt/simple-vote/ui/dist /opt/simple-vote/service/src/main/resources
+
+WORKDIR /opt/simple-vote/service
+RUN mvn clean install -DskipTests -Dliquibase.skip
+
+FROM openjdk:8-jre-slim
+
+COPY --from=java-builder /opt/simple-vote/service/target/simplevote.jar /opt/simplevote.jar
