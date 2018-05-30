@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  simple_vote_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: simplevote
+  simple_vote:
+    build: .
+    command: "bash -c 'sleep 7s; java -jar /opt/simplevote.jar -liquibase'"
+    depends_on:
+      - simple_vote_db
+    ports:
+     - "4567:4567"
+    environment:
+      SIMPLEVOTE_DB_URL: "jdbc:postgresql://simple_vote_db/simplevote"
+      SIMPLEVOTE_DB_USERNAME: "postgres"
+      SIMPLEVOTE_DB_PASSWORD: "example"
