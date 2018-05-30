@@ -56,6 +56,7 @@ Join the subreddit: [/r/simplevote](https://www.reddit.com/r/simplevote/)
 ```sh
 git clone https://github.com/dessalines/simple-vote
 cd simple-vote
+// edit ARG HOST_NAME=http://localhost:4567 in ./Dockerfile to your hostname
 docker-compose up
 ```
 
