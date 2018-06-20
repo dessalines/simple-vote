@@ -66,11 +66,7 @@ public class Actions {
         } else {
             uv = Tables.User.findFirst("name = ?", userName);
         }
-
-        log.info(uv.toJson(true));
-        log.info(loggedInUserId.toString());
-        System.out.println(loggedInUserId.equals(uv.getLongId()));
-
+        
         if (uv == null) {
 
             // Create the user and full user
