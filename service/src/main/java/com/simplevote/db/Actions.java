@@ -68,6 +68,8 @@ public class Actions {
         }
 
         log.info(uv.toJson(true));
+        log.info(loggedInUserId.toString());
+        System.out.println(loggedInUserId.equals(uv.getLongId()));
 
         if (uv == null) {
 
@@ -79,7 +81,8 @@ public class Actions {
             user.set("password_encrypted", encryptedPassword, "email", email).saveIt();
             return createUserObj(user, true);
 
-        } else if (loggedInUserId == uv.getLongId()) {
+        } else if (loggedInUserId.equals(uv.getLongId())) {
+            log.info("got here");
 
             String encryptedPassword = Tools.PASS_ENCRYPT.encryptPassword(password);
             uv.set("password_encrypted", encryptedPassword, "email", email).saveIt();
