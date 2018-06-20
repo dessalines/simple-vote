@@ -3,4 +3,5 @@ export interface User {
 	id: number;
 	jwt: string;
 	active?: boolean;
+	fullUser?: boolean;
 }

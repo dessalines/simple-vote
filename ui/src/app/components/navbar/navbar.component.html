@@ -19,19 +19,24 @@
         <a role="button" class="nav-link link-unstyled" placement="bottom" tooltip="Donate to the developer" href="https://paypal.me/THoulihan" target="_blank"><small>donate</small></a>
       </li>
     </ul>
-    <ul class="navbar-nav my-lg-0">
-      <li class="nav-item pointer">
-        <span class="nav-link" role="button" (click)="changeUserName()" placement="bottom" tooltip="Change UserName">
-          <i class="fa fa-fw fa-user"></i>
-          <span>{{userService.getUser().name}}</span>
-        </span>
+    <ul *ngIf="userService.getUser()" class="navbar-nav my-lg-0">
+      <li *ngIf="!userService.getUser().fullUser" class="nav-item pointer">
+        <a role="button" class="nav-link" (click)="toggleLoginModal()">Login/Signup</a>
       </li>
-      <li [hidden]="true" class="nav-item">
-        <a class="nav-link" role="button" (click)="logout()" placement="left" tooltip="Logout">
-          <i class="fa fa-fw fa-sign-out"></i>
+      <li dropdown class="nav-item pointer" keyboardNav="true">
+        <a class="nav-link" role="button" type="button" dropdownToggle>
+          {{userService.getUser().name}}
+          <i class="ml-2 fa fa-caret-down"></i>
         </a>
+        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+          <li role="menuitem">
+            <a (click)="logout()" class="dropdown-item" href="#">
+              <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
 </nav>
-<app-new-user-modal *ngIf="showUpdateUserComponent" [createNewUser]=false></app-new-user-modal>
+<app-new-user-modal></app-new-user-modal>
+<app-login-modal *ngIf="showLoginModal" (hideEvent)="hiddenEvent()"></app-login-modal>

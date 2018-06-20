@@ -6,6 +6,8 @@ import {
 	UserService
 } from '../../services';
 
+import { ToasterService } from 'angular2-toaster';
+
 import { Tools } from '../../shared';
 
 @Component({
@@ -16,12 +18,13 @@ import { Tools } from '../../shared';
 export class NavbarComponent implements OnInit {
 
 	public collapseNavbar: boolean = true;
-	public showUpdateUserComponent: boolean = false;
+	public showLoginModal: boolean = false;
 
 	constructor(public userService: UserService,
 		private pollService: PollService,
 		private route: ActivatedRoute,
-		private router: Router) { }
+		private router: Router,
+		private toasterService: ToasterService) { }
 
 	ngOnInit() {
 	}
@@ -33,12 +36,12 @@ export class NavbarComponent implements OnInit {
 	createPoll() {
 		this.pollService.createPoll().subscribe(p => {
 			let hashId = Tools.encodeHashId(p.id);
-			this.router.navigate(['/poll', hashId, {editing: true}]);
+			this.router.navigate(['/poll', hashId, { editing: true }]);
 		});
 	}
 
-	changeUserName() {
-		this.showUpdateUserComponent = true;
+	toggleLoginModal() {
+		this.showLoginModal = true;
 	}
 
 	logout() {
@@ -46,5 +49,8 @@ export class NavbarComponent implements OnInit {
 		location.reload();
 	}
 
+	hiddenEvent() {
+		this.showLoginModal = false;
+	}
 
 }

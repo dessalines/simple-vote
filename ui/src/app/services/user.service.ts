@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -15,7 +15,18 @@ export class UserService {
 	private user: User;
 
 	private userUrl: string = environment.endpoint + 'user';
+	private loginUrl: string = environment.endpoint + 'login';
+	private signupUrl: string = environment.endpoint + 'signup';
+	
 	private jwtHelper: JwtHelperService = new JwtHelperService();
+
+	getOptions(): RequestOptions {
+		let headers = new Headers({
+			// 'Content-Type': 'application/json',
+			'token': this.getUser().jwt
+		});
+		return new RequestOptions({ headers: headers });
+	}
 
 	constructor(private http: Http) {
 		this.setUserFromCookie();
@@ -33,13 +44,32 @@ export class UserService {
 		this.user = {
 			id: dJWT.user_id,
 			name: dJWT.user_name,
-			jwt: jwt
+			jwt: jwt,
+			fullUser: dJWT.full_user
 		};
 	}
 
 	public getUser(): User {
 		return this.user;
 	}
+
+	login(usernameOrEmail: string, password: string): Observable<string> {
+    let reqBody: string = JSON.stringify({ usernameOrEmail, password });
+    return this.http.post(this.loginUrl, reqBody)
+      .map(r => r.text())
+      .catch(this.handleError);
+  }
+
+  signup(username: string, password: string, verifyPassword: string, email: string): Observable<string> {
+    let options = (this.getUser()) ? this.getOptions() : null;
+    console.log(options);
+    let reqBody: string = JSON.stringify({ username, password, verifyPassword, email });
+    return this.http.post(this.signupUrl, reqBody, options)
+      .map(r => r.text())
+      .catch(this.handleError);
+	}
+	
+
 
 	createNewUser(nameStr: string): Observable<string> {
 		let name = JSON.stringify({ name: nameStr });

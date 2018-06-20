@@ -6,4 +6,6 @@ export { FooterComponent } from './footer/footer.component';
 export { ChatComponent } from './chat/chat.component';
 export { QuestionComponent } from './question/question.component';
 export { CandidateComponent } from './candidate/candidate.component';
+export { LoginModalComponent } from './login-modal/login-modal.component';
+
 

@@ -11,7 +11,7 @@
             <span>delete</span>
           </li>
           <li class="list-inline-item" role="button" (click)="toggleDetails()">{{detailsExpander()}}</li>
-          <li class="list-inline-item" *ngIf="voteExists() && !expired" role="button" (click)="deleteVote()" tooltip="Clear vote">clear vote</li>
+          <li class="list-inline-item" *ngIf="voteExists() && !expired" role="button" (click)="deleteVote()">clear vote</li>
         </ul>
       </div>
       <div class="col-xs-12 col-lg-5 pl-0 edits text-right">

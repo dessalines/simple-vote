@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { UserService } from '../../services';
 
 import { Tools } from '../../shared';
+import { ToasterService } from 'angular2-toaster';
 
 
 @Component({
@@ -13,44 +14,44 @@ import { Tools } from '../../shared';
 	styleUrls: ['./new-user-modal.component.scss']
 })
 export class NewUserModalComponent implements OnInit {
-
 	@ViewChild('smModal') private smModal: ModalDirective;
-	@Output() userCreated = new EventEmitter();	
+	@Output() userCreated = new EventEmitter();
 
-	@Input() createNewUser: boolean = true;
+	public showLoginModal: boolean = false;
 
 	public name: string;
 
-	constructor(private userService: UserService) { }
+	constructor(private userService: UserService,
+		private toasterService: ToasterService) { }
 
 	ngOnInit() {
 		// focus when the modal is shown
 		this.smModal.onShown.subscribe(() => document.getElementById("new-user-input").focus());
 
-		if (this.userService.getUser() == null || this.createNewUser == false) {
-			setTimeout(() => this.smModal.show(),100);
+		if (this.userService.getUser() == null) {
+			setTimeout(() => this.smModal.show(), 100);
 		} else {
 			this.userCreated.emit();
 		}
 	}
 
 	onSubmit() {
-		let obs: Observable<string>;
-		if (this.createNewUser) {
-			obs = this.userService.createNewUser(this.name);
-		} else {
-			obs = this.userService.updateUser(this.name);
-		}
+
+		let obs: Observable<string> = this.userService.createNewUser(this.name);
 		obs.subscribe(rJWT => {
 			Tools.createCookie('jwt', rJWT, 9999);
 			this.userService.setUserFromCookie();
 			this.smModal.hide();
 			this.userCreated.emit();
+		},
+			error => {
+				console.error(error);
+				this.toasterService.pop("error", error._body);
+			});
+	}
 
-			if (!this.createNewUser) {
-				location.reload();
-			}
-		});
+	hiddenEvent() {
+		this.smModal.hide();
 	}
 }
 

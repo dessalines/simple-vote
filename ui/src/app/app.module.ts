@@ -1,13 +1,20 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 // 3rd party
-import { ModalModule,
+import {
+  ModalModule,
   TooltipModule,
   ButtonsModule,
-  BsDatepickerModule } from 'ngx-bootstrap';
+  BsDatepickerModule,
+  BsDropdownModule
+} from 'ngx-bootstrap';
+
+import { ToasterModule } from 'angular2-toaster';
+
 
 // Project libs
 import { AppRoutingModule } from './app.routing';
@@ -20,7 +27,8 @@ import {
   FooterComponent,
   ChatComponent,
   QuestionComponent,
-  CandidateComponent
+  CandidateComponent,
+  LoginModalComponent
 } from './components';
 
 import {
@@ -40,10 +48,12 @@ import {
     MomentPipe,
     ChatComponent,
     QuestionComponent,
-    CandidateComponent
+    CandidateComponent,
+    LoginModalComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
 
@@ -53,7 +63,9 @@ import {
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     ButtonsModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    ToasterModule
   ],
   providers: [
     Title
