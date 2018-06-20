@@ -56,6 +56,7 @@ export class PollComponent implements OnInit {
 	ngOnInit() {
 		this.isLoading = true;
 		new Clipboard('.clipboard-link');
+		this.init();
 	}
 
 	toggleDetails() {
@@ -74,20 +75,19 @@ export class PollComponent implements OnInit {
 		return (this.showDetails) ? 'hide details' : 'show details';
 	}
 
-	// Only initialize after the user has been created
-	userCreated() {
-		this.init();
-	}
-
 	init() {
 		this.paramsSub = this.route.params.subscribe(params => {
-			this.decodedPollId = Tools.decodeHashId(params["pollId"]);
-			this.pollService.connect(this.decodedPollId.id);
+			this.userService.userObservable.subscribe(user => {
+				if (user) {
+					this.decodedPollId = Tools.decodeHashId(params["pollId"]);
+					this.pollService.connect(this.decodedPollId.id);
 
-			this.initEditing = params["editing"];
+					this.initEditing = params["editing"];
 
-			this.websocketCloseWatcher();
-			this.subscribeToPoll();
+					this.websocketCloseWatcher();
+					this.subscribeToPoll();
+				}
+			});
 		});
 	}
 
@@ -215,7 +215,7 @@ export class PollComponent implements OnInit {
 	}
 
 	setPollActiveUsers(data: Array<User>) {
-	
+
 		// first set all users to inactive
 		for (let user of this.poll.users) {
 			user.active = false;
@@ -496,9 +496,9 @@ export class PollComponent implements OnInit {
 		if (!readOnly || this.poll.readOnly) {
 			return window.location.href;
 		} else {
-			return window.location.host + "/#/poll/" + 
-			Tools.hashIdReadOnlyPrefix + 
-			window.location.hash.split("/")[2]; 
+			return window.location.host + "/#/poll/" +
+				Tools.hashIdReadOnlyPrefix +
+				window.location.hash.split("/")[2];
 		}
 	}
 
@@ -522,6 +522,6 @@ export class PollComponent implements OnInit {
 		return ulms;
 	}
 
-	
+
 
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
@@ -17,8 +18,11 @@ export class UserService {
 	private userUrl: string = environment.endpoint + 'user';
 	private loginUrl: string = environment.endpoint + 'login';
 	private signupUrl: string = environment.endpoint + 'signup';
-	
+
 	private jwtHelper: JwtHelperService = new JwtHelperService();
+
+	private userSource = new BehaviorSubject<User>(this.user);
+	public userObservable = this.userSource.asObservable();
 
 	getOptions(): RequestOptions {
 		let headers = new Headers({
@@ -47,6 +51,7 @@ export class UserService {
 			jwt: jwt,
 			fullUser: dJWT.full_user
 		};
+		this.sendLoginEvent();
 	}
 
 	public getUser(): User {
@@ -54,21 +59,20 @@ export class UserService {
 	}
 
 	login(usernameOrEmail: string, password: string): Observable<string> {
-    let reqBody: string = JSON.stringify({ usernameOrEmail, password });
-    return this.http.post(this.loginUrl, reqBody)
-      .map(r => r.text())
-      .catch(this.handleError);
-  }
-
-  signup(username: string, password: string, verifyPassword: string, email: string): Observable<string> {
-    let options = (this.getUser()) ? this.getOptions() : null;
-    console.log(options);
-    let reqBody: string = JSON.stringify({ username, password, verifyPassword, email });
-    return this.http.post(this.signupUrl, reqBody, options)
-      .map(r => r.text())
-      .catch(this.handleError);
+		let reqBody: string = JSON.stringify({ usernameOrEmail, password });
+		return this.http.post(this.loginUrl, reqBody)
+			.map(r => r.text())
+			.catch(this.handleError);
 	}
-	
+
+	signup(username: string, password: string, verifyPassword: string, email: string): Observable<string> {
+		let options = (this.getUser()) ? this.getOptions() : null;
+		let reqBody: string = JSON.stringify({ username, password, verifyPassword, email });
+		return this.http.post(this.signupUrl, reqBody, options)
+			.map(r => r.text())
+			.catch(this.handleError);
+	}
+
 
 
 	createNewUser(nameStr: string): Observable<string> {
@@ -85,6 +89,10 @@ export class UserService {
 		return this.http.put(this.userUrl, info)
 			.map(r => r.text())
 			.catch(this.handleError);
+	}
+
+	sendLoginEvent() {
+		this.userSource.next(this.user);
 	}
 
 	private handleError(error: any) {
