@@ -1,9 +1,10 @@
 package com.simplevote.types;
 
+import java.io.IOException;
+
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.simplevote.tools.JSONWriter;
 import com.simplevote.tools.Tools;
-
-import java.io.IOException;
 
 /**
  * Created by tyler on 4/20/17.
@@ -25,6 +26,14 @@ public class User implements JSONWriter {
         return new User(user.getLongId(),
                 user.getString("name"),
                 null);
+    }
+
+    public static User create(String jwt) {
+        DecodedJWT dJWT = Tools.decodeJWTToken(jwt);
+        return new User(
+            Long.valueOf(dJWT.getClaim("user_id").asString()),
+            dJWT.getClaim("user_name").asString(),
+            jwt);
     }
 
     public static User create(Long id, String name, String jwt) {

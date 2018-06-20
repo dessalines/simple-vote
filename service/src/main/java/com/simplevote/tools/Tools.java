@@ -1,11 +1,9 @@
 package com.simplevote.tools;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpCookie;
@@ -35,12 +33,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.simplevote.DataSources;
+import com.simplevote.types.User;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import org.slf4j.LoggerFactory;
-
+import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.javalite.activejdbc.Base;
+import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
 import liquibase.Liquibase;
@@ -49,6 +48,7 @@ import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
+import spark.Request;
 
 /**
  * Created by tyler on 4/20/17.
@@ -61,6 +61,8 @@ public class Tools {
     public static ObjectMapper JACKSON = new ObjectMapper();
     public static TypeFactory typeFactory = JACKSON.getTypeFactory();
     public static MapType mapType = typeFactory.constructMapType(HashMap.class, String.class, String.class);
+
+    public static final BasicPasswordEncryptor PASS_ENCRYPT = new BasicPasswordEncryptor();   
 
     public static final HikariConfig hikariConfig() {
         HikariConfig hc = new HikariConfig();
@@ -104,6 +106,11 @@ public class Tools {
         }
 
         return jwt;
+    }
+
+    public static final User getUserFromJWTHeader(Request req) {
+        String jwt = req.headers("token");
+        return User.create(jwt);
     }
 
     public static final Map<String, String> createMapFromReqBody(String reqBody) {

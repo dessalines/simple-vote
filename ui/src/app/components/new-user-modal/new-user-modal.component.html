@@ -19,7 +19,10 @@
             </div>
           </div>
         </form>
+        <button class="btn btn-block btn-secondary" (click)="showLoginModal = true">Login/Signup</button>
       </div>
     </div>
   </div>
 </div>
+<app-login-modal *ngIf="showLoginModal" (hideEvent)="hiddenEvent()"></app-login-modal>
+

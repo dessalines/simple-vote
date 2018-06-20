@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
-    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd"
-    logicalFilePath="path-ignored">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd" logicalFilePath="path-ignored">
 
-    <!-- INCLUDEALL not working right now <includeAll path="src/main/resources/liquibase/changelogs"/>-->    
+    <!-- INCLUDEALL not working right now <includeAll path="src/main/resources/liquibase/changelogs"/>-->
     <include file="changelogs/2017-03-21.1.sql" relativeToChangelogFile="true"/>
     <include file="changelogs/2017-04-21.1.sql" relativeToChangelogFile="true"/>
     <include file="changelogs/2017-05-02.1.sql" relativeToChangelogFile="true"/>
     <include file="changelogs/2017-05-10.1.sql" relativeToChangelogFile="true"/>
     <include file="changelogs/2018-02-01.1.sql" relativeToChangelogFile="true"/>
     <include file="changelogs/2018-05-16.1.sql" relativeToChangelogFile="true"/>
+    <include file="changelogs/2018-06-17.1.sql" relativeToChangelogFile="true"/>
+
 </databaseChangeLog>

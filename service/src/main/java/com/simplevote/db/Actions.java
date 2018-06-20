@@ -15,38 +15,75 @@ import java.util.NoSuchElementException;
  */
 public class Actions {
 
-    public static User createNewUser(String name) {
+    public static User createNewSimpleUser(String name) {
         Tables.User user = Tables.User.createIt("name", name);
-        return createUserObj(user);
+        return createUserObj(user, false);
     }
 
-    public static User updateUser(Long userId, String name) {
-        Tables.User user = Tables.User.findById(userId);
-        if (name != null) user.set("name", name).saveIt();
+    public static User login(String userOrEmail, String password) {
 
-        return createUserObj(user);
+        // Find the user, then create a login for them
+
+        Tables.User dbUser = Tables.User.findFirst("name = ? or email = ?", userOrEmail, userOrEmail);
+
+        if (dbUser == null) {
+            throw new NoSuchElementException("Incorrect user/email");
+        } else {
+
+            String encryptedPassword = dbUser.getString("password_encrypted");
+            Boolean correctPass = Tools.PASS_ENCRYPT.checkPassword(password, encryptedPassword);
+
+            if (correctPass) {
+                return createUserObj(dbUser, true);
+            } else {
+                throw new NoSuchElementException("Incorrect Password");
+            }
+        }
+    }
+
+    public static User signup(Long loggedInUserId, String userName, String password, String verifyPassword,
+            String email) {
+
+        if (email != null && email.equals("")) {
+            email = null;
+        }
+
+        if (!password.equals(verifyPassword)) {
+            throw new NoSuchElementException("Passwords are different");
+        }
+
+        // Find the user, then create a login for them
+        Tables.User uv;
+        if (email != null) {
+            uv = Tables.User.findFirst("name = ? or email = ?", userName, email);
+        } else {
+            uv = Tables.User.findFirst("name = ?", userName);
+        }
+
+        if (uv == null) {
+
+            // Create the user and full user
+            Tables.User user = Tables.User.createIt("name", userName);
+
+            String encryptedPassword = Tools.PASS_ENCRYPT.encryptPassword(password);
+
+            user.set("password_encrypted", encryptedPassword, "email", email).saveIt();
+            return createUserObj(user, true);
+
+        } else if (loggedInUserId == uv.getId()) {
+
+            String encryptedPassword = Tools.PASS_ENCRYPT.encryptPassword(password);
+            uv.set("password_encrypted", encryptedPassword, "email", email).saveIt();
+            return createUserObj(uv, true);
+
+        } else {
+            throw new NoSuchElementException("Username/email already exists");
+        }
+
     }
 
     public static void deleteUser(Long userId) {
         Tables.User.findById(userId).delete();
-    }
-
-    private static User createUserObj(Tables.User user) {
-        User userObj = User.create(user);
-
-        String jwt = JWT.create()
-                .withIssuer("simplevote")
-                .withClaim("user_name", userObj.getName())
-                .withClaim("user_id", userObj.getId().toString())
-                .sign(Tools.getJWTAlgorithm());
-
-        userObj.setJwt(jwt);
-
-        Tables.Login login = Tables.Login.createIt(
-                "user_id", user.getLongId(),
-                "jwt", jwt);
-
-        return userObj;
     }
 
     public static Tables.Poll getPoll(Long pollId) {
@@ -57,11 +94,15 @@ public class Actions {
         return Tables.Poll.createIt("user_id", userId);
     }
 
-    public static Tables.Poll updatePoll(Long pollId, String title, Boolean usersCanAddQuestions, String predefinedUserList) {
+    public static Tables.Poll updatePoll(Long pollId, String title, Boolean usersCanAddQuestions,
+            String predefinedUserList) {
         Tables.Poll p = Tables.Poll.findFirst("id = ?", pollId);
-        if (title != null) p.set("title", title);
-        if (usersCanAddQuestions != null) p.set("users_can_add_questions", usersCanAddQuestions);
-        if (predefinedUserList != null) p.set("predefined_user_list", predefinedUserList);
+        if (title != null)
+            p.set("title", title);
+        if (usersCanAddQuestions != null)
+            p.set("users_can_add_questions", usersCanAddQuestions);
+        if (predefinedUserList != null)
+            p.set("predefined_user_list", predefinedUserList);
         p.saveIt();
 
         return p;
@@ -72,32 +113,28 @@ public class Actions {
     }
 
     public static Tables.Question createQuestion(Long userId, Long pollId) {
-        return Tables.Question.createIt(
-                "user_id", userId,
-                "poll_id", pollId,
-                "threshold", 10,
-                "users_can_add_candidates", true,
-                "anonymous", true,
-                "question_type_id", QuestionType.Range.ordinal());
+        return Tables.Question.createIt("user_id", userId, "poll_id", pollId, "threshold", 10,
+                "users_can_add_candidates", true, "anonymous", true, "question_type_id", QuestionType.Range.ordinal());
     }
 
-    public static Tables.Question updateQuestion(Long questionId,
-                                                 String title,
-                                                 Long expireTime,
-                                                 Integer threshold,
-                                                 Boolean usersCanAddCandidates,
-                                                 Boolean anonymous,
-                                                 Integer questionTypeId) {
+    public static Tables.Question updateQuestion(Long questionId, String title, Long expireTime, Integer threshold,
+            Boolean usersCanAddCandidates, Boolean anonymous, Integer questionTypeId) {
         Tables.Question q = Tables.Question.findById(questionId);
 
         // TODO do userCanAddCandidates validation on front end
 
-        if (title != null) q.set("title", title);
-        if (expireTime != null) q.set("expire_time", new Timestamp(expireTime));
-        if (threshold != null) q.set("threshold", threshold);
-        if (usersCanAddCandidates != null) q.set("users_can_add_candidates", usersCanAddCandidates);
-        if (anonymous != null) q.set("anonymous", anonymous);
-        if (questionTypeId != null) q.set("question_type_id", questionTypeId);
+        if (title != null)
+            q.set("title", title);
+        if (expireTime != null)
+            q.set("expire_time", new Timestamp(expireTime));
+        if (threshold != null)
+            q.set("threshold", threshold);
+        if (usersCanAddCandidates != null)
+            q.set("users_can_add_candidates", usersCanAddCandidates);
+        if (anonymous != null)
+            q.set("anonymous", anonymous);
+        if (questionTypeId != null)
+            q.set("question_type_id", questionTypeId);
 
         q.saveIt();
 
@@ -109,14 +146,13 @@ public class Actions {
     }
 
     public static Tables.Candidate createCandidate(Long userId, Long questionId) {
-        return Tables.Candidate.createIt("user_id", userId,
-                "question_id", questionId);
+        return Tables.Candidate.createIt("user_id", userId, "question_id", questionId);
     }
 
-    public static Tables.Candidate updateCandidate(Long candidateId,
-                                                 String title) {
+    public static Tables.Candidate updateCandidate(Long candidateId, String title) {
         Tables.Candidate c = Tables.Candidate.findById(candidateId);
-        if (title != null) c.set("title", title).saveIt();
+        if (title != null)
+            c.set("title", title).saveIt();
         return c;
     }
 
@@ -127,9 +163,7 @@ public class Actions {
     public static Tables.Vote createOrUpdateVote(Long userId, Long candidateId, Integer vote) {
         Tables.Vote v = Tables.Vote.findFirst("user_id = ? and candidate_id = ?", userId, candidateId);
         if (v == null) {
-            v = Tables.Vote.createIt("user_id", userId,
-                    "candidate_id", candidateId,
-                    "vote", vote);
+            v = Tables.Vote.createIt("user_id", userId, "candidate_id", candidateId, "vote", vote);
         } else {
             v.set("vote", vote).saveIt();
         }
@@ -142,9 +176,7 @@ public class Actions {
     }
 
     public static Tables.Comment createComment(Long userId, Long pollId, String comment) {
-        return Tables.Comment.createIt("user_id", userId,
-                "poll_id", pollId,
-                "comment", comment);
+        return Tables.Comment.createIt("user_id", userId, "poll_id", pollId, "comment", comment);
     }
 
     public static void deleteComment(Long commentId) {
@@ -169,7 +201,18 @@ public class Actions {
     }
 
     public static LazyList<Tables.Vote> getPollVotes(List<Long> candidateIds) {
-        return Tables.Vote.find("candidate_id in " + Tools.convertListToInQuery(candidateIds))
-                .orderBy("candidate_id");
+        return Tables.Vote.find("candidate_id in " + Tools.convertListToInQuery(candidateIds)).orderBy("candidate_id");
+    }
+
+    private static User createUserObj(Tables.User user, Boolean fullUser) {
+        User userObj = User.create(user);
+
+        String jwt = JWT.create().withIssuer("simplevote").withClaim("user_name", userObj.getName())
+                .withClaim("user_id", userObj.getId().toString()).withClaim("full_user", fullUser)
+                .sign(Tools.getJWTAlgorithm());
+
+        userObj.setJwt(jwt);
+
+        return userObj;
     }
 }

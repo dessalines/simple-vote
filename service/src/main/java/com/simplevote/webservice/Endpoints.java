@@ -48,28 +48,47 @@ public class Endpoints {
             Map<String, String> vars = Tools.createMapFromReqBody(req.body());
 
             String name = vars.get("name");
-            User user = Actions.createNewUser(name);
+            User user = Actions.createNewSimpleUser(name);
 
             return user.getJwt();
 
         });
 
-        put("user", (req, res) -> {
+        post("/login", (req, res) -> {
+
             Map<String, String> vars = Tools.createMapFromReqBody(req.body());
 
-            String name = vars.get("name");
-            Long userId = Long.valueOf(vars.get("user_id"));
-            User user = Actions.updateUser(userId, name);
+            String userOrEmail = vars.get("usernameOrEmail");
+            String password = vars.get("password");
 
-            return user.getJwt();
+            User userObj = Actions.login(userOrEmail, password);
+
+            return userObj.getJwt();
+
+        });
+
+        post("/signup", (req, res) -> {
+
+            Long userId = (req.headers("token") != null) ? Tools.getUserFromJWTHeader(req).getId() : null;
+
+            Map<String, String> vars = Tools.createMapFromReqBody(req.body());
+
+            String userName = vars.get("username");
+            String password = vars.get("password");
+            String verifyPassword = vars.get("verifyPassword");
+            String email = vars.get("email");
+
+            User userObj = Actions.signup(userId, userName, password, verifyPassword, email);
+
+            return userObj.getJwt();
+
         });
 
     }
 
     public static void poll() {
         post("/create_poll", (req, res) -> {
-            DecodedJWT dJWT = Tools.decodeJWTToken(req.headers("token"));
-            Long userId = Long.valueOf(dJWT.getClaim("user_id").asString());
+            Long userId = Tools.getUserFromJWTHeader(req).getId();
 
             return Actions.createPoll(userId).toJson(false);
         });
@@ -79,6 +98,8 @@ public class Endpoints {
 
         exception(Exception.class, (e, req, res) -> {
             e.printStackTrace();
+            log.error(req.uri());
+            Tools.dbClose();
             res.status(HttpStatus.BAD_REQUEST_400);
             res.body(e.getMessage());
         });

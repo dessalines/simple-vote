@@ -308,11 +308,7 @@ public class PollWebSocket {
     Map<String, String> cookieMap = Tools.cookieListToMap(session.getUpgradeRequest().getCookies());
     String jwt = cookieMap.get("jwt");
 
-    DecodedJWT dJWT = Tools.decodeJWTToken(jwt);
-    Long id = Long.valueOf(dJWT.getClaim("user_id").asString());
-    String name = dJWT.getClaim("user_name").asString();
-
-    return User.create(id, name, null);
+    return User.create(jwt);
   }
 
   private Set<Session> getSessionsFromPoll(Long pollId) {
