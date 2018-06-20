@@ -68,7 +68,6 @@ public class Actions {
         }
         
         if (uv == null) {
-
             // Create the user and full user
             Tables.User user = Tables.User.createIt("name", userName);
 
@@ -77,8 +76,7 @@ public class Actions {
             user.set("password_encrypted", encryptedPassword, "email", email).saveIt();
             return createUserObj(user, true);
 
-        } else if (loggedInUserId.equals(uv.getLongId())) {
-            log.info("got here");
+        } else if (loggedInUserId != null && loggedInUserId.equals(uv.getLongId())) {
 
             String encryptedPassword = Tools.PASS_ENCRYPT.encryptPassword(password);
             uv.set("password_encrypted", encryptedPassword, "email", email).saveIt();
