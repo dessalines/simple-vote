@@ -78,6 +78,9 @@ public class Endpoints {
             String verifyPassword = vars.get("verifyPassword");
             String email = vars.get("email");
 
+            log.info(userId.toString());
+            log.info(userName);
+
             User userObj = Actions.signup(userId, userName, password, verifyPassword, email);
 
             return userObj.getJwt();

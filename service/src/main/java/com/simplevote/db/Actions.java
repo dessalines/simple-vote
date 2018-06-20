@@ -1,19 +1,26 @@
 package com.simplevote.db;
 
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import com.auth0.jwt.JWT;
 import com.simplevote.tools.Tools;
 import com.simplevote.types.QuestionType;
 import com.simplevote.types.User;
-import org.javalite.activejdbc.LazyList;
 
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.NoSuchElementException;
+import org.javalite.activejdbc.LazyList;
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Created by tyler on 4/20/17.
  */
 public class Actions {
+
+    public static Logger log = (Logger) LoggerFactory.getLogger(Actions.class);
+
 
     public static User createNewSimpleUser(String name) {
         Tables.User user = Tables.User.createIt("name", name);
@@ -59,6 +66,8 @@ public class Actions {
         } else {
             uv = Tables.User.findFirst("name = ?", userName);
         }
+
+        log.info(uv.toJson(true));
 
         if (uv == null) {
 
