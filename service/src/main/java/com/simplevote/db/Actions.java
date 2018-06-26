@@ -10,6 +10,8 @@ import com.simplevote.types.QuestionType;
 import com.simplevote.types.User;
 
 import org.javalite.activejdbc.LazyList;
+import org.javalite.activejdbc.Model;
+
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,11 +62,21 @@ public class Actions {
         }
 
         // Find the user, then create a login for them
-        Tables.User uv;
-        if (email != null) {
-            uv = Tables.User.findFirst("name = ? or email = ?", userName, email);
+        
+        LazyList<Tables.User> users;
+		if (email != null) {
+            users = Tables.User.find("name = ? or email = ?", userName, email);
         } else {
-            uv = Tables.User.findFirst("name = ?", userName);
+            users = Tables.User.find("name = ?", userName);
+        }
+
+        Tables.User uv;
+        if (users.size() > 1) {
+            throw new NoSuchElementException("Username/email already exists");
+        } else if (users.size() == 1) {
+            uv = users.get(0);
+        } else {
+            uv = null;
         }
         
         if (uv == null) {
