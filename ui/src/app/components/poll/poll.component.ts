@@ -510,7 +510,7 @@ export class PollComponent implements OnInit {
 			let ulm: UserListMatch = {
 				text: userSearchString
 			};
-			let index = this.poll.users.findIndex(u => u.name.includes(ulm.text));
+			let index = this.poll.users.findIndex(u => u.name.toLowerCase().includes(ulm.text.toLowerCase()));
 			if (index != -1) {
 				ulm.user = this.poll.users[index];
 				participation++;
@@ -518,7 +518,7 @@ export class PollComponent implements OnInit {
 			ulms.push(ulm);
 		}
 		this.poll.user_list_matches = ulms;
-		this.poll.participation_pct = participation / ulms.length * 100
+		this.poll.participation_pct = participation / ulms.length * 100;
 		return ulms;
 	}
 
