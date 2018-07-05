@@ -14,6 +14,7 @@ export interface Poll {
 	editing?: boolean;
 	readOnly?: boolean;
 	predefined_user_list?: string;
-	user_list_matches?: Array<UserListMatch>;
-	participation_pct?: number;
+	userListMatches?: Array<UserListMatch>;
+	participationPct?: number;
+	participationCount?: number;
 }

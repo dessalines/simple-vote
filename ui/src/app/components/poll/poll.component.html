@@ -64,7 +64,7 @@
                   </td>
               </tbody>
             </table>
-            <span tooltip="{{this.poll.participation_pct}}%">Participation: {{this.poll.participation_pct.toFixed(0)}}%</span>
+            <span tooltip="{{this.poll.participationPct}}%">Participation: {{this.poll.participationPct.toFixed(0)}}% | {{poll.participationCount}} / {{poll.userListMatches.length}} votes</span>
           </div>
         </div>
         <form class="needs-validation" #pollForm="ngForm" *ngIf="this.poll.editing" (ngSubmit)="updatePoll()">
