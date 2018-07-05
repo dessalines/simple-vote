@@ -517,8 +517,9 @@ export class PollComponent implements OnInit {
 			}
 			ulms.push(ulm);
 		}
-		this.poll.user_list_matches = ulms;
-		this.poll.participation_pct = participation / ulms.length * 100;
+		this.poll.userListMatches = ulms;
+		this.poll.participationCount = participation;
+		this.poll.participationPct = participation / ulms.length * 100;
 		return ulms;
 	}
 
