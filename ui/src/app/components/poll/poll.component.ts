@@ -496,7 +496,7 @@ export class PollComponent implements OnInit {
 		if (!readOnly || this.poll.readOnly) {
 			return window.location.href;
 		} else {
-			return window.location.host + "/#/poll/" +
+			return window.location.origin + "/#/poll/" +
 				Tools.hashIdReadOnlyPrefix +
 				window.location.hash.split("/")[2];
 		}
