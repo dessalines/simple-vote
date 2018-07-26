@@ -84,7 +84,6 @@ export class PollComponent implements OnInit {
 
 					this.initEditing = params["editing"];
 
-					this.websocketCloseWatcher();
 					this.subscribeToPoll();
 				}
 			});
@@ -102,6 +101,7 @@ export class PollComponent implements OnInit {
 	ngOnDestroy() {
 		this.unloadSubscriptions();
 		this.paramsSub.unsubscribe();
+		clearInterval(this.websocketCloseWatcher);
 	}
 
 	unloadSubscriptions() {
@@ -111,16 +111,12 @@ export class PollComponent implements OnInit {
 		console.log('Destroying poll sub');
 	}
 
-	websocketCloseWatcher() {
-		// check every 5 seconds for websocket disconnect status
-		setInterval(() => {
-
-			if (this.pollService.ws.getReadyState() != 1) {
-				this.websocketReconnect();
-			}
-		}, 5000);
-
-	}
+	websocketCloseWatcher = setInterval(() => {
+		let readyState = this.pollService.ws.getReadyState();
+		if (readyState != 1) {
+			this.websocketReconnect();
+		}
+	}, 30000);
 
 	websocketReconnect() {
 		this.pollService.connect(this.decodedPollId.id);

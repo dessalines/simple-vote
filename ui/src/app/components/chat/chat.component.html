@@ -3,7 +3,7 @@
     <h5 class="card-title">Chat</h5>
     <div *ngIf="poll.comments?.length">
       <hr>
-      <table class="table-hover table-responsive" id="table">
+      <table class="table-hover table table-sm">
         <tr *ngFor="let comment of poll.comments">
           <td class="nowrap text-muted"><small>{{comment.created | moment}}</small></td>
           <td class="break"><b class="mr-1">{{comment.user.name}}</b>
