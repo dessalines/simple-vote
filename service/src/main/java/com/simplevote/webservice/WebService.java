@@ -15,6 +15,7 @@ import java.io.File;
 import static spark.Spark.init;
 import static spark.Spark.webSocket;
 import static spark.Spark.staticFiles;
+import static spark.Spark.externalStaticFileLocation;
 
 /**
  * Created by tyler on 4/20/17.
@@ -37,11 +38,12 @@ public class WebService {
         parseArguments(args);
 
         log.setLevel(Level.toLevel(loglevel));
-        log.getLoggerContext().getLogger("org.eclipse.jetty").setLevel(Level.OFF);
-        log.getLoggerContext().getLogger("spark.webserver").setLevel(Level.OFF);
+        // log.getLoggerContext().getLogger("org.eclipse.jetty").setLevel(Level.OFF);
+        // log.getLoggerContext().getLogger("spark.webserver").setLevel(Level.OFF);
         log.getLoggerContext().getLogger("org.javalite.activejdbc").setLevel(Level.OFF);
         log.getLoggerContext().getLogger("org.postgresql.jdbc").setLevel(Level.OFF);
 
+        staticFiles.location("/dist");
 
         if (jks != null) {
             Spark.secure(jks.getAbsolutePath(), "changeit", null,null);
@@ -51,8 +53,7 @@ public class WebService {
         if (liquibase) {
             Tools.runLiquibase();
         }
-
-        staticFiles.location("/dist");
+        
         staticFiles.expireTime(600);
 
         // Set up websocket

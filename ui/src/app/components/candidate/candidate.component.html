@@ -41,7 +41,7 @@
           <button class="btn btn-outline-primary" [class.active]="vote==100" (click)="createOrUpdateVote(100)" [disabled]="expired || candidate.readOnly">
             <i class="fa fa-fw fa-thumbs-up"></i>
           </button>
-          <button class="btn btn-outline-primary" [class.active]="vote==50" (click)="createOrUpdateVote(50)" [disabled]="expired || candidate.readOnly">Abstain
+          <button hidden class="btn btn-outline-primary" [class.active]="vote==50" (click)="createOrUpdateVote(50)" [disabled]="expired || candidate.readOnly">Abstain
           </button>
           <button class="btn btn-outline-primary" [class.active]="vote==0" (click)="createOrUpdateVote(0)" [disabled]="expired || candidate.readOnly">
             <i class="fa fa-fw fa-thumbs-down"></i>
@@ -80,7 +80,7 @@
     <div class="form-group">
       <div class="input-group">
         <input type="text" class="form-control" autofocus [(ngModel)]="candidate.title" name="candidate_title" placeholder="Enter your option name...">
-        <span class="input-group-btn">
+        <span class="input-group-append">
           <button class="btn btn-primary" type="submit" role="button">Save</button>
         </span>
       </div>
