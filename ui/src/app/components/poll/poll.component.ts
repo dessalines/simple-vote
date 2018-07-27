@@ -45,6 +45,8 @@ export class PollComponent implements OnInit {
 	public isLoading: boolean = false;
 	private initEditing: boolean = false;
 
+	private reconnnectTimeWaitMS: number = 5000;
+
 	@ViewChild('reconnectModal') private reconnectModal: ModalDirective;
 
 	constructor(private pollService: PollService,
@@ -114,9 +116,10 @@ export class PollComponent implements OnInit {
 	websocketCloseWatcher = setInterval(() => {
 		let readyState = this.pollService.ws.getReadyState();
 		if (readyState != 1) {
+			this.poll = undefined;
 			this.websocketReconnect();
 		}
-	}, 30000);
+	}, this.reconnnectTimeWaitMS);
 
 	websocketReconnect() {
 		this.pollService.connect(this.decodedPollId.id);
