@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 
 import {
 	Poll,
@@ -21,11 +21,17 @@ export class ChatComponent implements OnInit {
 
 	public comment: string;
 
+	@ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
 	constructor(private pollService: PollService,
 		private userService: UserService) { }
 
 	ngOnInit() {
+		this.scrollToBottom();
+	}
+
+	ngAfterViewChecked() {
+		this.scrollToBottom();
 	}
 
 	createComment() {
@@ -60,6 +66,12 @@ export class ChatComponent implements OnInit {
 
 	getActiveString(user: User): string {
 		return user.active ? "active" : "inactive";
+	}
+
+	scrollToBottom(): void {
+		try {
+			this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+		} catch (err) { }
 	}
 
 }
