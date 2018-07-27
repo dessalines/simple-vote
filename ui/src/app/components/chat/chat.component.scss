@@ -2,10 +2,15 @@
   white-space: nowrap;
 }
 
+.table-container {
+  max-height: 350px;
+  overflow-y: scroll;
+  font-size: 0.8rem;
+}
 .break {
-  // word-break: break-all;
-  // overflow-wrap: break-word;
-    //   word-wrap: break-word;         /* All browsers since IE 5.5+ */
+  word-break: break-word;
+  overflow-wrap: break-word;
+      word-wrap: break-word;         /* All browsers since IE 5.5+ */
     // overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
     // width: 100%;
     // display: table-caption;
