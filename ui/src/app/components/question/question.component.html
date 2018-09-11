@@ -42,12 +42,12 @@
         </div>
       </div>
     </div>
-    <form *ngIf="this.question.editing" (ngSubmit)="updateQuestion()">
+    <form *ngIf="this.question.editing" (ngSubmit)="updateQuestion()" #questionForm="ngForm">
       <h4>Edit Question</h4>
       <div class="form-group row">
         <label class="col-md-2 col-form-label">Title</label>
         <div class="col-md-10">
-          <input type="text" class="form-control" autofocus [(ngModel)]="question.title" name="question_title" placeholder="Enter your question name...">
+          <input type="text" class="form-control" autofocus maxlength="255" [(ngModel)]="question.title" name="question_title" placeholder="Enter your question name...">
         </div>
       </div>
       <div class="form-check">
@@ -86,7 +86,7 @@
           <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker [(bsValue)]="expireDate" name="question_expire_time">
         </div>
       </div>
-      <button class="btn btn-primary" type="submit" role="button">Save</button>
+      <button class="btn btn-primary" type="submit" role="button" [disabled]="!questionForm.form.valid">Save</button>
     </form>
     <div *ngIf="!this.question.editing">
       <div *ngFor="let candidate of question.candidates; let i = index">

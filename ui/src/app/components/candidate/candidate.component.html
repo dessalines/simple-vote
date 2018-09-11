@@ -76,12 +76,12 @@
       </div>
     </div>
   </div>
-  <form *ngIf="this.candidate.editing" (ngSubmit)="updateCandidate()">
+  <form *ngIf="this.candidate.editing" (ngSubmit)="updateCandidate()" class="needs-validation" novalidate #candidateForm="ngForm">
     <div class="form-group">
       <div class="input-group">
-        <input type="text" class="form-control" autofocus [(ngModel)]="candidate.title" name="candidate_title" placeholder="Enter your option name...">
+        <input id="candidate_title" required type="text" class="form-control" autofocus [(ngModel)]="candidate.title" name="candidate_title" maxlength="255" placeholder="Enter your option name..." #candidate_title="ngModel">
         <span class="input-group-append">
-          <button class="btn btn-primary" type="submit" role="button">Save</button>
+          <button class="btn btn-primary" type="submit" role="button" [disabled]="!candidateForm.form.valid">Save</button>
         </span>
       </div>
     </div>
