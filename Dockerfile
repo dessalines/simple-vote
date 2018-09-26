@@ -17,7 +17,7 @@ RUN echo "ENDPOINT_NAME is ${ENDPOINT_NAME}"
 RUN echo "export const environment = {production: true,endpoint: '${ENDPOINT_NAME}/',websocket: 'ws`echo ${ENDPOINT_NAME}|cut -b 5-999`/poll'};" > src/environments/environment.prod.ts
 RUN cat src/environments/environment.prod.ts
 RUN yarn
-RUN ng build --prod --aot
+RUN yarn build --prod --aot
 
 
 FROM maven:3.5.4-jdk-8-slim as java-builder

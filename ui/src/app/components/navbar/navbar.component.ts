@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { versions } from 'environments/versions';
 
 import {
 	PollService,
@@ -19,6 +20,8 @@ export class NavbarComponent implements OnInit {
 
 	public collapseNavbar: boolean = true;
 	public showLoginModal: boolean = false;
+
+	public version: string = JSON.stringify(versions, null, 2);
 
 	constructor(public userService: UserService,
 		private pollService: PollService,
