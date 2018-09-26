@@ -116,7 +116,6 @@ export class PollComponent implements OnInit {
 	websocketCloseWatcher = setInterval(() => {
 		let readyState = this.pollService.ws.getReadyState();
 		if (readyState != 1) {
-			this.poll = undefined;
 			this.websocketReconnect();
 		}
 	}, this.reconnnectTimeWaitMS);
