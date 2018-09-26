@@ -11,7 +11,7 @@ ARG UI_PATH=/opt/simple-vote/ui
 COPY ui ${UI_PATH}
 WORKDIR ${UI_PATH}
 RUN yarn
-RUN ng build --prod --aot
+RUN yarn build --prod --aot
 
 
 FROM maven:3.5-jdk-8 as java-builder
