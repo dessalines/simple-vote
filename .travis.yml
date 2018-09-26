@@ -6,7 +6,7 @@ services:
 before_install:
 - psql -c "create user simplevote with password 'asdf'" -U postgres
 - psql -c "create database simplevote with owner simplevote" -U postgres
-- cd ui; npm i -g @angular/cli; yarn; yarn build --prod --aot --build-optimizer;
+- cd ui; yarn; yarn build --prod --aot --build-optimizer;
 - cp -R dist/ ../service/src/main/resources
 - cd ../service
 addons:
