@@ -2,9 +2,9 @@
 FROM node:8.11 as node-builder
 
 # Hacky workaround for installing @angular/cli
-RUN chmod a+w /usr/local/lib/node_modules && chmod a+w /usr/local/bin
-USER node
-RUN npm i -g @angular/cli@latest
+# RUN chmod a+w /usr/local/lib/node_modules && chmod a+w /usr/local/bin
+# USER node
+# RUN npm i -g @angular/cli@latest
 
 # Build front end resources
 USER root
