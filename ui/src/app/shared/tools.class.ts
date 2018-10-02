@@ -1,6 +1,6 @@
 import { MessageType, User, Candidate, Question, DecodedHashId } from './';
 
-import * as Hashids from 'hashids';
+import {default as Hashids} from 'hashids';
 
 export class Tools {
 
@@ -67,22 +67,22 @@ export class Tools {
 
 
 	static decodeHashId(hashId: string): DecodedHashId {
-		let hashids = new Hashids();
+		let hashids = new Hashids("");
 		if (hashId.startsWith(this.hashIdReadOnlyPrefix)) {
 			return {
-				id: hashids.decode(hashId.split(this.hashIdReadOnlyPrefix)[1]),
+				id: hashids.decode(hashId.split(this.hashIdReadOnlyPrefix)[1])[0],
 				readOnly: true
 			}
 		} else {
 			return {
-				id: hashids.decode(hashId),
+				id: hashids.decode(hashId)[0],
 				readOnly: false
 			}
 		}
 	}
 
 	static encodeHashId(id: number, readOnly: boolean = false): string {
-		let hashids = new Hashids();
+		let hashids = new Hashids("");
 
 		if (!readOnly) {
 			return hashids.encode(id);
