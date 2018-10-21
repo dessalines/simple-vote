@@ -45,7 +45,7 @@ export class PollComponent implements OnInit {
 	public isLoading: boolean = false;
 	private initEditing: boolean = false;
 
-	private reconnnectTimeWaitMS: number = 5000;
+	private reconnnectTimeWaitMS: number = 60000;
 
 	@ViewChild('reconnectModal') private reconnectModal: ModalDirective;
 
