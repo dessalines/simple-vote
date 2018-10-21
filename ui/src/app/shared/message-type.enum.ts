@@ -6,5 +6,6 @@ export enum MessageType {
 	createComment, deleteComment,
 	createQuestion, deleteQuestion, updateQuestion,
 	createCandidate, deleteCandidate, updateCandidate,
-	createOrUpdateVote, deleteVote
+	createOrUpdateVote, deleteVote,
+	Ping, Pong
 }

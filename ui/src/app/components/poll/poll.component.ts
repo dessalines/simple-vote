@@ -45,7 +45,7 @@ export class PollComponent implements OnInit {
 	public isLoading: boolean = false;
 	private initEditing: boolean = false;
 
-	private reconnnectTimeWaitMS: number = 60000;
+	private reconnnectTimeWaitMS: number = 10000;
 
 	@ViewChild('reconnectModal') private reconnectModal: ModalDirective;
 
@@ -188,8 +188,9 @@ export class PollComponent implements OnInit {
 			case MessageType.deleteVote:
 				this.receiveDeleteVote(msg.data);
 				break;
-
-
+			case MessageType.Ping:
+				this.sendPong();
+				break;
 			default:
 				alert('wrong message: ' + dataStr);
 		}
@@ -466,6 +467,12 @@ export class PollComponent implements OnInit {
 	receiveDeleteComment(data: any) {
 		let commentIndex = this.poll.comments.findIndex(c => c.id == data.comment_id);
 		this.poll.comments.splice(commentIndex, 1);
+	}
+
+	sendPong() {
+		console.debug("Received ping, sending pong");
+		this.pollService.send(Tools.messageWrapper(MessageType.Pong,
+			{}));
 	}
 
 	exportPoll() {
