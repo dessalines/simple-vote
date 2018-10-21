@@ -5,7 +5,6 @@ package com.simplevote.webservice;
  */
 
 import ch.qos.logback.classic.Logger;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.simplevote.db.Actions;
@@ -20,7 +19,6 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.javalite.activejdbc.LazyList;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,10 +34,12 @@ public class PollWebSocket {
   // A map with the user to their poll id
   private static Map<User, Long> userPollMap = new HashMap<>();
 
+  private static final Integer PING_DELAY = 10000;
+
   enum MessageType {
     poll, pollComments, pollUsers, pollActiveUsers, pollQuestions, pollCandidates, pollVotes, updatePoll, deletePoll,
     createComment, deleteComment, createQuestion, deleteQuestion, updateQuestion, createCandidate, deleteCandidate,
-    updateCandidate, createOrUpdateVote, deleteVote;
+    updateCandidate, createOrUpdateVote, deleteVote, Ping, Pong;
   }
 
   @OnWebSocketConnect
@@ -49,6 +49,8 @@ public class PollWebSocket {
     // Add the session to the cached map
     Long pollId = getPollIdFromSession(session);
     sessionPollMap.put(session, pollId);
+
+    sendRecurringPings(session);
 
     // Send the poll
     sendMessage(session, messageWrapper(MessageType.poll, Actions.getPoll(pollId).toJson(false)));
@@ -127,7 +129,9 @@ public class PollWebSocket {
       case deleteVote:
         deleteVote(session, data);
         break;
-
+      case Pong:
+        pongReceived(session, data);
+        break;
       }
 
     } catch (Exception e) {
@@ -294,6 +298,27 @@ public class PollWebSocket {
 
     broadcastMessage(getSessionsFromPoll(pollId), messageWrapper(MessageType.deleteVote, data.toString()));
 
+  }
+
+  private void sendRecurringPings(Session session) {
+    final Timer timer = new Timer();
+    final TimerTask tt = new TimerTask() {
+      @Override
+      public void run() {
+        if (session.isOpen()) {
+          sendMessage(session, messageWrapper(MessageType.Ping, "{}"));
+        } else {
+          timer.cancel();
+          timer.purge();
+        }
+      }
+    };
+
+    timer.scheduleAtFixedRate(tt, PING_DELAY, PING_DELAY);
+  }
+
+  private void pongReceived(Session session, JsonNode data) {
+    log.debug("Pong received from " + session.getRemoteAddress());
   }
 
   private static String messageWrapper(MessageType type, String data) {
