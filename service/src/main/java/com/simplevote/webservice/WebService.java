@@ -43,8 +43,6 @@ public class WebService {
         log.getLoggerContext().getLogger("org.javalite.activejdbc").setLevel(Level.OFF);
         log.getLoggerContext().getLogger("org.postgresql.jdbc").setLevel(Level.OFF);
 
-        staticFiles.location("/dist");
-
         if (jks != null) {
             Spark.secure(jks.getAbsolutePath(), "changeit", null,null);
             DataSources.SSL = true;
@@ -54,7 +52,9 @@ public class WebService {
             Tools.runLiquibase();
         }
         
+        staticFiles.header("Content-Encoding", "gzip");
         staticFiles.expireTime(600);
+        staticFiles.location("/dist");
 
         // Set up websocket
         webSocket("/poll", PollWebSocket.class);
