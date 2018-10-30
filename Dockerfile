@@ -1,10 +1,10 @@
 
-FROM node:8.11 as node-builder
+FROM node:8.12.0 as node-builder
 
 # Hacky workaround for installing @angular/cli
-# RUN chmod a+w /usr/local/lib/node_modules && chmod a+w /usr/local/bin
-# USER node
-# RUN npm i -g @angular/cli@latest
+RUN chmod a+w /usr/local/lib/node_modules && chmod a+w /usr/local/bin
+USER node
+RUN npm i -g @angular/cli@latest
 
 # Build front end resources
 USER root
@@ -16,9 +16,9 @@ ARG ENDPOINT_NAME=http://localhost:4567
 RUN echo "ENDPOINT_NAME is ${ENDPOINT_NAME}"
 RUN echo "export const environment = {production: true,endpoint: '${ENDPOINT_NAME}/',websocket: 'ws`echo ${ENDPOINT_NAME}|cut -b 5-999`/poll'};" > src/environments/environment.prod.ts
 RUN cat src/environments/environment.prod.ts
-RUN yarn
-RUN yarn build --prod --aot
-
+RUN npm i
+RUN ng build --prod --aot
+RUN cat /opt/simple-vote/ui/dist
 
 FROM maven:3.5.4-jdk-8-slim as java-builder
 
