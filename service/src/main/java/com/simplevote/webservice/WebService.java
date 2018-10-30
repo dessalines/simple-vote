@@ -52,9 +52,9 @@ public class WebService {
             Tools.runLiquibase();
         }
         
+        staticFiles.location("/dist");
         staticFiles.header("Content-Encoding", "gzip");
         staticFiles.expireTime(600);
-        staticFiles.location("/dist");
 
         // Set up websocket
         webSocket("/poll", PollWebSocket.class);
