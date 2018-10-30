@@ -20,7 +20,7 @@ RUN npm i
 RUN npm run-script build --prod --aot
 RUN ls /opt/simple-vote/ui/dist
 
-FROM maven:3.5.4-jdk-8-slim as java-builder
+FROM maven:3.5.4-jdk-11-slim as java-builder
 
 COPY service /opt/simple-vote/service
 COPY --from=node-builder /opt/simple-vote/ui/dist /opt/simple-vote/service/src/main/resources
@@ -28,6 +28,6 @@ COPY --from=node-builder /opt/simple-vote/ui/dist /opt/simple-vote/service/src/m
 WORKDIR /opt/simple-vote/service
 RUN mvn clean install -DskipTests -Dliquibase.skip
 
-FROM openjdk:8-slim
+FROM openjdk:11-slim
 
 COPY --from=java-builder /opt/simple-vote/service/target/simplevote.jar /opt/simplevote.jar
