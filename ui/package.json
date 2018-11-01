@@ -7,7 +7,7 @@
     "prestart": "ts-node git.version.ts",
     "start": "ng serve",
     "prebuild": "ts-node git.version.ts",
-    "build": "ng build",
+    "build": "ng build --prod --aot",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
