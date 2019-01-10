@@ -384,7 +384,7 @@ export class PollComponent implements OnInit {
 		foundQuestion.expire_time = question.expire_time;
 		foundQuestion.users_can_add_candidates = question.users_can_add_candidates;
 		foundQuestion.anonymous = question.anonymous;
-
+		foundQuestion.question_type_id = question.question_type_id;
 	}
 
 	receiveCandidate(candidate: Candidate) {
