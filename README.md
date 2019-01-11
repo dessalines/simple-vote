@@ -30,8 +30,6 @@ Tech used:
 
 Check out a sample poll [here](http://simplevote.tk/#/poll/jR).
 
-Join the subreddit: [/r/simplevote](https://www.reddit.com/r/simplevote/)
-
 [Change log](https://github.com/dessalines/simple-vote/issues/closed)
 
 ## Screenshots
