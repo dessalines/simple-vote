@@ -50,11 +50,25 @@ export class Tools {
 			a.meetsThreshold = (a.votes) ? a.votes.length > threshold : true;
 			b.meetsThreshold = (b.votes) ? b.votes.length > threshold : true;
 
-			// The special cases for not meeting the threshold
 			if (a.meetsThreshold && b.meetsThreshold) {
-				let calc = (a.avg_score == b.avg_score) ? 0 : +(a.avg_score < b.avg_score) || -1;
-				return calc;
-			} else if (a.meetsThreshold && !b.meetsThreshold) {
+				// approval goes by count if the votes are the same
+				if (a.avg_score == b.avg_score) {
+					if (a.votes.length == b.votes.length) {
+						return 0;
+					} else if (a.votes.length > b.votes.length) {
+						return -1;
+					} else {
+						return 1;
+					}
+				}
+				else if (a.avg_score > b.avg_score) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+			// The special cases for not meeting the threshold
+			else if (a.meetsThreshold && !b.meetsThreshold) {
 				return -1;
 			} else if (b.meetsThreshold && !a.meetsThreshold) {
 				return 1;
