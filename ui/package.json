@@ -31,7 +31,7 @@
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "hashids": "^1.2.2",
-    "markdown-it": "^8.3.1",
+    "markdown-it": "^12.3.2",
     "moment": "^2.22.1",
     "ngx-bootstrap": "^2.0.5",
     "randomcolor": "^0.5.3 ",
