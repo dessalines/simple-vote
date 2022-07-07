@@ -32,7 +32,7 @@
     "font-awesome": "^4.7.0",
     "hashids": "^1.2.2",
     "markdown-it": "^8.3.1",
-    "moment": "^2.22.1",
+    "moment": "^2.29.4",
     "ngx-bootstrap": "^2.0.5",
     "randomcolor": "^0.5.3 ",
     "rxjs": "^6.1.0",
